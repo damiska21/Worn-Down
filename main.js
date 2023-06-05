@@ -1,4 +1,4 @@
-var canvas = document.createElement("canvas");canvas.width = 500;canvas.height = 500;document.body.appendChild(canvas);var c = canvas.getContext("2d");
+var canvas = document.createElement("canvas");canvas.width = 1000;canvas.height = 1000;document.body.appendChild(canvas);var c = canvas.getContext("2d");
 
 var playerX = 100;
 var playerY = 150;
@@ -84,6 +84,9 @@ function KeyUp(event) {
             break;
     }
 }
+function collision() {
+    
+}
 function draw() {
     c.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -95,6 +98,7 @@ function draw() {
 
 function mainLoop() {
     player();
+    collision();
     draw();
     window.requestAnimationFrame(mainLoop);
 }
