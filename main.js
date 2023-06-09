@@ -1,10 +1,13 @@
-var canvas = document.createElement("canvas");canvas.width = 1000;canvas.height = 1000;document.body.appendChild(canvas);var c = canvas.getContext("2d");
+var canvas = document.createElement("canvas");canvas.width = 1000;canvas.height = 600;document.body.appendChild(canvas);var c = canvas.getContext("2d");
 
 var playerX = 100;
 var playerY = 150;
+var oldPlayerX = playerX; var oldPlayerY = playerY;
+var playerHeight = 50;
+var playerWidth = 50;
 var friction = 0;
 var gravity = 0;
-var ground = 150;
+var ground = 300;
 var onGround = true;
 
 var mezernikDown = false;
@@ -41,7 +44,6 @@ function player() {
 
     if(playerY > ground) {
         onGround = true;
-        playerY = ground;
         gravity = 0;
     }else {
         onGround = false;
@@ -85,7 +87,22 @@ function KeyUp(event) {
     }
 }
 function collision() {
-    
+    var topLeftX = (playerX-(playerX % 50)) / 50;
+    var topLeftY = (playerY-(playerY % 50)) / 50;
+    var topLeftTile = tilemapV[topLeftY][topLeftX];
+
+    var botLeftX = (playerX-(playerX % 50)) / 50;
+    var botLeftY = ((playerY + playerHeight +1)-((playerY + playerHeight +1) % 50)) / 50;
+    var botLeftTile = tilemapV[botLeftY][botLeftX];
+
+    if (botLeftTile == 1 || (botLeftTile > 4 && botLeftTile<8)) {
+        topCollision();
+    }
+    //console.log(tilemapV[botLeftY][botLeftX] +" X: " +  botLeftX + " Y: " + botLeftY);
+    console.log(tilemapV[topLeftY][topLeftX] +" X: " +  topLeftX + " Y: " + topLeftY);
+    function topCollision() {
+        playerY -= playerY % 50;
+    }
 }
 function draw() {
     c.clearRect(0, 0, canvas.width, canvas.height);
