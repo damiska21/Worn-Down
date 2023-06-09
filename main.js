@@ -95,14 +95,25 @@ function collision() {
     var botLeftY = ((playerY + playerHeight +1)-((playerY + playerHeight +1) % 50)) / 50;
     var botLeftTile = tilemapV[botLeftY][botLeftX];
 
-    if (botLeftTile == 1 || (botLeftTile > 4 && botLeftTile<8)) {
+    var botRightX = ((playerX + playerWidth)-((playerX + playerWidth) % 50)) / 50;
+    var botRightY = ((playerY + playerHeight +1)-((playerY + playerHeight +1) % 50)) / 50;
+    var botRightTile = tilemapV[botRightY][botRightX];
+if (gravity > 0) {
+    
+    if (botLeftTile == 1 || (botLeftTile > 4 && botLeftTile<8) || (botRightTile == 1) || (botLeftTile > 4 && botRightTile<8)) {
         topCollision();
     }
+    
+}
     //console.log(tilemapV[botLeftY][botLeftX] +" X: " +  botLeftX + " Y: " + botLeftY);
     console.log(tilemapV[topLeftY][topLeftX] +" X: " +  topLeftX + " Y: " + topLeftY);
     function topCollision() {
         playerY -= playerY % 50;
+        gravity = 0;
+        onGround = true;
     }
+    oldPlayerX = playerX;
+    oldPlayerY = playerY;
 }
 function draw() {
     c.clearRect(0, 0, canvas.width, canvas.height);
