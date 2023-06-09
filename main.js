@@ -7,7 +7,7 @@ var playerHeight = 50;
 var playerWidth = 50;
 var friction = 0;
 var gravity = 0;
-var ground = 300;
+var ground = 350;
 var onGround = true;
 
 var mezernikDown = false;
@@ -45,8 +45,6 @@ function player() {
     if(playerY > ground) {
         onGround = true;
         gravity = 0;
-    }else {
-        onGround = false;
     }
     if (mezernikDown && onGround) {
         gravity = -17;
@@ -92,28 +90,51 @@ function collision() {
     var topLeftTile = tilemapV[topLeftY][topLeftX];
 
     var botLeftX = (playerX-(playerX % 50)) / 50;
-    var botLeftY = ((playerY + playerHeight +1)-((playerY + playerHeight +1) % 50)) / 50;
+    var botLeftY = ((playerY + playerHeight +0.001)-((playerY + playerHeight +0.001) % 50)) / 50;
     var botLeftTile = tilemapV[botLeftY][botLeftX];
 
     var botRightX = ((playerX + playerWidth)-((playerX + playerWidth) % 50)) / 50;
-    var botRightY = ((playerY + playerHeight +1)-((playerY + playerHeight +1) % 50)) / 50;
+    var botRightY = ((playerY + playerHeight +0.001)-((playerY + playerHeight +0.001) % 50)) / 50;
     var botRightTile = tilemapV[botRightY][botRightX];
+
+    var topRightX = ((playerX + playerWidth)-((playerX + playerWidth) % 50)) / 50;
+    var topRightY = (playerY-(playerY % 50)) / 50;
+    var topRightTile = tilemapV[topRightY][topRightX];
+    
 if (gravity > 0) {
     
-    if (botLeftTile == 1 || (botLeftTile > 4 && botLeftTile<8) || (botRightTile == 1) || (botLeftTile > 4 && botRightTile<8)) {
+    if (botLeftTile == 1 || (botLeftTile > 4 && botLeftTile<8)) {
         topCollision();
     }
-    
+    if (botRightTile == 1 ||(botRightTile > 4 && botRightTile<8)) {
+        topCollision();
+    }
 }
+if (botLeftTile == 0 && botRightTile == 0) { onGround = false;}
+
+    //console.log(botRightTile +" X: " +  botRightX + " Y: " + botRightY);
     //console.log(tilemapV[botLeftY][botLeftX] +" X: " +  botLeftX + " Y: " + botLeftY);
-    console.log(tilemapV[topLeftY][topLeftX] +" X: " +  topLeftX + " Y: " + topLeftY);
+    //console.log(tilemapV[topLeftY][topLeftX] +" X: " +  topLeftX + " Y: " + topLeftY);
+
     function topCollision() {
         playerY -= playerY % 50;
         gravity = 0;
         onGround = true;
     }
-    oldPlayerX = playerX;
-    oldPlayerY = playerY;
+
+    if (topLeftTile > 2 && topLeftTile < 7) {
+        rightCollision();
+    }
+    function rightCollision() {
+        playerX += 50 - (playerX % 50);
+    }
+
+    if (topRightTile == 2 || topRightTile == 7) {
+        leftCollision();
+    }
+    function leftCollision() {
+        playerX -= (playerX % 50);
+    }
 }
 function draw() {
     c.clearRect(0, 0, canvas.width, canvas.height);
