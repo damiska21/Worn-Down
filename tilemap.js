@@ -29,7 +29,7 @@ function tilemap(){
         for (let j = 0; j < vyska; j++) {
             if (tilemapV[j][i] > 0) {
                 c.fillStyle = "green";
-                c.fillRect(i*50, j*50, 50, 50);
+                c.fillRect(i*tile, j*tile, tile, tile);
             }
         }
     }

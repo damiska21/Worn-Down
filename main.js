@@ -3,8 +3,9 @@ var canvas = document.createElement("canvas");canvas.width = 1000;canvas.height 
 var playerX = 100;
 var playerY = 150;
 var oldPlayerX = playerX; var oldPlayerY = playerY;
-var playerHeight = 50;
+var playerHeight = 75;
 var playerWidth = 50;
+var tile = 50;
 var friction = 0;
 var gravity = 0;
 var ground = 350;
@@ -50,6 +51,9 @@ function player() {
         gravity = -17;
         onGround = false;
     }
+    if (playerY<0) {
+        playerY=0;
+    }
 }
 
 function KeyDown(event) {
@@ -85,53 +89,74 @@ function KeyUp(event) {
     }
 }
 function collision() {
-    var topLeftX = (playerX-(playerX % 50)) / 50;
-    var topLeftY = (playerY-(playerY % 50)) / 50;
+    var topLeftX = (playerX-(playerX % tile)) / tile;
+    var topLeftY = (playerY-(playerY % tile)) / tile;
     var topLeftTile = tilemapV[topLeftY][topLeftX];
 
-    var botLeftX = (playerX-(playerX % 50)) / 50;
-    var botLeftY = ((playerY + playerHeight +0.001)-((playerY + playerHeight +0.001) % 50)) / 50;
+    var botLeftX = (playerX-(playerX % tile)) / tile;
+    var botLeftY = ((playerY + playerHeight +0.001)-((playerY + playerHeight +0.001) % tile)) / tile;
     var botLeftTile = tilemapV[botLeftY][botLeftX];
 
-    var botRightX = ((playerX + playerWidth)-((playerX + playerWidth) % 50)) / 50;
-    var botRightY = ((playerY + playerHeight +0.001)-((playerY + playerHeight +0.001) % 50)) / 50;
+    var botLeftX2 = ((playerX-(playerX % tile))- 0.001) / tile;
+    var botLeftY2 = ((playerY + playerHeight - 0.001)-((playerY + playerHeight) % tile)) / tile;
+    var botLeftTile2 = tilemapV[botLeftY2][botLeftX2];
+
+    var botRightX = ((playerX + playerWidth)-((playerX + playerWidth) % tile)) / tile;
+    var botRightY = ((playerY + playerHeight +0.001)-((playerY + playerHeight +0.001) % tile)) / tile;
     var botRightTile = tilemapV[botRightY][botRightX];
 
-    var topRightX = ((playerX + playerWidth)-((playerX + playerWidth) % 50)) / 50;
-    var topRightY = (playerY-(playerY % 50)) / 50;
+    var botRightX2 = ((playerX + playerWidth)-((playerX + playerWidth + 0.001) % tile)) / tile;
+    var botRightY2 = ((playerY + playerHeight)-((playerY + playerHeight - 0.001) % tile)) / tile;
+    var botRightTile2 = tilemapV[botRightY2][botRightX2];
+
+    var topRightX = ((playerX + playerWidth)-((playerX + playerWidth) % tile)) / tile;
+    var topRightY = (playerY-(playerY % tile)) / tile;
     var topRightTile = tilemapV[topRightY][topRightX];
     
-if (gravity > 0) {
+    if (botLeftTile != 0 || botRightTile != 0) {
+        if(!topCollision()){
+            if ((topLeftTile > 2 && topLeftTile < 7) || (botLeftTile2 > 2 && botLeftTile2 <7)) {
+                rightCollision();
+            } else if ((topRightTile == 2 || topRightTile == 7) || (botRightTile2 > 2 && botRightTile2 <7)) {
+                leftCollision();
+            }
+        }
+    }
+    console.log(botLeftTile2);
+    /*if (botLeftTile != 0 || botRightTile != 0) {
+        topCollision();
+    } else if ((topLeftTile > 2 && topLeftTile < 7) || (botLeftTile2 > 2 && botLeftTile2 <7)) {
+        rightCollision();
+    } else if (topRightTile == 2 || topRightTile == 7) {
+        leftCollision();
+    }*/
+    if (botLeftTile == 0 && botRightTile == 0) { onGround = false;}
     
-    if (botLeftTile == 1 || (botLeftTile > 4 && botLeftTile<8)) {
-        topCollision();
-    }
-    if (botRightTile == 1 ||(botRightTile > 4 && botRightTile<8)) {
-        topCollision();
-    }
-}
-if (botLeftTile == 0 && botRightTile == 0) { onGround = false;}
 
-    //console.log(botRightTile +" X: " +  botRightX + " Y: " + botRightY);
-    //console.log(tilemapV[botLeftY][botLeftX] +" X: " +  botLeftX + " Y: " + botLeftY);
-    //console.log(tilemapV[topLeftY][topLeftX] +" X: " +  topLeftX + " Y: " + topLeftY);
 
     function topCollision() {
-        playerY -= playerY % 50;
-        gravity = 0;
-        onGround = true;
+        if (gravity > 0) {
+        
+            if (botLeftTile == 1 || (botLeftTile > 4 && botLeftTile<8)) {
+                playerY -= (playerY+playerHeight) % 50;
+                gravity = 0;
+                onGround = true;
+                return true;
+            }
+            if (botRightTile == 1 ||(botRightTile > 4 && botRightTile<8)) {
+                playerY -= (playerY+playerHeight) % 50;
+                gravity = 0;
+                onGround = true;
+                return true;
+            }
+        }
+        return false;
     }
 
-    if (topLeftTile > 2 && topLeftTile < 7) {
-        rightCollision();
-    }
     function rightCollision() {
-        playerX += 50 - (playerX % 50);
+        playerX += tile - (playerX % 50);
     }
 
-    if (topRightTile == 2 || topRightTile == 7) {
-        leftCollision();
-    }
     function leftCollision() {
         playerX -= (playerX % 50);
     }
@@ -140,7 +165,7 @@ function draw() {
     c.clearRect(0, 0, canvas.width, canvas.height);
 
     c.fillStyle = "blue";
-    c.fillRect(playerX, playerY, 50, 50);
+    c.fillRect(playerX, playerY, playerWidth, playerHeight);
 
     tilemap();
 }
