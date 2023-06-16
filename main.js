@@ -1,4 +1,4 @@
-var canvas = document.createElement("canvas");canvas.width = 1000;canvas.height = 600;document.body.appendChild(canvas);var c = canvas.getContext("2d");
+var canvas = document.createElement("canvas");canvas.width = screen.width;canvas.height = screen.height;document.body.appendChild(canvas);var c = canvas.getContext("2d");
 
 var playerX = 100;
 var playerY = 150;
