@@ -122,7 +122,6 @@ function collision() {
     var topRightY = (playerY-(playerY % tile)) / tile;
     var topRightTile = tilemapV[topRightY][topRightX];
 
-
     if (botLeftTile > 0) {
         if(!topCollision("botLeft", botLeftTile)){
             if(botLeftTile2 > 2 && botLeftTile2 <7){
@@ -137,27 +136,22 @@ function collision() {
             }
         }
     }
-
-    if ((topLeftTile > 2 && topLeftTile < 7) || (botLeftTile2 > 2 && botLeftTile2 <7)) {
-        rightCollision();
-    } else if ((topRightTile == 2 || topRightTile == 7) || (botRightTile2 > 2 && botRightTile2 <7)) {
-        leftCollision();
-    }
-    if (topRightTile == 8 || topLeftTile == 8) {
-        botCollision();
-    }
+    botCollision();
+    rightCollision();
+    leftCollision();
     
-    
-    if (botLeftTile == 0 && botRightTile == 0) { onGround = false;} //padání (detekce bloků pod hráčem)
+    if (botLeftTile%10000 == 0 && botRightTile%10000 == 0) { onGround = false;} //padání (detekce bloků pod hráčem)
     
     function botCollision() {
-        if (gravity < 0) {
-        playerY += tile - (playerY % tile);
+        if (topRightTile%100 >=10) {
+            if (gravity < 0) {
+                playerY += tile - (playerY % tile);
+            }   
         }
     }
     function topCollision(playerTile, index) { //pokud byla kolize provedena vrací true
         if (gravity > 0) {//jinak false
-            if (index == 1 || (index > 4 && index < 8)) {
+            if ((index % 10)>=1) {
                 if(playerTile === "botLeft") {
                     if((botLeftY)*tile > oldPlayerY + playerHeight) {
                         playerY -= (playerY+playerHeight) % tile;
@@ -184,10 +178,10 @@ function collision() {
         if (friction < 0) {
             if ((botLeftX != botLeftX2 || botLeftY != botLeftY2) || !onGround) {
                 if (oldPlayerX > botLeftX*tile +tile) {
-                    if (topLeftTile > 2 && topLeftTile < 7) {
+                    if (topLeftTile%10000 >= 1000) {
                         playerX = topLeftX*tile + tile + 0.01; 
                         return true;
-                    }else if(botLeftTile2 > 2 && botLeftTile2 <7){
+                    }else if(botLeftTile2%10000 >= 1000){
                         playerX = botLeftX*tile + tile + 0.01; 
                         return true;
                     }
@@ -199,17 +193,17 @@ function collision() {
 
     function leftCollision() {
         if (friction > 0) {
-            if (((botRightX != botRightX2) || (botRightY != botRightY2)) || !onGround) {
-                if (oldPlayerX+playerWidth< (topRightX+2)*tile - 0.01 - tile) {
-                    if ((topRightTile == 2 || topRightTile == 7)) {
-                        playerX = topRightX*tile - 0.01 - tile;
-                        return true;
-                    }else if(botRightTile2 > 2 && botRightTile2 <7){
-                        playerX = botRightX*tile - 0.01 - tile;
-                        return true;
-                    }
-                }
-            }
+           if (((botRightX != botRightX2) || (botRightY != botRightY2)) || !onGround) {
+               if (oldPlayerX+playerWidth< (topRightX+2)*tile - 0.01 - tile) {
+                   if ((topRightTile%1000 >=100)) {
+                       playerX = topRightX*tile - 0.01 - tile;
+                       return true;
+                   }else if(botRightTile2%1000 >=100){
+                       playerX = botRightX*tile - 0.01 - tile;
+                       return true;
+                   }
+               }
+           }
         }
         return false;
     }
