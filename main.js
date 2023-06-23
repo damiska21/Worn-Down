@@ -123,14 +123,6 @@ function collision() {
     var topRightTile = tilemapV[topRightY][topRightX];
 
 
-    /*if (!topCollision()) {
-        if (!rightCollision()) {
-            if(botRightTile2 > 2 && botRightTile2 <7){
-                leftCollision();
-            }
-        }
-    }*/
-
     if (botLeftTile > 0) {
         if(!topCollision("botLeft", botLeftTile)){
             if(botLeftTile2 > 2 && botLeftTile2 <7){
@@ -151,18 +143,6 @@ function collision() {
     } else if ((topRightTile == 2 || topRightTile == 7) || (botRightTile2 > 2 && botRightTile2 <7)) {
         leftCollision();
     }
-
-    /*if (botLeftTile != 0 || botRightTile != 0) {
-        if(!topCollision()){
-            
-            if ((topLeftTile > 2 && topLeftTile < 7) || (botLeftTile2 > 2 && botLeftTile2 <7)) {
-                rightCollision();
-            } else if ((topRightTile == 2 || topRightTile == 7) || (botRightTile2 > 2 && botRightTile2 <7)) {
-                leftCollision();
-            }
-        }
-    }*/
-
     if (topRightTile == 8 || topLeftTile == 8) {
         botCollision();
     }
@@ -187,7 +167,7 @@ function collision() {
                     }
                 }
                 if(playerTile === "botRight"){
-                    if ((botRightY+1)*tile > oldPlayerY + playerHeight) {
+                    if ((botRightY)*tile > oldPlayerY + playerHeight) {
                         playerY -= (playerY+playerHeight) % tile;
                         gravity = 0;
                         onGround = true;
@@ -202,13 +182,15 @@ function collision() {
     }
     function rightCollision() {
         if (friction < 0) {
-            if (oldPlayerX > botLeftX*tile +tile) {
-                if (topLeftTile > 2 && topLeftTile < 7) {
-                    playerX = topLeftX*tile + tile + 0.01; 
-                    return true;
-                }else if(botLeftTile2 > 2 && botLeftTile2 <7){
-                    playerX = botLeftX*tile + tile + 0.01; 
-                    return true;
+            if ((botLeftX != botLeftX2 || botLeftY != botLeftY2) || !onGround) {
+                if (oldPlayerX > botLeftX*tile +tile) {
+                    if (topLeftTile > 2 && topLeftTile < 7) {
+                        playerX = topLeftX*tile + tile + 0.01; 
+                        return true;
+                    }else if(botLeftTile2 > 2 && botLeftTile2 <7){
+                        playerX = botLeftX*tile + tile + 0.01; 
+                        return true;
+                    }
                 }
             }
         }
@@ -217,14 +199,15 @@ function collision() {
 
     function leftCollision() {
         if (friction > 0) {
-            console.log(oldPlayerX + " b: " + (topRightX*tile - 0.01 - tile));
-            if (oldPlayerX+playerWidth< (topRightX+2)*tile - 0.01 - tile) {
-                if ((topRightTile == 2 || topRightTile == 7)) {
-                    playerX = topRightX*tile - 0.01 - tile;
-                    return true;
-                }else if(botRightTile2 > 2 && botRightTile2 <7){
-                    playerX = botRightX*tile - 0.01 - tile;
-                    return true;
+            if (((botRightX != botRightX2) || (botRightY != botRightY2)) || !onGround) {
+                if (oldPlayerX+playerWidth< (topRightX+2)*tile - 0.01 - tile) {
+                    if ((topRightTile == 2 || topRightTile == 7)) {
+                        playerX = topRightX*tile - 0.01 - tile;
+                        return true;
+                    }else if(botRightTile2 > 2 && botRightTile2 <7){
+                        playerX = botRightX*tile - 0.01 - tile;
+                        return true;
+                    }
                 }
             }
         }
