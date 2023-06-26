@@ -97,6 +97,12 @@ function KeyUp(event) {
             break;
     }
 }
+
+var oldTopCollidedX = 0;
+var oldTopCollidedY = 0;
+var oldBotCollidedX = 0;
+var oldBotCollidedY = 0;
+
 function collision() {
     var topLeftX = (playerX-(playerX % tile)) / tile;
     var topLeftY = (playerY-(playerY % tile)) / tile;
@@ -122,20 +128,17 @@ function collision() {
     var topRightY = (playerY-(playerY % tile)) / tile;
     var topRightTile = tilemapV[topRightY][topRightX];
 
-    if (botLeftTile > 0) {
+    var topCollidedX = 0;
+    var topCollidedY = 0;
+    var botCollidedX = 0;
+    var botCollidedY = 0;
+
         if(!topCollision("botLeft", botLeftTile)){
-            if(botLeftTile2 > 2 && botLeftTile2 <7){
-                rightCollision();
-            }
+                    rightCollision();
         }
-    }
-    if (botRightTile > 0) {
         if(!topCollision("botRight", botRightTile)){
-            if(botRightTile2 > 2 && botRightTile2 <7){
                 leftCollision();
-            }
         }
-    }
     botCollision();
     rightCollision();
     leftCollision();
@@ -146,8 +149,19 @@ function collision() {
         if (topRightTile%100 >=10) {
             if (gravity < 0) {
                 playerY += tile - (playerY % tile);
+                topCollidedX = topRightX;
+                topCollidedY = topRightY;
+                return true;
             }   
+        }else if (topLeftTile%100 >=10) {
+            if (gravity < 0) {
+                playerY += tile - (playerY % tile);
+                topCollidedX = topLeftX;
+                topCollidedY = topLeftY;
+                return true;
+            } 
         }
+        return false;
     }
     function topCollision(playerTile, index) { //pokud byla kolize provedena vrací true
         if (gravity > 0) {//jinak false
@@ -157,6 +171,8 @@ function collision() {
                         playerY -= (playerY+playerHeight) % tile;
                         gravity = 0;
                         onGround = true;
+                        botCollidedX = botLeftX;
+                        botCollidedY = botLeftY;
                         return true;
                     }
                 }
@@ -165,27 +181,36 @@ function collision() {
                         playerY -= (playerY+playerHeight) % tile;
                         gravity = 0;
                         onGround = true;
+                        botCollidedX = botRightX;
+                        botCollidedY = botRightY;
                         return true;
                     }  
                 }
             }
         }else if(onGround) {
+            botCollidedX = oldBotCollidedX;
+            botCollidedY = oldBotCollidedY;
             return true;
         }
         return false;
     }
+    
     function rightCollision() {
         if (friction < 0) {
             if ((botLeftX != botLeftX2 || botLeftY != botLeftY2) || !onGround) {
-                if (oldPlayerX > botLeftX*tile +tile) {
+                //if (oldPlayerX > ((botLeftX*tile) +tile)) {
                     if (topLeftTile%10000 >= 1000) {
-                        playerX = topLeftX*tile + tile + 0.01; 
-                        return true;
+                        if (topLeftX != topCollidedX && topLeftY != topCollidedY) {
+                            playerX = topLeftX*tile + tile + 0.01;
+                            return true;
+                        }
                     }else if(botLeftTile2%10000 >= 1000){
-                        playerX = botLeftX*tile + tile + 0.01; 
-                        return true;
+                        if (botLeftX != botCollidedX && botLeftY != botCollidedY) {
+                            playerX = botLeftX*tile + tile + 0.01;
+                            return true;
+                        }
                     }
-                }
+                //}
             }
         }
         return false;
@@ -196,17 +221,30 @@ function collision() {
            if (((botRightX != botRightX2) || (botRightY != botRightY2)) || !onGround) {
                if (oldPlayerX+playerWidth< (topRightX+2)*tile - 0.01 - tile) {
                    if ((topRightTile%1000 >=100)) {
-                       playerX = topRightX*tile - 0.01 - tile;
-                       return true;
+                        if (topRightX != topCollidedX && topLeftX != topCollidedY) {
+                            playerX = topRightX*tile - 0.01 - tile;
+                            return true;
+                        }
                    }else if(botRightTile2%1000 >=100){
-                       playerX = botRightX*tile - 0.01 - tile;
-                       return true;
+                        if(botRightX != botCollidedX && botRightY != botCollidedY){
+                        playerX = botRightX*tile - 0.01 - tile;
+                        return true;
+                        }
                    }
                }
            }
         }
         return false;
     }
+    if (topCollidedX != 0) {
+    console.log(topCollidedX + " " + topCollidedY + "   " + topRightX + " " + topRightY);    
+    }
+    
+    console.log();
+    oldBotCollidedX = botCollidedX;
+    oldBotCollidedY = botCollidedY;
+    oldTopCollidedX = topCollidedX;
+    oldTopCollidedY = topCollidedY;
 }
 function draw() {
     c.clearRect(0, 0, canvas.width, canvas.height);
