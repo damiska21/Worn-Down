@@ -15,12 +15,25 @@ var mezernikDown = false;
 var leftDown = false;
 var rightDown = false;
 
+//framerate limiter z https://gist.github.com/elundmark/38d3596a883521cb24f5 , zařizuje, aby hra fungovala stejně na rozdílných Hz monitorech
+var fps = 60; var now; var then = Date.now(); var interval = 1000/fps; var delta;
+function limit() {
+    requestAnimationFrame(limit);
+    now = Date.now();
+    delta = now - then;
+    if (delta > interval) {
+        then = now - (delta % interval);
+        mainLoop();
+    }
+} limit();
+
+
 function player() {
     oldPlayerX = playerX;
     oldPlayerY = playerY;
     
     //pohyb vpravo/vlevo a friction
-    if (leftDown && friction > -10) {
+    if (leftDown && friction > - 10) {
         friction += -1.1;
     }
     else if (rightDown && friction < 10) {
@@ -254,12 +267,12 @@ function draw() {
 
     tilemap();
 }
-
+var fps = 5;
 function mainLoop() {
     player();
     collision();
     draw();
-    window.requestAnimationFrame(mainLoop);
+    //window.requestAnimationFrame(mainLoop);
 }
 function slowerMainLoop() {
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
@@ -268,4 +281,4 @@ canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
 window.addEventListener("keydown", KeyDown);
 window.addEventListener("keyup", KeyUp);
 setInterval(slowerMainLoop, 500);
-window.requestAnimationFrame(mainLoop);
+//window.requestAnimationFrame(mainLoop);
