@@ -133,12 +133,13 @@ function collision() {
     var botCollidedX = 0;
     var botCollidedY = 0;
 
-        if(!topCollision("botLeft", botLeftTile)){
-                    rightCollision();
-        }
-        if(!topCollision("botRight", botRightTile)){
-                leftCollision();
-        }
+    //neptej se, jsem retard
+    if(!topCollision("botLeft", botLeftTile)){
+        rightCollision();
+    }
+    if(!topCollision("botRight", botRightTile)){
+        leftCollision();
+    }
     botCollision();
     rightCollision();
     leftCollision();
@@ -148,14 +149,14 @@ function collision() {
     function botCollision(playerTile, index) {
         if (gravity < 0) {
             if (index%100 >=10) {
+                console.log("bb");
                 if (playerTile === "topRight") {
-                    /*if ((topRightY*tile) > ) {
-                        
-                    }*/
-                    playerY += tile - (playerY % tile);
-                    topCollidedX = topRightX;
-                    topCollidedY = topRightY;
-                    return true;
+                    if ((topRightY*tile+2) > playerY) {
+                        playerY += tile - (playerY % tile);
+                        topCollidedX = topRightX;
+                        topCollidedY = topRightY;
+                        return true;
+                    }
                 }else if (playerTile === "topLeft") {
                     playerY += tile - (playerY % tile);
                     topCollidedX = topLeftX;
@@ -201,19 +202,19 @@ function collision() {
     function rightCollision() {
         if (friction < 0) {
             if ((botLeftX != botLeftX2 || botLeftY != botLeftY2) || !onGround) {
-                //if (oldPlayerX > ((botLeftX*tile) +tile)) {
+                if (oldPlayerX > ((botLeftX2*tile))) {
                     if (topLeftTile%10000 >= 1000) {
                         if (topLeftX != topCollidedX && topLeftY != topCollidedY) {
                             playerX = topLeftX*tile + tile + 0.01;
                             return true;
                         }
                     }else if(botLeftTile2%10000 >= 1000){
-                        if (botLeftX != botCollidedX && botLeftY != botCollidedY) {
-                            playerX = botLeftX*tile + tile + 0.01;
+                        if (botLeftX2 != botCollidedX && botLeftY2 != botCollidedY) {
+                            playerX = botLeftX2*tile + tile + 0.01;
                             return true;
                         }
                     }
-                //}
+                }
             }
         }
         return false;
@@ -224,13 +225,13 @@ function collision() {
            if (((botRightX != botRightX2) || (botRightY != botRightY2)) || !onGround) {
                if (oldPlayerX+playerWidth< (topRightX+2)*tile - 0.01 - tile) {
                    if ((topRightTile%1000 >=100)) {
-                        if (topRightX != topCollidedX && topLeftX != topCollidedY) {
+                        if (topRightX != topCollidedX && topRightX != topCollidedY) {
                             playerX = topRightX*tile - 0.01 - tile;
                             return true;
                         }
                    }else if(botRightTile2%1000 >=100){
-                        if(botRightX != botCollidedX && botRightY != botCollidedY){
-                        playerX = botRightX*tile - 0.01 - tile;
+                        if(botRightX2 != botCollidedX && botRightY2 != botCollidedY){
+                        playerX = botRightX2*tile - 0.01 - tile;
                         return true;
                         }
                    }
@@ -249,7 +250,7 @@ function collision() {
     oldTopCollidedX = topCollidedX;
     oldTopCollidedY = topCollidedY;
 }
-function draw() {
+function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
     c.clearRect(0, 0, canvas.width, canvas.height);
 
     c.fillStyle = "blue";
@@ -258,16 +259,16 @@ function draw() {
     tilemap();
     window.requestAnimationFrame(draw);
 }
-function mainLoop() {
+function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale chápeš)
     player();
     collision();
 }
-function slowLoop() {
+function slowLoop() { //loop co se spouští jednou za vteřinu
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
 }
 
 window.addEventListener("keydown", KeyDown);
 window.addEventListener("keyup", KeyUp);
-setInterval(slowLoop, 500);
+setInterval(slowLoop, 1000);
 setInterval(mainLoop, 16);
 window.requestAnimationFrame(draw);
