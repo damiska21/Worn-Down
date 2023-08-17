@@ -140,23 +140,23 @@ function collision() {
     if(!topCollision("botRight", botRightTile)){
         leftCollision();
     }
-    botCollision();
-    rightCollision();
-    leftCollision();
+    if(!rightCollision()) { botCollision("topRight", topRightTile);}
+    if(leftCollision()) {   botCollision("topLeft", topLeftTile);}
     
     if (botLeftTile%10000 == 0 && botRightTile%10000 == 0) { onGround = false;} //padání (detekce bloků pod hráčem)
     
     function botCollision(playerTile, index) {
         if (gravity < 0) {
-            if (index%100 >=10) {
-                console.log("bb");
+            if (index%100 >= 10) {
                 if (playerTile === "topRight") {
-                    if ((topRightY*tile+2) > playerY) {
+                console.log(topRightY*(tile+2));
+                console.log(oldPlayerY);
+                    //if ((topRightY*(tile+2)) > oldPlayerY) {
                         playerY += tile - (playerY % tile);
                         topCollidedX = topRightX;
                         topCollidedY = topRightY;
                         return true;
-                    }
+                    //}
                 }else if (playerTile === "topLeft") {
                     playerY += tile - (playerY % tile);
                     topCollidedX = topLeftX;
