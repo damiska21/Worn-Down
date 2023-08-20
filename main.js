@@ -1,5 +1,4 @@
 var canvas = document.createElement("canvas");canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;document.body.appendChild(canvas);var c = canvas.getContext("2d");
-
 var playerX = 100;
 var playerY = 100;
 var oldPlayerX = playerX; var oldPlayerY = playerY;
@@ -7,6 +6,8 @@ var playerHeight = 75;
 var playerWidth = 50;
 
 var tile = 50;
+var offset = 15;
+c.offsetLeft
 
 var friction = 0;
 var gravity = 0;
@@ -54,7 +55,6 @@ function player() {
         if (coyoteTime) {
             coyoteTime = false;
         }
-        console.log("junm");
         gravity = -17;
         onGround = false;
     }
@@ -63,7 +63,7 @@ function player() {
 
     if (playerY<0) {
         playerY=0;
-    }if (playerY > vyska * tile) {
+    }if (playerY > (vyska * tile) + 50) {
         playerY = 100;
         playerX = 100;
     }if (playerX < 0) {
@@ -106,7 +106,25 @@ function KeyUp(event) {
             break;
     }
 }
-
+var moveCounter;
+function Camera() {
+    var cameraPos = offset;
+    if (playerX - cameraPos > 150) {
+        if (moveCounter == 0) {
+            moveCounter++;
+        }else if (moveCounter < 10 && moveCounter > 30) {
+            cameraPos *= 1.05;
+        }else if (moveCounter > 30) {
+            moveCounter = 0;
+        }
+        if(moveCounter > 0) {
+            moveCounter++;
+        }
+    }else if (playerX - cameraPos < 150) {
+        cameraPos *= 0.95;
+    }
+    offset = cameraPos;
+}
 
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
     c.clearRect(0, 0, canvas.width, canvas.height);
@@ -117,13 +135,14 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     c.fillStyle = "blue";
     c.fillRect(playerX, playerY, playerWidth, playerHeight);
 
-    tilemap();
+    tilemap(offset);
 
     window.requestAnimationFrame(draw);
 }
 function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale chápeš)
     player();
-    collision();
+    Camera();
+    collision(offset);
 }
 function slowLoop() { //loop co se spouští jednou za vteřinu
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;

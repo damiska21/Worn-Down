@@ -4,31 +4,31 @@ var oldBotCollidedX = 0;
 var oldBotCollidedY = 0;
 var botCollided = false;
 
-function collision() {
-    var topLeftX = (playerX-(playerX % tile)) / tile;
+function collision(offset) {
+    //              poziceX  
+    var topLeftX = ((playerX+offset)-((playerX+offset) % tile)) / tile;
     var topLeftY = (playerY-(playerY % tile)) / tile;
     var topLeftTile = tilemapV[topLeftY][topLeftX];
 
-    var botLeftX = (playerX-(playerX % tile)) / tile;
+    var botLeftX = ((playerX+offset)-((playerX+offset) % tile)) / tile;
     var botLeftY = ((playerY + playerHeight +0.001)-((playerY + playerHeight +0.001) % tile)) / tile;
     var botLeftTile = tilemapV[botLeftY][botLeftX];
 
-    var botLeftX2 = ((playerX-(playerX % tile))) / tile;
+    var botLeftX2 = (((playerX+offset)-((playerX+offset) % tile))) / tile;
     var botLeftY2 = ((playerY + playerHeight - 5.001)-((playerY + playerHeight - 5.001) % tile)) / tile;
     var botLeftTile2 = tilemapV[botLeftY2][botLeftX2];
 
-    var botRightX = ((playerX + playerWidth)-((playerX + playerWidth) % tile)) / tile;
+    var botRightX = (((playerX+offset) + playerWidth)-(((playerX+offset) + playerWidth) % tile)) / tile;
     var botRightY = ((playerY + playerHeight +0.001)-((playerY + playerHeight +0.001) % tile)) / tile;
     var botRightTile = tilemapV[botRightY][botRightX];
 
-    var botRightX2 = ((playerX + playerWidth)-((playerX + playerWidth) % tile)) / tile;
+    var botRightX2 = (((playerX+offset) + playerWidth)-(((playerX+offset) + playerWidth) % tile)) / tile;
     var botRightY2 = ((playerY + playerHeight - 5.001)-((playerY + playerHeight - 5.001) % tile)) / tile;
     var botRightTile2 = tilemapV[botRightY2][botRightX2];
 
-    var topRightX = ((playerX + playerWidth)-((playerX + playerWidth) % tile)) / tile;
+    var topRightX = (((playerX+offset) + playerWidth)-(((playerX+offset) + playerWidth) % tile)) / tile;
     var topRightY = (playerY-(playerY % tile)) / tile;
     var topRightTile = tilemapV[topRightY][topRightX];
-
     var topCollidedX = 0;
     var topCollidedY = 0;
     var botCollidedX = 0;
@@ -37,7 +37,6 @@ function collision() {
     //neptej se, jsem retard
     if(!topCollision("botLeft", botLeftTile)){
         if(!rightCollision()) { botCollision("topRight", topRightTile);}
-
     }
     if(!topCollision("botRight", botRightTile)){
         if(!leftCollision()) {   botCollision("topLeft", topLeftTile);}
@@ -118,12 +117,12 @@ function collision() {
                 if (oldPlayerX > ((botLeftX2*tile))) {
                     if (topLeftTile%10000 >= 1000) {
                         if (topLeftX != topCollidedX && topLeftY != topCollidedY) {
-                            playerX = topLeftX*tile + tile + 0.01;
+                            playerX = topLeftX*tile + tile + 0.01-offset;
                             return true;
                         }
                     }else if(botLeftTile2%10000 >= 1000){
                         if (botLeftX2 != botCollidedX && botLeftY2 != botCollidedY) {
-                            playerX = botLeftX2*tile + tile + 0.01;
+                            playerX = botLeftX2*tile + tile + 0.01-offset;
                             return true;
                         }
                     }
@@ -139,12 +138,12 @@ function collision() {
                if (oldPlayerX+playerWidth< (topRightX+2)*tile - 0.01 - tile) {
                    if ((topRightTile%1000 >=100)) {
                         if (topRightX != topCollidedX && topRightX != topCollidedY) {
-                            playerX = topRightX*tile - 0.01 - tile;
+                            playerX = topRightX*tile - 0.01 - tile-offset;
                             return true;
                         }
                    }else if(botRightTile2%1000 >=100){
                         if(botRightX2 != botCollidedX && botRightY2 != botCollidedY){
-                        playerX = botRightX2*tile - 0.01 - tile;
+                        playerX = botRightX2*tile - 0.01 - tile-offset;
                         return true;
                         }
                    }
