@@ -6,8 +6,7 @@ var playerHeight = 75;
 var playerWidth = 50;
 
 var tile = 50;
-var offset = 15;
-c.offsetLeft
+var offset = 0;
 
 var friction = 0;
 var gravity = 0;
@@ -106,24 +105,24 @@ function KeyUp(event) {
             break;
     }
 }
-var moveCounter;
+var moved = 1500; //hranice přechodu kamery
+var playerOffset = 1200; //offset hráče od okraje obrazovky při přechodu
+var cameraOffset = 600; //offset kamery při přechodu
 function Camera() {
-    var cameraPos = offset;
-    if (playerX - cameraPos > 150) {
-        if (moveCounter == 0) {
-            moveCounter++;
-        }else if (moveCounter < 10 && moveCounter > 30) {
-            cameraPos *= 1.05;
-        }else if (moveCounter > 30) {
-            moveCounter = 0;
-        }
-        if(moveCounter > 0) {
-            moveCounter++;
-        }
-    }else if (playerX - cameraPos < 150) {
-        cameraPos *= 0.95;
+    
+    if (playerX > moved) {
+        offset += cameraOffset;
+        playerX-=moved - playerOffset;
+        offset = (Math.floor(offset*0.01))*100;
+        console.log(offset);
+
+    }else if (playerX < 200 && offset != 0) {
+        offset -= cameraOffset;
+        console.log(playerX - playerOffset);
+        playerX+=moved - playerOffset;
+        offset = (Math.floor(offset*0.01))*100;
+        console.log(offset);
     }
-    offset = cameraPos;
 }
 
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
