@@ -74,6 +74,13 @@ function player() {
     }
 
 }
+var enemyX = [250];
+var enemyY = [300];
+function enemy() {
+    function spawnEnemy(x, y, hp) {
+        
+    }
+}
 var attackX = 0;
 var attackY = 0;
 var attackHitboxOn = false;
@@ -183,6 +190,11 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
     if(attackHitboxOn){
         attacking(attackX, attackY);
+    }
+
+    for (let i = 0; i < enemyX.length; i++) {
+        c.fillStyle = "purple";
+        c.fillRect(enemyX[i], enemyY[i], 50, 75);
     }
     window.requestAnimationFrame(draw);
 }
