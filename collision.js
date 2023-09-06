@@ -4,7 +4,7 @@ var oldBotCollidedX = 0;
 var oldBotCollidedY = 0;
 var botCollided = false;
 
-function collision(offset, X, Y, H, W, oldX, oldY, onGround) {
+function collision(offset, X, Y, H, W, oldX, oldY, onGround, Igravity) {
     //              poziceX  
     var topLeftX = ((X+offset)-((X+offset) % tile)) / tile;
     var topLeftY = (Y-(Y % tile)) / tile;
@@ -58,7 +58,7 @@ function collision(offset, X, Y, H, W, oldX, oldY, onGround) {
     }
     
     function botCollision(playerTile, index) {
-        if (gravity < 0 && !botCollided) {
+        if (Igravity < 0 && !botCollided) {
             if (index%100 >= 10) {
                 if (playerTile === "topRight") {
                     //if ((topRightY*(tile+2)) > oldPlayerY) {
@@ -80,12 +80,12 @@ function collision(offset, X, Y, H, W, oldX, oldY, onGround) {
         return false;
     }
     function topCollision(playerTile, index) { //pokud byla kolize provedena vrací true
-        if (gravity > 0) {//jinak false
+        if (Igravity > 0) {//jinak false
             if ((index % 10)>=1) {
                 if(playerTile === "botLeft") {
                     if((botLeftY)*tile > oldY + H) {
                         Y -= (Y+H) % tile;
-                        gravity = 0;
+                        Igravity = 0;
                         onGround = true;
                         botCollidedX = botLeftX;
                         botCollidedY = botLeftY;
@@ -95,7 +95,7 @@ function collision(offset, X, Y, H, W, oldX, oldY, onGround) {
                 if(playerTile === "botRight"){
                     if ((botRightY)*tile > oldY + H) {
                         Y -= (Y+H) % tile;
-                        gravity = 0;
+                        Igravity = 0;
                         onGround = true;
                         botCollidedX = botRightX;
                         botCollidedY = botRightY;
@@ -157,5 +157,5 @@ function collision(offset, X, Y, H, W, oldX, oldY, onGround) {
     oldTopCollidedX = topCollidedX;
     oldTopCollidedY = topCollidedY;
 
-    return [offset, X, Y, H, W, onGround];
+    return [offset, X, Y, H, W, onGround, Igravity];
 }

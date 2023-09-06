@@ -91,8 +91,8 @@ function enemy() {
             enemyY[i] += enemyGravity[i];
         }
 
-        var colExitEnemy = collision(offset, enemyX[i], enemyY[i], 75, 50, oldEnemyX[i], oldEnemyY[i], enemyOnground[i]);
-        enemyX[i] = colExitEnemy[1]; enemyY[i] = colExitEnemy[2]; enemyOnground[i] = colExitEnemy[5];
+        var colExitEnemy = collision(offset, enemyX[i], enemyY[i], 75, 50, oldEnemyX[i], oldEnemyY[i], enemyOnground[i], enemyGravity[i]);
+        enemyX[i] = colExitEnemy[1]; enemyY[i] = colExitEnemy[2]; enemyOnground[i] = colExitEnemy[5]; enemyGravity[i] = colExitEnemy[6];
     }
 }
 var attackX = 0;
@@ -216,7 +216,8 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
     player();
     Camera();
     Attack();
-    var colExitPlayer = collision(offset, playerX, playerY, playerHeight, playerWidth, oldPlayerX, oldPlayerY, onground); playerX = colExitPlayer[1]; playerY = colExitPlayer[2]; onground = colExitPlayer[5];
+    var colExitPlayer = collision(offset, playerX, playerY, playerHeight, playerWidth, oldPlayerX, oldPlayerY, onground, gravity); playerX = colExitPlayer[1]; playerY = colExitPlayer[2]; onground = colExitPlayer[5]; gravity = colExitPlayer[6];
+    
     enemy();
 }
 function slowLoop() { //loop co se spouští jednou za vteřinu
