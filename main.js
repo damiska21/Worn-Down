@@ -11,7 +11,7 @@ var offset = 0;
 var friction = 0;
 var gravity = 0;
 var ground = 500;
-var onGround = true;
+var onground = true;
 
 var coyoteTime = false;
 var coyoteTimeTick = 0;
@@ -48,16 +48,16 @@ function player() {
     playerX += friction;
 
     //skok a gravitace
-    if (!onGround) {
+    if (!onground) {
         gravity += 1.2;
         playerY += gravity;
     }
-    if (mezernikDown && (onGround || coyoteTime)) {
+    if (mezernikDown && (onground || coyoteTime)) {
         if (coyoteTime) {
             coyoteTime = false;
         }
         gravity = -17;
-        onGround = false;
+        onground = false;
     }
 
     //aby nevyskočil z mapy
@@ -75,10 +75,24 @@ function player() {
 
 }
 var enemyX = [250];
-var enemyY = [300];
+var enemyY = [250];
+var oldEnemyX = [250];
+var oldEnemyY = [250];
+var enemyOnground = [false];
+var enemyGravity = [0];
 function enemy() {
+    
     function spawnEnemy(x, y, hp) {
         
+    }
+    for (let i = 0; i < enemyX.length; i++) {
+        if (!enemyOnground[i]) {
+            enemyGravity[i] += 1.2;
+            enemyY[i] += enemyGravity[i];
+        }
+
+        var colExitEnemy = collision(offset, enemyX[i], enemyY[i], 75, 50, oldEnemyX[i], oldEnemyY[i], enemyOnground[i]);
+        enemyX[i] = colExitEnemy[1]; enemyY[i] = colExitEnemy[2]; enemyOnground[i] = colExitEnemy[5];
     }
 }
 var attackX = 0;
@@ -202,7 +216,8 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
     player();
     Camera();
     Attack();
-    collision(offset);
+    var colExitPlayer = collision(offset, playerX, playerY, playerHeight, playerWidth, oldPlayerX, oldPlayerY, onground); playerX = colExitPlayer[1]; playerY = colExitPlayer[2]; onground = colExitPlayer[5];
+    enemy();
 }
 function slowLoop() { //loop co se spouští jednou za vteřinu
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
