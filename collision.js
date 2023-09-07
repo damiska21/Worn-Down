@@ -1,10 +1,4 @@
-var oldTopCollidedX = 0;
-var oldTopCollidedY = 0;
-var oldBotCollidedX = 0;
-var oldBotCollidedY = 0;
-var botCollided = false;
-
-function collision(offset, X, Y, H, W, oldX, oldY, onGround, Igravity) {
+function collision(offset, X, Y, H, W, oldX, oldY, onGround, Igravity, oldTopCollidedX, oldTopCollidedY, oldBotCollidedX, oldBotCollidedY, botCollided) {
     //              poziceX  
     var topLeftX = ((X+offset)-((X+offset) % tile)) / tile;
     var topLeftY = (Y-(Y % tile)) / tile;
@@ -41,6 +35,8 @@ function collision(offset, X, Y, H, W, oldX, oldY, onGround, Igravity) {
     if(!topCollision("botRight", botRightTile)){
         if(!leftCollision()) {   botCollision("topLeft", topLeftTile);}
     }
+    rightCollision();
+    leftCollision();
     rightCollision();
     leftCollision();
     
@@ -157,5 +153,5 @@ function collision(offset, X, Y, H, W, oldX, oldY, onGround, Igravity) {
     oldTopCollidedX = topCollidedX;
     oldTopCollidedY = topCollidedY;
 
-    return [offset, X, Y, H, W, onGround, Igravity];
+    return [offset, X, Y, H, W, onGround, Igravity, oldBotCollidedX, oldBotCollidedY, botCollided];
 }

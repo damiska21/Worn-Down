@@ -22,6 +22,12 @@ var rightDown = false;
 var attackDown = false;
 var facing = "right";
 
+var oldTopCollidedX = 0;
+var oldTopCollidedY = 0;
+var oldBotCollidedX = 0;
+var oldBotCollidedY = 0;
+var botCollided = false;
+
 function player() {
     oldPlayerX = playerX;
     oldPlayerY = playerY;
@@ -80,8 +86,13 @@ var oldEnemyX = [250];
 var oldEnemyY = [250];
 var enemyOnground = [false];
 var enemyGravity = [0];
+var enemyOldTopCollidedX = [0];
+var enemyOldTopCollidedY = [0];
+var enemyOldBotCollidedX = [0];
+var enemyOldBotCollidedY = [0];
+var enemyBotCollided = [false];
 function enemy() {
-    
+    enemyX[0] += friction;
     function spawnEnemy(x, y, hp) {
         
     }
@@ -91,8 +102,8 @@ function enemy() {
             enemyY[i] += enemyGravity[i];
         }
 
-        var colExitEnemy = collision(offset, enemyX[i], enemyY[i], 75, 50, oldEnemyX[i], oldEnemyY[i], enemyOnground[i], enemyGravity[i]);
-        enemyX[i] = colExitEnemy[1]; enemyY[i] = colExitEnemy[2]; enemyOnground[i] = colExitEnemy[5]; enemyGravity[i] = colExitEnemy[6];
+        var colExitEnemy = collision(offset, enemyX[i], enemyY[i], 75, 50, oldEnemyX[i], oldEnemyY[i], enemyOnground[i], enemyGravity[i], enemyOldTopCollidedX, enemyOldTopCollidedY, enemyOldBotCollidedX, enemyOldBotCollidedY, enemyBotCollided);
+        enemyX[i] = colExitEnemy[1]; enemyY[i] = colExitEnemy[2]; enemyOnground[i] = colExitEnemy[5]; enemyGravity[i] = colExitEnemy[6]; enemyOldBotCollidedX[i] = colExitEnemy[7]; enemyOldBotCollidedY[i] = colExitEnemy[8]; enemyBotCollided[i] = enemyBotCollided[9];
     }
 }
 var attackX = 0;
