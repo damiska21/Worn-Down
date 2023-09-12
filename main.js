@@ -91,6 +91,7 @@ var enemyOldTopCollidedY = [0];
 var enemyOldBotCollidedX = [0];
 var enemyOldBotCollidedY = [0];
 var enemyBotCollided = [false];
+var enemyMoving = [false]; //false je vlevo, true je vpravo
 function enemy() {
     enemyX[0] += friction;
     function spawnEnemy(x, y, hp) {
@@ -102,7 +103,7 @@ function enemy() {
             enemyY[i] += enemyGravity[i];
         }
 
-        var colExitEnemy = collision(offset, enemyX[i], enemyY[i], 75, 50, oldEnemyX[i], oldEnemyY[i], enemyOnground[i], enemyGravity[i], enemyOldTopCollidedX, enemyOldTopCollidedY, enemyOldBotCollidedX, enemyOldBotCollidedY, enemyBotCollided);
+        var colExitEnemy = collision(offset, enemyX[i], enemyY[i], 75, 50, oldEnemyX[i], oldEnemyY[i], enemyOnground[i], enemyGravity[i], enemyOldTopCollidedX, enemyOldTopCollidedY, enemyOldBotCollidedX, enemyOldBotCollidedY, enemyBotCollided, "enemy");
         enemyX[i] = colExitEnemy[1]; enemyY[i] = colExitEnemy[2]; enemyOnground[i] = colExitEnemy[5]; enemyGravity[i] = colExitEnemy[6]; enemyOldBotCollidedX[i] = colExitEnemy[7]; enemyOldBotCollidedY[i] = colExitEnemy[8]; enemyBotCollided[i] = enemyBotCollided[9];
     }
 }
@@ -193,13 +194,20 @@ function Camera() {
         offset = (Math.floor(offset*0.01))*100;
         console.log(offset);
 
+        for (let i = 0; i < enemyX.length; i++) {
+            enemyX[i]-=moved - playerOffset;
+        }
     }else if (playerX < 200 && offset != 0) {
         offset -= cameraOffset;
         console.log(playerX - playerOffset);
         playerX+=moved - playerOffset;
         offset = (Math.floor(offset*0.01))*100;
         console.log(offset);
+        for (let i = 0; i < enemyX.length; i++) {
+            enemyX[i]+=moved - playerOffset;
+        }
     }
+    
 }
 
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
@@ -211,7 +219,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     c.fillStyle = "blue";
     c.fillRect(playerX, playerY, playerWidth, playerHeight);
 
-    tilemap(offset);
+    tilemap(offset, 2);
 
     if(attackHitboxOn){
         attacking(attackX, attackY);
@@ -227,7 +235,7 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
     player();
     Camera();
     Attack();
-    var colExitPlayer = collision(offset, playerX, playerY, playerHeight, playerWidth, oldPlayerX, oldPlayerY, onground, gravity); playerX = colExitPlayer[1]; playerY = colExitPlayer[2]; onground = colExitPlayer[5]; gravity = colExitPlayer[6];
+    var colExitPlayer = collision(offset, playerX, playerY, playerHeight, playerWidth, oldPlayerX, oldPlayerY, onground, gravity, "player"); playerX = colExitPlayer[1]; playerY = colExitPlayer[2]; onground = colExitPlayer[5]; gravity = colExitPlayer[6];
     
     enemy();
 }

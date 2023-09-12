@@ -1,4 +1,4 @@
-function collision(offset, X, Y, H, W, oldX, oldY, onGround, Igravity, oldTopCollidedX, oldTopCollidedY, oldBotCollidedX, oldBotCollidedY, botCollided) {
+function collision(offset, X, Y, H, W, oldX, oldY, onGround, Igravity, oldTopCollidedX, oldTopCollidedY, oldBotCollidedX, oldBotCollidedY, botCollided, controller) {
     //              poziceX  
     var topLeftX = ((X+offset)-((X+offset) % tile)) / tile;
     var topLeftY = (Y-(Y % tile)) / tile;
@@ -110,7 +110,7 @@ function collision(offset, X, Y, H, W, oldX, oldY, onGround, Igravity, oldTopCol
     function rightCollision() {
         if (friction < 0) {
             if ((botLeftX != botLeftX2 || botLeftY != botLeftY2) || !onGround) {
-                if (oldX > ((botLeftX2*tile))) {
+                if (oldX+0.001 > ((botLeftX2*tile))) {
                     if (topLeftTile%10000 >= 1000) {
                         if (topLeftX != topCollidedX && topLeftY != topCollidedY) {
                             X = topLeftX*tile + tile + 0.01-offset;
@@ -131,10 +131,11 @@ function collision(offset, X, Y, H, W, oldX, oldY, onGround, Igravity, oldTopCol
     function leftCollision() {
         if (friction > 0) {
            if (((botRightX != botRightX2) || (botRightY != botRightY2)) || !onGround) {
-               if (oldX+W< (topRightX+2)*tile - 0.01 - tile) {
+               if (oldX+W <= (topRightX+2)*tile - tile) {
                    if ((topRightTile%1000 >=100)) {
                         if (topRightX != topCollidedX && topRightX != topCollidedY) {
                             X = topRightX*tile - 0.01 - tile-offset;
+                            
                             return true;
                         }
                    }else if(botRightTile2%1000 >=100){
@@ -152,6 +153,7 @@ function collision(offset, X, Y, H, W, oldX, oldY, onGround, Igravity, oldTopCol
     oldBotCollidedY = botCollidedY;
     oldTopCollidedX = topCollidedX;
     oldTopCollidedY = topCollidedY;
+
 
     return [offset, X, Y, H, W, onGround, Igravity, oldBotCollidedX, oldBotCollidedY, botCollided];
 }
