@@ -23,8 +23,8 @@ var tilemap2 = [
 [10000, 10000, 10001, 10001, 10001, 11101, 10001, 10001, 10000, 10001]
 ];
 var tilemapV = [
-    [0],
-    [0]
+    [],
+    []
 ];
 
 var sirka = 10;
@@ -45,11 +45,12 @@ nedělej jednoblokový díry
 VŮBEC
 */
 for (let i = 0; i < vyska; i++) {
+    console.log();
     for (let j = 0; j < tilemap1.length+tilemap2.length; j++) {
         if (j > 9) {
-            tilemapV[i].push(tilemap2[i-10][j]);
+            tilemapV[i] = tilemapV[i][j].concat(tilemap2[i-10]);
         }else{
-            tilemapV[i].push(tilemap1[i][j]);
+            tilemapV[i] = tilemapV[i][j].concat(tilemap1[i]);
         }
     }
 }
