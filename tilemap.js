@@ -22,7 +22,15 @@ var tilemap2 = [
 [10001, 11001, 10000, 10000, 10000, 11101, 10000, 10000, 10000, 10000],
 [10000, 10000, 10001, 10001, 10001, 11101, 10001, 10001, 10000, 10001]
 ];
-var tilemapV = [
+var tilemapV = [//je nutný aby tady těch prázdnejch arrayů bylo stejně jako vyska
+    [],//jinak se to zesere
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
     [],
     []
 ];
@@ -46,13 +54,8 @@ VŮBEC
 */
 for (let i = 0; i < vyska; i++) {
     console.log();
-    for (let j = 0; j < tilemap1.length+tilemap2.length; j++) {
-        if (j > 9) {
-            tilemapV[i] = tilemapV[i][j].concat(tilemap2[i-10]);
-        }else{
-            tilemapV[i] = tilemapV[i][j].concat(tilemap1[i]);
-        }
-    }
+        tilemapV[i] = tilemapV[i].concat(tilemap1[i]);
+        tilemapV[i] = tilemapV[i].concat(tilemap2[i]);
 }
 
 function tilemap(offset, tilemaps){

@@ -111,17 +111,25 @@ var attackX = 0;
 var attackY = 0;
 var attackHitboxOn = false;
 var attackTiming = 0;
+var attackXsize = 100;
 function Attack() {
     if (attackDown && attackTiming == 0) {
         switch (facing) {
             case "left":
-                attackX = playerX-100; attackY = playerY;
+                attackX = playerX-attackXsize; attackY = playerY;
                 attackHitboxOn = true;attackTiming =0;
                 break;
             case "right":
                 attackX = playerX+playerWidth; attackY = playerY;
                 attackHitboxOn = true;attackTiming =0;
                 break;
+        }
+    }
+    if(attackHitboxOn){
+        for (let i = 0; i < enemyX.length; i++) {
+            if (enemyX[i] > attackX) {
+                
+            }
         }
     }
     if (attackHitboxOn) {
@@ -133,6 +141,7 @@ function Attack() {
     }
     attackDown = false;
 }
+//jenom na texturu
 function attacking(x, y) {
     c.fillStyle = "red";
         c.fillRect(x, y, 100, 75);
