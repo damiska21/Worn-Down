@@ -5,6 +5,29 @@ var oldPlayerX = playerX; var oldPlayerY = playerY;
 var playerHeight = 75;
 var playerWidth = 50;
 
+class entity {
+    constructor(X, Y, oldX, oldY, onground, gravity, friction, oldTopCollidedX, oldTopCollidedY, oldBotCollidedX, oldBotCollidedY, botCollided, moving, height, width, coyoteTime, coyoteTimeTick) {
+        this.X = X,
+        this.Y = Y,
+        this.oldX = oldX,
+        this.oldY = oldY,
+        this.onground = onground,
+        this.gravity = gravity,
+        this.friction= friction,
+        this.oldTopCollidedX= oldTopCollidedX,
+        this.oldTopCollidedY= oldTopCollidedY,
+        this.oldBotCollidedX= oldBotCollidedX,
+        this.oldBotCollidedY= oldBotCollidedY,
+        this.botCollided = botCollided,
+        this.moving = moving,
+        this.height = height,
+        this.width = width,
+    
+        this.coyoteTime = coyoteTime,
+        this.coyoteTimeTick = coyoteTimeTick
+    }
+}
+
 var tile = 50;
 var offset = 0;
 
@@ -80,33 +103,35 @@ function player() {
     }
 
 }
-var enemyX = [250];
-var enemyY = [250];
-var oldEnemyX = [250];
-var oldEnemyY = [250];
-var enemyOnground = [false];
-var enemyGravity = [0];
-var enemyOldTopCollidedX = [0];
-var enemyOldTopCollidedY = [0];
-var enemyOldBotCollidedX = [0];
-var enemyOldBotCollidedY = [0];
-var enemyBotCollided = [false];
-var enemyMoving = [false]; //false je vlevo, true je vpravo
-var enemyHeight = 75;
-var enemyWidth = 50;
+var enemyE = new entity(250, 250, 250, 250, false, 0, 0, 0, 0, 0, false, false, 75, 50);
+
+/*enemyE.X = 250;
+enemyE.Y = 250;
+enemyE.oldX = 250;
+enemyE.oldY = 250;
+enemyE.onground = false;
+enemyE.gravity = 0;
+enemyE.oldTopCollidedX = 0;
+enemyE.oldTopCollidedY = 0;
+enemyE.oldBotCollidedX = 0;
+enemyE.oldBotCollidedY = 0;
+enemyE.BotCollided =false;
+enemyE.moving = false; //false je vlevo, true je vpravo
+enemyE.height = 75;
+enemyE.width = 50;*/
 function enemy() {
-    enemyX[0] += friction;
+    enemyE.X[0] += entity.friction;
     function spawnEnemy(x, y, hp) {
         
     }
-    for (let i = 0; i < enemyX.length; i++) {
-        if (!enemyOnground[i]) {
+    for (let i = 0; i < 2/*změnit až bude víc*/; i++) {
+        if (!entity.onground[i]) {
             enemyGravity[i] += 1.2;
             enemyY[i] += enemyGravity[i];
         }
 
-        var colExitEnemy = collision(offset, enemyX[i], enemyY[i], enemyHeight, enemyWidth, oldEnemyX[i], oldEnemyY[i], enemyOnground[i], enemyGravity[i], enemyOldTopCollidedX, enemyOldTopCollidedY, enemyOldBotCollidedX, enemyOldBotCollidedY, enemyBotCollided, "enemy");
-        enemyX[i] = colExitEnemy[1]; enemyY[i] = colExitEnemy[2]; enemyOnground[i] = colExitEnemy[5]; enemyGravity[i] = colExitEnemy[6]; enemyOldBotCollidedX[i] = colExitEnemy[7]; enemyOldBotCollidedY[i] = colExitEnemy[8]; enemyBotCollided[i] = enemyBotCollided[9];
+        var colExitEnemy = collisionT(enemyE, offset);
+        enemyE = colExitEnemy;
     }
 }
 var attackX = 0;
@@ -128,9 +153,9 @@ function Attack() {
         }
     }
     if(attackHitboxOn){
-        for (let i = 0; i < enemyX.length; i++) {
+        for (let i = 0; i < 2/*taky změnit*/; i++) {
             console.log(enemyY[i]+" > "+attackY);
-            if (enemyX[i] > attackX && enemyY[i] > attackY && enemyX[i] + enemyHeight < attackX+attackXsize && enemyY + 75) {
+            if (enemyE.X[i] > attackX && enemyY[i] > attackY && enemyE.X[i] + enemyHeight < attackX+attackXsize && enemyY + 75) {
               console.log("niga");  
             }
         }
@@ -206,8 +231,8 @@ function Camera() {
         offset = (Math.floor(offset*0.01))*100;
         console.log(offset);
 
-        for (let i = 0; i < enemyX.length; i++) {
-            enemyX[i]-=moved - playerOffset;
+        for (let i = 0; i < enemyE.X.length; i++) {
+            enemyE.X[i]-=moved - playerOffset;
         }
     }else if (playerX < 200 && offset != 0) {
         offset -= cameraOffset;
@@ -215,8 +240,8 @@ function Camera() {
         playerX+=moved - playerOffset;
         offset = (Math.floor(offset*0.01))*100;
         console.log(offset);
-        for (let i = 0; i < enemyX.length; i++) {
-            enemyX[i]+=moved - playerOffset;
+        for (let i = 0; i < enemyE.X.length; i++) {
+            enemyE.X[i]+=moved - playerOffset;
         }
     }
     
@@ -237,9 +262,9 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         attacking(attackX, attackY);
     }
 
-    for (let i = 0; i < enemyX.length; i++) {
+    for (let i = 0; i < enemyE.X.length; i++) {
         c.fillStyle = "purple";
-        c.fillRect(enemyX[i], enemyY[i], 50, 75);
+        c.fillRect(enemyE.X[i], enemyY[i], 50, 75);
     }
     window.requestAnimationFrame(draw);
 }
