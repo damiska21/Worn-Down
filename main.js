@@ -6,25 +6,54 @@ var playerHeight = 75;
 var playerWidth = 50;
 
 class entity {
-    constructor(X, Y, oldX, oldY, onground, gravity, friction, oldTopCollidedX, oldTopCollidedY, oldBotCollidedX, oldBotCollidedY, botCollided, moving, height, width, coyoteTime, coyoteTimeTick) {
+    constructor(X, Y, height, width) {
         this.X = X,
         this.Y = Y,
-        this.oldX = oldX,
-        this.oldY = oldY,
-        this.onground = onground,
-        this.gravity = gravity,
-        this.friction= friction,
-        this.oldTopCollidedX= oldTopCollidedX,
-        this.oldTopCollidedY= oldTopCollidedY,
-        this.oldBotCollidedX= oldBotCollidedX,
-        this.oldBotCollidedY= oldBotCollidedY,
-        this.botCollided = botCollided,
-        this.moving = moving,
+        this.oldX = 0,
+        this.oldY = 0,
+        this.onground = false,
+        this.gravity = 0,
+        this.friction= 0,
+        this.oldTopCollidedX= -1,
+        this.oldTopCollidedY= -1,
+        this.oldBotCollidedX= -1,
+        this.oldBotCollidedY= -1,
+        this.botCollided = false,
+        this.sideCollided = "left",
+        this.moving = false,
         this.height = height,
         this.width = width,
     
-        this.coyoteTime = coyoteTime,
-        this.coyoteTimeTick = coyoteTimeTick
+        this.coyoteTime = 0,
+        this.coyoteTimeTick = 0
+    }
+
+    jump(){
+        this.gravity = -17;
+    }
+    move(direction){
+        switch (direction) {
+            case "left":
+                if (friction > -10) {
+                    this.friction += -1.1;
+                }
+                break;
+            case "right":
+                if (friction < 10) {
+                    this.friction += 1.1;
+                }
+                break;
+            case "no":
+                if (friction > 0 || friction < 0) {
+                    this.friction *= 0.8;
+                }
+                if (friction > -0.05 && friction < 0.05) {
+                    this.friction = 0;   
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -103,36 +132,23 @@ function player() {
     }
 
 }
-var enemyE = new entity(250, 250, 250, 250, false, 0, 0, 0, 0, 0, false, false, 75, 50);
+var enemyE = new entity(250, 250, 75, 50);
 
-/*enemyE.X = 250;
-enemyE.Y = 250;
-enemyE.oldX = 250;
-enemyE.oldY = 250;
-enemyE.onground = false;
-enemyE.gravity = 0;
-enemyE.oldTopCollidedX = 0;
-enemyE.oldTopCollidedY = 0;
-enemyE.oldBotCollidedX = 0;
-enemyE.oldBotCollidedY = 0;
-enemyE.BotCollided =false;
-enemyE.moving = false; //false je vlevo, true je vpravo
-enemyE.height = 75;
-enemyE.width = 50;*/
 function enemy() {
-    enemyE.X[0] += entity.friction;
+    enemyE.X += enemyE.friction;
     function spawnEnemy(x, y, hp) {
         
     }
-    for (let i = 0; i < 2/*změnit až bude víc*/; i++) {
-        if (!entity.onground[i]) {
-            enemyGravity[i] += 1.2;
-            enemyY[i] += enemyGravity[i];
+        if (!enemyE.onground) {
+            enemyE.gravity += 1.2;
         }
+        enemyE.Y += enemyE.gravity;
 
         var colExitEnemy = collisionT(enemyE, offset);
         enemyE = colExitEnemy;
-    }
+        if (enemyE.sideCollided == "right" || enemyE.sideCollided == "left") {
+            enemyE.move("no");
+        }
 }
 var attackX = 0;
 var attackY = 0;
@@ -154,8 +170,8 @@ function Attack() {
     }
     if(attackHitboxOn){
         for (let i = 0; i < 2/*taky změnit*/; i++) {
-            console.log(enemyY[i]+" > "+attackY);
-            if (enemyE.X[i] > attackX && enemyY[i] > attackY && enemyE.X[i] + enemyHeight < attackX+attackXsize && enemyY + 75) {
+            console.log(enemyE.Y+" > "+attackY);
+            if (enemyE.X > attackX && enemyE.Y > attackY && enemyE.X + enemyE.height < attackX+attackXsize && enemyE.Y + 75) {
               console.log("niga");  
             }
         }
@@ -240,8 +256,8 @@ function Camera() {
         playerX+=moved - playerOffset;
         offset = (Math.floor(offset*0.01))*100;
         console.log(offset);
-        for (let i = 0; i < enemyE.X.length; i++) {
-            enemyE.X[i]+=moved - playerOffset;
+        for (let i = 0; i < 5/*niga*/ ; i++) {
+            enemyE.X+=moved - playerOffset;
         }
     }
     
@@ -262,9 +278,9 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         attacking(attackX, attackY);
     }
 
-    for (let i = 0; i < enemyE.X.length; i++) {
-        c.fillStyle = "purple";
-        c.fillRect(enemyE.X[i], enemyY[i], 50, 75);
+    for (let i = 0; i < 5; i++) {
+        c.fillStyle = "black";
+        c.fillRect(enemyE.X, enemyE.Y, enemyE.width, enemyE.height);
     }
     window.requestAnimationFrame(draw);
 }
