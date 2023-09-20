@@ -269,9 +269,9 @@ function collisionT(entity, offset) {
         return false;
     }
     
-    function rightCollision() {
+    function rightCollision() {//enemy nefunguje
         if (entity.friction < 0) {
-            if ((botLeftX != botLeftX2 || botLeftY != botLeftY2) || !entity.onground) {
+            if ((botLeftX != botLeftX2 || botLeftY != botLeftY2) || !entity.onground) {console.log(entity.oldX);
                 if (entity.oldX+0.001 > ((botLeftX2*tile))) {
                     if (topLeftTile%10000 >= 1000) {console.log(topLeftX + " != " + topCollidedX);
                         if (topLeftX != topCollidedX && topLeftY != topCollidedY) {

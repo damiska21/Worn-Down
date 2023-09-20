@@ -135,6 +135,9 @@ function player() {
 var enemyE = new entity(250, 250, 75, 50);
 
 function enemy() {
+    enemyE.oldX = enemyE.X;
+    enemyE.oldY = enemyE.Y;
+    
     enemyE.X += enemyE.friction;
     function spawnEnemy(x, y, hp) {
         
