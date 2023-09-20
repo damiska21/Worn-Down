@@ -57,6 +57,21 @@ class entity {
     }
 }
 
+class enemies {
+    constructor(){
+        this.E = [];
+    }
+    newEnemy(X, Y, height, width){
+        let e = new entity(X, Y, height, width);
+        this.E.push(e);
+    }
+    getEnemyNum(){
+        return this.E.length;
+    }
+    getEnemy(index){
+        return this.E[index];
+    }
+}
 var tile = 50;
 var offset = 0;
 
@@ -132,26 +147,27 @@ function player() {
     }
 
 }
-var enemyE = new entity(250, 250, 75, 50);
+var EA = new enemies(); //EA znamená enemy array btw :D
+EA.newEnemy(250, 250, 75, 50);
+EA.newEnemy(350, 100, 75, 50);
 
 function enemy() {
-    enemyE.oldX = enemyE.X;
-    enemyE.oldY = enemyE.Y;
-    
-    enemyE.X += enemyE.friction;
-    function spawnEnemy(x, y, hp) {
-        
-    }
-        if (!enemyE.onground) {
-            enemyE.gravity += 1.2;
-        }
-        enemyE.Y += enemyE.gravity;
+    for (let i = 0; i < EA.getEnemyNum(); i++) {
+        EA.E[i].oldX = EA.E[i].X;
+        EA.E[i].X += EA.E[i].friction;
 
-        var colExitEnemy = collisionT(enemyE, offset);
-        enemyE = colExitEnemy;
-        if (enemyE.sideCollided == "right" || enemyE.sideCollided == "left") {
-            enemyE.move("no");
+        if (!EA.E[i].onground) {
+            EA.E[i].gravity += 1.2;
         }
+        EA.E[i].Y += EA.E[i].gravity;
+
+        EA.E[i] = collisionT(EA.E[i], offset);
+
+        if (EA.E[i].sideCollided == "right" || EA.E[i].sideCollided == "left") {
+            //EA.E[i].move("no");
+            EA.E[i].jump();
+        }
+    }
 }
 var attackX = 0;
 var attackY = 0;
@@ -172,9 +188,9 @@ function Attack() {
         }
     }
     if(attackHitboxOn){
-        for (let i = 0; i < 2/*taky změnit*/; i++) {
-            console.log(enemyE.Y+" > "+attackY);
-            if (enemyE.X > attackX && enemyE.Y > attackY && enemyE.X + enemyE.height < attackX+attackXsize && enemyE.Y + 75) {
+        for (let i = 0; i < EA.getEnemyNum(); i++) {
+            console.log(EA.E[i].Y+" > "+attackY);
+            if (EA.E[i].X > attackX && EA.E[i].Y > attackY && EA.E[i].X + EA.E[i].height < attackX+attackXsize && EA.E[i].Y + 75) {
               console.log("niga");  
             }
         }
@@ -281,9 +297,9 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         attacking(attackX, attackY);
     }
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < EA.getEnemyNum(); i++) {
         c.fillStyle = "black";
-        c.fillRect(enemyE.X, enemyE.Y, enemyE.width, enemyE.height);
+        c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
     }
     window.requestAnimationFrame(draw);
 }
