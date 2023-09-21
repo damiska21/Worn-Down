@@ -6,7 +6,7 @@ var playerHeight = 75;
 var playerWidth = 50;
 
 class entity {
-    constructor(X, Y, height, width, hp) {
+    constructor(X, Y, height, width, hp, moveSpeed) {
         this.X = X,
         this.Y = Y,
         this.oldX = 0,
@@ -28,6 +28,8 @@ class entity {
         this.invulnerable = false,
         this.hitTimeTick = 0,
         this.hitTime = false,
+
+        this.moveSpeed = moveSpeed,
     
         this.coyoteTime = false,
         this.coyoteTimeTick = 0
@@ -35,27 +37,53 @@ class entity {
 
     jump(){
         this.gravity = -17;
+        this.onground = false;
     }
     move(direction){
+        if (direction === undefined) {
+            switch (this.moving) {
+                case "left":
+                    if (this.friction > -this.moveSpeed) {
+                        this.friction -= 1.1;
+                    }
+                    break;
+                case "right":
+                    if (this.friction < this.moveSpeed) {
+                        this.friction += 1.1;
+                    }
+                    break;
+                case "no":
+                    if (this.friction != 0) {
+                        this.friction *= 0.8;
+                    }
+                    if (this.friction > -0.05 && this.friction < 0.05) {
+                        this.friction = 0;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return;
+        }
         switch (direction) {
             case "left":
-                if (friction > -10) {
+                if (this.friction > -this.moveSpeed) {
                     this.friction += -1.1;
                     this.moving = "left";
                 }
                 break;
             case "right":
-                if (friction < 10) {
+                if (this.friction < this.moveSpeed) {
                     this.friction += 1.1;
                     this.moving = "right";
                 }
                 break;
             case "no":
-                if (friction > 0 || friction < 0) {
+                if (this.friction != 0) {
                     this.friction *= 0.8;
                     this.moving = "no";
                 }
-                if (friction > -0.05 && friction < 0.05) {
+                if (this.friction > -0.05 && this.friction < 0.05) {
                     this.friction = 0;
                     this.moving = "no";
                 }
@@ -73,7 +101,6 @@ class entity {
         this.hitTime = true;
         if (this.hp <= 0) {
             EA.E.splice(index, 1);
-            console.log("smazán index " + (index));
         }
     }
 
@@ -99,7 +126,6 @@ var offset = 0;
 
 var friction = 0;
 var gravity = 0;
-var ground = 500;
 var onground = true;
 
 var coyoteTime = false;
@@ -117,66 +143,70 @@ var oldBotCollidedX = 0;
 var oldBotCollidedY = 0;
 var botCollided = false;
 
-function player() {
-    oldPlayerX = playerX;
-    oldPlayerY = playerY;
+var player = new entity(100, 100, 75, 50, 50, 10);
+function playe() {
+    player.oldX = player.X;
+
+    
     
     //pohyb vpravo/vlevo a friction
-    if (leftDown && friction > - 10) {
-        friction += -1.1;
+    if (leftDown && player.friction > - 10) {
+        player.friction += -1.1;
     }
-    else if (rightDown && friction < 10) {
-        friction += 1.1;
+    else if (rightDown && player.friction < 10) {
+        player.friction += 1.1;
     }
     else{
-        friction *= 0.8;
+        player.friction *= 0.8;
     }
-    if(friction < 1 && friction > -1){
-        friction = 0;
+    if(player.friction < 1 && player.friction > -1){
+        player.friction = 0;
     }
 
-    if(leftDown && friction > 1) {
-        friction -=2;
-    }else if (rightDown && friction < 1) {
-        friction += 2;
+    if(leftDown && player.friction > 1) {
+        player.friction -=2;
+    }else if (rightDown && player.friction < 1) {
+        player.friction += 2;
     }
-    playerX += friction;
+    player.X += player.friction;
 
     //skok a gravitace
-    if (!onground) {
-        gravity += 1.2;
-        playerY += gravity;
+    if (!player.onground) {
+        player.gravity += 1.2;
+        player.Y += player.gravity;
     }
-    if (mezernikDown && (onground || coyoteTime)) {
-        if (coyoteTime) {
-            coyoteTime = false;
+    if (mezernikDown && (player.onground || player.coyoteTime)) {
+        if (player.coyoteTime) {
+            player.coyoteTime = false;
         }
-        gravity = -17;
-        onground = false;
+        player.gravity = -17;
+        player.onground = false;
     }
 
     //aby nevyskočil z mapy
 
-    if (playerY<0) {
-        playerY=0;
-    }if (playerY > (vyska * tile) + 50) {
-        playerY = 100;
-        playerX = 100;
-    }if (playerX < 0) {
-        playerX = 0;
-    }if (playerX > sirka * tile) {
+    if (player.Y<0) {
+        player.Y=0;
+    }if (player.Y > (vyska * tile) + 50) {
+        player.Y = 100;
+        player.X = 100;
+    }if (player.X < 0) {
+        player.X = 0;
+    }if (player.X > sirka * tile) {
         
     }
 
 }
 var EA = new enemies(); //EA znamená enemy array btw :D
 //EA.newEnemy(250, 250, 75, 50, 3);
-EA.newEnemy(550, 300, 75, 50, 3); EA.E[0].move("right");
+EA.newEnemy(550, 300, 75, 50, 3, 3); EA.E[0].move("right");
 
 function enemy() {
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         EA.E[i].oldX = EA.E[i].X;
         EA.E[i].X += EA.E[i].friction;
+
+        EA.E[i].move();
 
         if (!EA.E[i].onground) {
             EA.E[i].gravity += 1.2;
@@ -228,23 +258,18 @@ function Attack() {
             }
             if(attackHitboxOn){//levý horní
                 if (attackX < EA.E[i].X && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y) {
-                  console.log("top left"); 
                   EA.E[i].hit(hitDamage, i); 
                 }//pravý horní
                 else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y) {
-                    console.log("top right");
                     EA.E[i].hit(hitDamage, i);
                 }//levý dolní
                 else if (attackX < EA.E[i].X && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
-                    console.log("bot left");
                     EA.E[i].hit(hitDamage, i);
                 }//pravý dolní
                 else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
-                    console.log("bot right");
                     EA.E[i].hit(hitDamage, i);
                 }//absoltní střed
                 else if(attackX < EA.E[i].X + (EA.E[i].width / 2) && attackY < EA.E[i].Y + (EA.E[i].height / 2)&&attackX+attackXsize > EA.E[i].X + (EA.E[i].width / 2) && attackY + attackYsize > EA.E[i].Y + (EA.E[i].height / 2)){
-                    console.log("mid");
                     EA.E[i].hit(hitDamage, i);
                 }
 
@@ -351,7 +376,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     c.fillRect(0, 0, canvas.width, canvas.height);
 
     c.fillStyle = "blue";
-    c.fillRect(playerX, playerY, playerWidth, playerHeight);
+    c.fillRect(player.X, player.Y, player.width, player.height);
 
     tilemap(offset, 2);
 
@@ -370,10 +395,10 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     window.requestAnimationFrame(draw);
 }
 function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale chápeš)
-    player();
+    playe();
+    player = collisionT(player, offset);
     Camera();
     Attack();
-    var colExitPlayer = collision(offset, playerX, playerY, playerHeight, playerWidth, oldPlayerX, oldPlayerY, onground, gravity, "player"); playerX = colExitPlayer[1]; playerY = colExitPlayer[2]; onground = colExitPlayer[5]; gravity = colExitPlayer[6];
     
     enemy();
 }
