@@ -25,6 +25,7 @@ class entity {
         this.width = width,
 
         this.hp = hp,
+        this.invulnerable = false,
         this.hitTimeTick = 0,
         this.hitTime = false,
     
@@ -59,11 +60,16 @@ class entity {
                 break;
         }
     }
-    hit(hitpoints){
-        this.hp -= hitpoints;
+    hit(hitpoints, index){
+        if (!this.invulnerable) {
+            this.hp -= hitpoints;
+            this.invulnerable = true; console.log("enemy " + index + " hp "+ this.hp);
+        }
+        
         this.hitTime = true;
         if (this.hp <= 0) {
-            EA.E
+            EA.E.splice(index, 1);
+            console.log("smazán index " + (index));
         }
     }
 
@@ -82,9 +88,6 @@ class enemies {
     }
     getEnemy(index){
         return this.E[index];
-    }
-    destroyEnemy(index){
-        
     }
 }
 var tile = 50;
@@ -163,8 +166,8 @@ function player() {
 
 }
 var EA = new enemies(); //EA znamená enemy array btw :D
-EA.newEnemy(250, 250, 75, 50, 10);
-EA.newEnemy(350, 100, 75, 50, 10);
+EA.newEnemy(250, 250, 75, 50, 3);
+EA.newEnemy(350, 100, 75, 50, 3);
 
 function enemy() {
     for (let i = 0; i < EA.getEnemyNum(); i++) {
@@ -206,26 +209,34 @@ function Attack() {
         }
     }
     for (let i = 0; i < EA.getEnemyNum(); i++) {
+        
+        if (EA.E[i].hitTime) {
+            EA.E[i].hitTimeTick++;
+        }if (EA.E[i].hitTimeTick >=20) {
+            EA.E[i].hitTimeTick = 0;
+            EA.E[i].hitTime = false;
+            EA.E[i].invulnerable = false;
+        }
         if(attackHitboxOn){//levý horní
             if (attackX < EA.E[i].X && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y) {
               console.log("top left"); 
-              EA.E[i].hit(hitDamage); 
+              EA.E[i].hit(hitDamage, i); 
             }//pravý horní
             else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y) {
                 console.log("top right");
-                EA.E[i].hit(hitDamage);
+                EA.E[i].hit(hitDamage, i);
             }//levý dolní
             else if (attackX < EA.E[i].X && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
                 console.log("bot left");
-                EA.E[i].hit(hitDamage);
+                EA.E[i].hit(hitDamage, i);
             }//pravý dolní
             else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
                 console.log("bot right");
-                EA.E[i].hit(hitDamage);
+                EA.E[i].hit(hitDamage, i);
             }//absoltní střed
             else if(attackX < EA.E[i].X + (EA.E[i].width / 2) && attackY < EA.E[i].Y + (EA.E[i].height / 2)&&attackX+attackXsize > EA.E[i].X + (EA.E[i].width / 2) && attackY + attackYsize > EA.E[i].Y + (EA.E[i].height / 2)){
                 console.log("mid");
-                EA.E[i].hit(hitDamage);
+                EA.E[i].hit(hitDamage, i);
             }
 
             attackTiming++;
@@ -233,12 +244,6 @@ function Attack() {
                 attackHitboxOn=false;
                 attackTiming=0;
             }
-        }
-        if (EA.E[i].hitTime) {
-            EA.E[i].hitTimeTick++;
-        }if (EA.E[i].hitTimeTick >=20) {
-            EA.E[i].hitTimeTick = 0;
-            EA.E[i].hitTime = false;
         }
     }
     attackDown = false;
