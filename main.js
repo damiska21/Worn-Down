@@ -20,7 +20,7 @@ class entity {
         this.oldBotCollidedY= -1,
         this.botCollided = false,
         this.sideCollided = "left",
-        this.moving = false,
+        this.moving = "no",
         this.height = height,
         this.width = width,
 
@@ -41,19 +41,23 @@ class entity {
             case "left":
                 if (friction > -10) {
                     this.friction += -1.1;
+                    this.moving = "left";
                 }
                 break;
             case "right":
                 if (friction < 10) {
                     this.friction += 1.1;
+                    this.moving = "right";
                 }
                 break;
             case "no":
                 if (friction > 0 || friction < 0) {
                     this.friction *= 0.8;
+                    this.moving = "no";
                 }
                 if (friction > -0.05 && friction < 0.05) {
-                    this.friction = 0;   
+                    this.friction = 0;
+                    this.moving = "no";
                 }
                 break;
             default:
@@ -166,8 +170,8 @@ function player() {
 
 }
 var EA = new enemies(); //EA znamená enemy array btw :D
-EA.newEnemy(250, 250, 75, 50, 3);
-EA.newEnemy(350, 100, 75, 50, 3);
+//EA.newEnemy(250, 250, 75, 50, 3);
+EA.newEnemy(550, 300, 75, 50, 3); EA.E[0].move("right");
 
 function enemy() {
     for (let i = 0; i < EA.getEnemyNum(); i++) {
@@ -181,9 +185,13 @@ function enemy() {
 
         EA.E[i] = collisionT(EA.E[i], offset);
 
-        if (EA.E[i].sideCollided == "right" || EA.E[i].sideCollided == "left") {
-            //EA.E[i].move("no");
-            EA.E[i].jump();
+        if (EA.E[i].sideCollided == "right") {
+            EA.E[i].move("no");
+            EA.E[i].move("right");
+        }
+        if(EA.E[i].sideCollided == "left"){
+            EA.E[i].move("no");
+            EA.E[i].move("left");
         }
     }
 }
@@ -208,42 +216,52 @@ function Attack() {
                 break;
         }
     }
-    for (let i = 0; i < EA.getEnemyNum(); i++) {
-        
-        if (EA.E[i].hitTime) {
-            EA.E[i].hitTimeTick++;
-        }if (EA.E[i].hitTimeTick >=20) {
-            EA.E[i].hitTimeTick = 0;
-            EA.E[i].hitTime = false;
-            EA.E[i].invulnerable = false;
-        }
-        if(attackHitboxOn){//levý horní
-            if (attackX < EA.E[i].X && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y) {
-              console.log("top left"); 
-              EA.E[i].hit(hitDamage, i); 
-            }//pravý horní
-            else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y) {
-                console.log("top right");
-                EA.E[i].hit(hitDamage, i);
-            }//levý dolní
-            else if (attackX < EA.E[i].X && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
-                console.log("bot left");
-                EA.E[i].hit(hitDamage, i);
-            }//pravý dolní
-            else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
-                console.log("bot right");
-                EA.E[i].hit(hitDamage, i);
-            }//absoltní střed
-            else if(attackX < EA.E[i].X + (EA.E[i].width / 2) && attackY < EA.E[i].Y + (EA.E[i].height / 2)&&attackX+attackXsize > EA.E[i].X + (EA.E[i].width / 2) && attackY + attackYsize > EA.E[i].Y + (EA.E[i].height / 2)){
-                console.log("mid");
-                EA.E[i].hit(hitDamage, i);
-            }
+    if (EA.getEnemyNum() > 0) {
+        for (let i = 0; i < EA.getEnemyNum(); i++) {
 
-            attackTiming++;
-            if (attackTiming == 10) {
-                attackHitboxOn=false;
-                attackTiming=0;
+            if (EA.E[i].hitTime) {
+                EA.E[i].hitTimeTick++;
+            }if (EA.E[i].hitTimeTick >=20) {
+                EA.E[i].hitTimeTick = 0;
+                EA.E[i].hitTime = false;
+                EA.E[i].invulnerable = false;
             }
+            if(attackHitboxOn){//levý horní
+                if (attackX < EA.E[i].X && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y) {
+                  console.log("top left"); 
+                  EA.E[i].hit(hitDamage, i); 
+                }//pravý horní
+                else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y) {
+                    console.log("top right");
+                    EA.E[i].hit(hitDamage, i);
+                }//levý dolní
+                else if (attackX < EA.E[i].X && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
+                    console.log("bot left");
+                    EA.E[i].hit(hitDamage, i);
+                }//pravý dolní
+                else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
+                    console.log("bot right");
+                    EA.E[i].hit(hitDamage, i);
+                }//absoltní střed
+                else if(attackX < EA.E[i].X + (EA.E[i].width / 2) && attackY < EA.E[i].Y + (EA.E[i].height / 2)&&attackX+attackXsize > EA.E[i].X + (EA.E[i].width / 2) && attackY + attackYsize > EA.E[i].Y + (EA.E[i].height / 2)){
+                    console.log("mid");
+                    EA.E[i].hit(hitDamage, i);
+                }
+
+                attackTiming++;
+                if (attackTiming == 10) {
+                    attackHitboxOn=false;
+                    attackTiming=0;
+                }
+            }
+        }
+    }else{
+        if (attackHitboxOn) {
+            attackTiming++;
+                if (attackTiming == 10) {
+                    attackHitboxOn=false;
+                    attackTiming=0;
+                }
         }
     }
     attackDown = false;
