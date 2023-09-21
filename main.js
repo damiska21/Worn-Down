@@ -6,7 +6,7 @@ var playerHeight = 75;
 var playerWidth = 50;
 
 class entity {
-    constructor(X, Y, height, width) {
+    constructor(X, Y, height, width, hp) {
         this.X = X,
         this.Y = Y,
         this.oldX = 0,
@@ -23,8 +23,12 @@ class entity {
         this.moving = false,
         this.height = height,
         this.width = width,
+
+        this.hp = hp,
+        this.hitTimeTick = 0,
+        this.hitTime = false,
     
-        this.coyoteTime = 0,
+        this.coyoteTime = false,
         this.coyoteTimeTick = 0
     }
 
@@ -55,14 +59,19 @@ class entity {
                 break;
         }
     }
+    hit(hitpoints){
+        this.hp -= hitpoints;
+        this.hitTime = true;
+    }
+
 }
 
 class enemies {
     constructor(){
         this.E = [];
     }
-    newEnemy(X, Y, height, width){
-        let e = new entity(X, Y, height, width);
+    newEnemy(X, Y, height, width, hp){
+        let e = new entity(X, Y, height, width, hp);
         this.E.push(e);
     }
     getEnemyNum(){
@@ -148,8 +157,8 @@ function player() {
 
 }
 var EA = new enemies(); //EA znamená enemy array btw :D
-EA.newEnemy(250, 250, 75, 50);
-EA.newEnemy(350, 100, 75, 50);
+EA.newEnemy(250, 250, 75, 50, 10);
+EA.newEnemy(350, 100, 75, 50, 10);
 
 function enemy() {
     for (let i = 0; i < EA.getEnemyNum(); i++) {
@@ -174,6 +183,9 @@ var attackY = 0;
 var attackHitboxOn = false;
 var attackTiming = 0;
 var attackXsize = 100;
+var attackYsize = 75;
+
+var hitDamage = 1;
 function Attack() {
     if (attackDown && attackTiming == 0) {
         switch (facing) {
@@ -187,19 +199,40 @@ function Attack() {
                 break;
         }
     }
-    if(attackHitboxOn){
-        for (let i = 0; i < EA.getEnemyNum(); i++) {
-            console.log(EA.E[i].Y+" > "+attackY);
-            if (EA.E[i].X > attackX && EA.E[i].Y > attackY && EA.E[i].X + EA.E[i].height < attackX+attackXsize && EA.E[i].Y + 75) {
-              console.log("niga");  
+    for (let i = 0; i < EA.getEnemyNum(); i++) {
+        if(attackHitboxOn){//levý horní
+            if (attackX < EA.E[i].X && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y) {
+              console.log("top left"); 
+              EA.E[i].hit(hitDamage); 
+            }//pravý horní
+            else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y) {
+                console.log("top right");
+                EA.E[i].hit(hitDamage);
+            }//levý dolní
+            else if (attackX < EA.E[i].X && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
+                console.log("bot left");
+                EA.E[i].hit(hitDamage);
+            }//pravý dolní
+            else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
+                console.log("bot right");
+                EA.E[i].hit(hitDamage);
+            }//absoltní střed
+            else if(attackX < EA.E[i].X + (EA.E[i].width / 2) && attackY < EA.E[i].Y + (EA.E[i].height / 2)&&attackX+attackXsize > EA.E[i].X + (EA.E[i].width / 2) && attackY + attackYsize > EA.E[i].Y + (EA.E[i].height / 2)){
+                console.log("mid");
+                EA.E[i].hit(hitDamage);
+            }
+
+            attackTiming++;
+            if (attackTiming == 10) {
+                attackHitboxOn=false;
+                attackTiming=0;
             }
         }
-    }
-    if (attackHitboxOn) {
-        attackTiming++;
-        if (attackTiming == 10) {
-            attackHitboxOn=false;
-            attackTiming=0;
+        if (EA.E[i].hitTime) {
+            EA.E[i].hitTimeTick++;
+        }if (EA.E[i].hitTimeTick >=20) {
+            EA.E[i].hitTimeTick = 0;
+            EA.E[i].hitTime = false;
         }
     }
     attackDown = false;
@@ -207,7 +240,7 @@ function Attack() {
 //jenom na texturu
 function attacking(x, y) {
     c.fillStyle = "red";
-        c.fillRect(x, y, 100, 75);
+        c.fillRect(x, y, attackXsize, attackYsize);
 }
 function KeyDown(event) {
     switch(event.keyCode) {
@@ -298,7 +331,11 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     }
 
     for (let i = 0; i < EA.getEnemyNum(); i++) {
-        c.fillStyle = "black";
+        if (EA.E[i].hitTime) {
+            c.fillStyle = "purple";
+        }else{
+            c.fillStyle = "black";
+        }
         c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
     }
     window.requestAnimationFrame(draw);
