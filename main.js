@@ -62,6 +62,9 @@ class entity {
     hit(hitpoints){
         this.hp -= hitpoints;
         this.hitTime = true;
+        if (this.hp <= 0) {
+            EA.E
+        }
     }
 
 }
@@ -79,6 +82,9 @@ class enemies {
     }
     getEnemy(index){
         return this.E[index];
+    }
+    destroyEnemy(index){
+        
     }
 }
 var tile = 50;
