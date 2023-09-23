@@ -1,3 +1,42 @@
+class tilemap {
+    constructor(width, height, tilemapArray, Xpos, Ypos) {
+        this.width = width,
+        this.height = height, 
+        this.tilemapArray = tilemapArray,
+        this.Xpos = Xpos,
+        this.Ypos = Ypos
+    }
+}
+class tilemapConstructor {
+    constructor() {
+        this.A = []
+    }
+    newTilemap(width, height, tilemapArray, Xpos, Ypos) {
+        let a = new tilemap(width, height, tilemapArray, Xpos, Ypos);
+        this.A = this.A.concat(a);
+    }
+
+    drawTilemap(tilemapIndex, offset) {
+        for (let i = 0; i < sirka; i++) {
+            for (let j = 0; j < vyska; j++) {
+                if ((TM.A[tilemapIndex].tilemapArray[j][i]%10000 > 0) || TM.A[tilemapIndex].tilemapArray[j][i] == -1) {
+                    c.fillStyle = "green";
+                    if (TM.A[tilemapIndex].Xpos > 0) {
+                        c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, j*tile, tile, tile);
+                    }else {
+                        c.fillRect(i*tile-offset, j*tile, tile, tile);
+                    }
+                }
+            }
+        }
+    }
+    getTile(X, Y) {
+        //console.log(this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][Math.floor(X/this.A[0].width)] + " X: " + X + " Y: " + Y);
+        return this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][Math.floor(X%this.A[0].width)];
+    }
+}
+var TM = new tilemapConstructor(); //tm je TileMap
+
 var tilemap1 = [
 [10000, 10000, 10000, 10000, 10000, 10000, 10000, 11110, 11110, 10000],
 [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
@@ -8,8 +47,9 @@ var tilemap1 = [
 [10000, 10000, 10000, 11110, 10000, 10000, 10000, 10000, 10000, 10000],
 [11001, 10000, 10000, 10000, 10000, 11101, 10000, 10000, 10000, 11101],
 [10001, 11001, 10000, 10000, 10000, 11101, 10000, 10000, 10000, 11100],
-[10000, 10000, 10001, 10001, 10001, 11101, 10001, 10001, 10000, 10001]
+[10000, 10000, 10001, 10001, 10001, 11101, 10001, 10001, 10000, 10000]
 ];
+TM.newTilemap(10, 10, tilemap1, 0, 0);
 var tilemap2 = [
 [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
 [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
@@ -22,8 +62,45 @@ var tilemap2 = [
 [10000, 10000, 10000, 10000, 10000, 10000, 11101, 10000, 10000, 10000],
 [10001, 10001, 10001, 10001, 10001, 10001, 10001, 10001, 10001, 10001]
 ];
+TM.newTilemap(10, 10, tilemap2, 1, 0);
+TM.newTilemap(10, 10, tilemap2, 2, 0)
+var tilemap3 = [
+[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+[10001, 10001, 10001, 10001, 10001, 10001, 10001, 10001, 10001, 10001]
+    ];
+var emptyTilemap = [
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000]
+];
+
 var tilemapV = [//je nutný aby tady těch prázdnejch arrayů bylo stejně jako vyska
     [],//jinak se to zesere
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
     [],
     [],
     [],
@@ -58,24 +135,9 @@ for (let i = 0; i < vyska; i++) {
         tilemapV[i] = tilemapV[i].concat(tilemap2[i]);
 }
 
-function tilemap(offset, tilemaps){
+function tilemapDraw(offset, tilemaps){
     
-    for (let i = 0; i < sirka; i++) {
-        for (let j = 0; j < vyska; j++) {
-            if ((tilemap1[j][i]%10000 > 0) || tilemap1[j][i] == -1) {
-                c.fillStyle = "green";
-                c.fillRect(i*tile-offset, j*tile, tile, tile);
-            }
-        }
-    }
-    if (tilemaps>1) {
-        for (let i = 0; i < sirka; i++) {
-            for (let j = 0; j < vyska; j++) {
-                if ((tilemap2[j][i]%10000 > 0) || tilemap2[j][i] == -1) {
-                    c.fillStyle = "green";
-                    c.fillRect((i*tile-offset)+sirka*tile, (j*tile), tile, tile);
-                }
-            }
-        }
-    }
+   TM.drawTilemap(0, offset);
+   TM.drawTilemap(1, offset);
+   TM.drawTilemap(2, offset);
 }

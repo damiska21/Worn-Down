@@ -28,6 +28,7 @@ class entity {
         this.invulnerable = false,
         this.hitTimeTick = 0,
         this.hitTime = false,
+        this.stunTime = 0,
 
         this.moveSpeed = moveSpeed,
     
@@ -40,6 +41,9 @@ class entity {
         this.onground = false;
     }
     move(direction){
+        if (this.stunTime > 0) {
+            return;
+        }
         if (direction === undefined) {
             switch (this.moving) {
                 case "left":
@@ -92,14 +96,37 @@ class entity {
                 break;
         }
     }
-    hit(hitpoints, index){
+    hit(hitpoints, index, direction){
         if (!this.invulnerable) {
             this.hp -= hitpoints;
-            this.invulnerable = true; console.log("enemy " + index + " hp "+ this.hp);
+             console.log("enemy " + index + " hp "+ this.hp);
+            if(index != -1){
+                this.invulnerable = true;
+                this.friction = 0;
+                this.stunTime = 25;
+
+                if (direction == "left") {
+                    this.friction = -6;
+                    this.gravity = -10;
+                }else if(direction == "right"){
+                    this.friction = 6;
+                    this.gravity = -10;
+                }
+                return;
+            }
+            this.invulnerable = true;
+            if (direction == "left") {
+                this.friction = -15;
+                this.gravity = -15;
+            }else if(direction == "right"){
+                this.friction = 15;
+                this.gravity = -15;
+            }
         }
         
         this.hitTime = true;
         if (this.hp <= 0) {
+            console.log("smazán index" + index);
             EA.E.splice(index, 1);
         }
     }
@@ -110,8 +137,8 @@ class enemies {
     constructor(){
         this.E = [];
     }
-    newEnemy(X, Y, height, width, hp){
-        let e = new entity(X, Y, height, width, hp);
+    newEnemy(X, Y, height, width, hp, moveSpeed){
+        let e = new entity(X, Y, height, width, hp, moveSpeed);
         this.E.push(e);
     }
     getEnemyNum(){
@@ -124,37 +151,32 @@ class enemies {
 var tile = 50;
 var offset = 0;
 
-var friction = 0;
-var gravity = 0;
-var onground = true;
-
-var coyoteTime = false;
-var coyoteTimeTick = 0;
-
 var mezernikDown = false;
 var leftDown = false;
 var rightDown = false;
 var attackDown = false;
 var facing = "right";
 
-var oldTopCollidedX = 0;
-var oldTopCollidedY = 0;
-var oldBotCollidedX = 0;
-var oldBotCollidedY = 0;
-var botCollided = false;
-
 var player = new entity(100, 100, 75, 50, 50, 10);
-function playe() {
+function playerFunc() {
     player.oldX = player.X;
-
-    
-    
+    player.oldY = player.Y;
+    if (player.invulnerable) {
+        player.hitTimeTick--;
+    }if (player.hitTimeTick == 0) {
+        player.hitTimeTick = 10;
+        player.invulnerable = false;
+        console.log("invul stop");
+    }
     //pohyb vpravo/vlevo a friction
     if (leftDown && player.friction > - 10) {
         player.friction += -1.1;
     }
     else if (rightDown && player.friction < 10) {
         player.friction += 1.1;
+    }
+    else if (player.invulnerable) {
+        //player.friction *= 0.85;
     }
     else{
         player.friction *= 0.8;
@@ -171,9 +193,9 @@ function playe() {
     player.X += player.friction;
 
     //skok a gravitace
+    player.Y += player.gravity;
     if (!player.onground) {
         player.gravity += 1.2;
-        player.Y += player.gravity;
     }
     if (mezernikDown && (player.onground || player.coyoteTime)) {
         if (player.coyoteTime) {
@@ -195,7 +217,6 @@ function playe() {
     }if (player.X > sirka * tile) {
         
     }
-
 }
 var EA = new enemies(); //EA znamená enemy array btw :D
 //EA.newEnemy(250, 250, 75, 50, 3);
@@ -206,7 +227,11 @@ function enemy() {
         EA.E[i].oldX = EA.E[i].X;
         EA.E[i].X += EA.E[i].friction;
 
-        EA.E[i].move();
+        if (EA.E[i].stunTime > 0) {
+            EA.E[i].stunTime--;
+        }else{
+            EA.E[i].move();
+        }
 
         if (!EA.E[i].onground) {
             EA.E[i].gravity += 1.2;
@@ -223,6 +248,31 @@ function enemy() {
             EA.E[i].move("no");
             EA.E[i].move("left");
         }
+
+        //PLAYER KOLIZE - top right
+        if ((player.X + player.width > EA.E[i].X && player.X + player.width < EA.E[i].X + EA.E[i].width)/*X*/ && (player.Y >= EA.E[i].Y && player.Y < EA.E[i].Y + EA.E[i].height)) {
+            console.log("top right p hit");
+            player.hit(1, -1, "left");
+            EA.E[i].stunTime = 25;
+        }
+        //top left
+        else if((player.X > EA.E[i].X && player.X < EA.E[i].X + EA.E[i].width)/*X*/ && (player.Y >= EA.E[i].Y && player.Y < EA.E[i].Y + EA.E[i].height)){
+            console.log("top left p hit");
+            player.hit(1, -1, "right");
+            EA.E[i].stunTime = 25;
+        }
+        //bot right
+        else if ((player.X + player.width > EA.E[i].X && player.X + player.width < EA.E[i].X + EA.E[i].width)/*X*/ && (player.Y + player.height >= EA.E[i].Y && player.Y+ player.height < EA.E[i].Y + EA.E[i].height)) {
+            console.log("bot right p hit");
+            player.hit(1, -1, "left");
+            EA.E[i].stunTime = 25;
+        }
+        //bot left
+        else if ((player.X > EA.E[i].X && player.X < EA.E[i].X + EA.E[i].width)/*X*/ && (player.Y + player.height >= EA.E[i].Y && player.Y+ player.height < EA.E[i].Y + EA.E[i].height)) {
+            console.log("bot left p hit");
+            player.hit(1, -1, "right");
+            EA.E[i].stunTime = 25;
+        }
     }
 }
 var attackX = 0;
@@ -231,17 +281,18 @@ var attackHitboxOn = false;
 var attackTiming = 0;
 var attackXsize = 100;
 var attackYsize = 75;
+var invulnerableTiming = 15;//čas jak dlouho je enemy invulnerable na attacky (aby netankoval dva hity při jednom útoku hráče)
 
-var hitDamage = 1;
+var hitDamage = 1; //kolik dává damage (hp je přímo v enemy)
 function Attack() {
     if (attackDown && attackTiming == 0) {
         switch (facing) {
             case "left":
-                attackX = playerX-attackXsize; attackY = playerY;
+                attackX = player.X-attackXsize; attackY = player.Y;
                 attackHitboxOn = true;attackTiming =0;
                 break;
             case "right":
-                attackX = playerX+playerWidth; attackY = playerY;
+                attackX = player.X+player.width; attackY = player.Y;
                 attackHitboxOn = true;attackTiming =0;
                 break;
         }
@@ -251,32 +302,33 @@ function Attack() {
 
             if (EA.E[i].hitTime) {
                 EA.E[i].hitTimeTick++;
-            }if (EA.E[i].hitTimeTick >=20) {
+            }if (EA.E[i].hitTimeTick >=invulnerableTiming) {
                 EA.E[i].hitTimeTick = 0;
                 EA.E[i].hitTime = false;
                 EA.E[i].invulnerable = false;
             }
             if(attackHitboxOn){//levý horní
                 if (attackX < EA.E[i].X && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y) {
-                  EA.E[i].hit(hitDamage, i); 
+                  EA.E[i].hit(hitDamage, i, facing); 
                 }//pravý horní
                 else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y) {
-                    EA.E[i].hit(hitDamage, i);
+                    EA.E[i].hit(hitDamage, i, facing);
                 }//levý dolní
                 else if (attackX < EA.E[i].X && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
-                    EA.E[i].hit(hitDamage, i);
+                    EA.E[i].hit(hitDamage, i, facing);
                 }//pravý dolní
                 else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
-                    EA.E[i].hit(hitDamage, i);
+                    EA.E[i].hit(hitDamage, i, facing);
                 }//absoltní střed
                 else if(attackX < EA.E[i].X + (EA.E[i].width / 2) && attackY < EA.E[i].Y + (EA.E[i].height / 2)&&attackX+attackXsize > EA.E[i].X + (EA.E[i].width / 2) && attackY + attackYsize > EA.E[i].Y + (EA.E[i].height / 2)){
-                    EA.E[i].hit(hitDamage, i);
+                    EA.E[i].hit(hitDamage, i, facing);
                 }
 
                 attackTiming++;
                 if (attackTiming == 10) {
                     attackHitboxOn=false;
                     attackTiming=0;
+                    EA.E[i].invulnerable = false;
                 }
             }
         }
@@ -347,14 +399,14 @@ var moved = 1500; //hranice přechodu kamery
 var playerOffset = 900; //offset hráče od okraje obrazovky při přechodu
 var cameraOffset = 600; //offset kamery při přechodu
 function Camera() {
-    if (playerX > moved) {
+    if (player.X > moved) {
         offset += cameraOffset;
-        playerX-=moved - playerOffset;
+        player.X-=moved - playerOffset;
         offset = (Math.floor(offset*0.01))*100;
         console.log(offset);
 
-        for (let i = 0; i < enemyE.X.length; i++) {
-            enemyE.X[i]-=moved - playerOffset;
+        for (let i = 0; i < EA.E[i].length; i++) {
+            EA.E[i].X-=moved - playerOffset;
         }
     }else if (playerX < 200 && offset != 0) {
         offset -= cameraOffset;
@@ -362,8 +414,8 @@ function Camera() {
         playerX+=moved - playerOffset;
         offset = (Math.floor(offset*0.01))*100;
         console.log(offset);
-        for (let i = 0; i < 5/*niga*/ ; i++) {
-            enemyE.X+=moved - playerOffset;
+        for (let i = 0; i < EA.E[i].length; i++) {
+            EA.E[i].X+=moved - playerOffset;
         }
     }
     
@@ -378,7 +430,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     c.fillStyle = "blue";
     c.fillRect(player.X, player.Y, player.width, player.height);
 
-    tilemap(offset, 2);
+    tilemapDraw(offset, 2);
 
     if(attackHitboxOn){
         attacking(attackX, attackY);
@@ -395,7 +447,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     window.requestAnimationFrame(draw);
 }
 function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale chápeš)
-    playe();
+    playerFunc();
     player = collisionT(player, offset);
     Camera();
     Attack();
