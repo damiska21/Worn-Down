@@ -112,8 +112,15 @@ class entity {
                     this.friction = 6;
                     this.gravity = -10;
                 }
+        
+                this.hitTime = true;
+                if (this.hp <= 0) {
+                    console.log("smazán index" + index);
+                    EA.E.splice(index, 1);
+                }
                 return;
             }
+
             this.invulnerable = true;
             if (direction == "left") {
                 this.friction = -15;
@@ -122,12 +129,10 @@ class entity {
                 this.friction = 15;
                 this.gravity = -15;
             }
-        }
-        
-        this.hitTime = true;
-        if (this.hp <= 0) {
-            console.log("smazán index" + index);
-            EA.E.splice(index, 1);
+            if (this.hp <= 0) {
+                console.log("GAME OVER");
+
+            }
         }
     }
 
@@ -157,7 +162,7 @@ var rightDown = false;
 var attackDown = false;
 var facing = "right";
 
-var player = new entity(100, 100, 75, 50, 50, 10);
+var player = new entity(100, 100, 75, 50, 5, 10);
 function playerFunc() {
     player.oldX = player.X;
     player.oldY = player.Y;
@@ -396,29 +401,31 @@ function Click(event) {
     }
 }
 var moved = 1500; //hranice přechodu kamery
-var playerOffset = 900; //offset hráče od okraje obrazovky při přechodu
-var cameraOffset = 600; //offset kamery při přechodu
-function Camera() {
-    if (player.X > moved) {
-        offset += cameraOffset;
-        player.X-=moved - playerOffset;
-        offset = (Math.floor(offset*0.01))*100;
-        console.log(offset);
+var playerOffset = 500; //offset hráče od okraje obrazovky při přechodu
+var cameraOffset = 1000; //offset kamery při přechodu
+var cameraLock = false;
 
-        for (let i = 0; i < EA.E[i].length; i++) {
+function Camera() {
+    if (player.X > moved && !cameraLock) {
+        offset += cameraOffset;
+        console.log("playerX před: " + player.X)
+        player.X-= moved -playerOffset;
+        offset = (Math.floor(offset*0.01))*100;
+        console.log("playerX po: " + player.X);
+        console.log("cam pryč offset: "+offset);
+
+        for (let i = 0; i < EA.E.length; i++) {
             EA.E[i].X-=moved - playerOffset;
         }
-    }else if (playerX < 200 && offset != 0) {
+    }else if (player.X < 200 && offset != 0 && !cameraLock) {
         offset -= cameraOffset;
-        console.log(playerX - playerOffset);
         playerX+=moved - playerOffset;
         offset = (Math.floor(offset*0.01))*100;
-        console.log(offset);
-        for (let i = 0; i < EA.E[i].length; i++) {
+        console.log("cam zpět offset: "+offset);
+        for (let i = 0; i < EA.E.length; i++) {
             EA.E[i].X+=moved - playerOffset;
         }
     }
-    
 }
 
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
@@ -430,11 +437,13 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     c.fillStyle = "blue";
     c.fillRect(player.X, player.Y, player.width, player.height);
 
-    tilemapDraw(offset, 2);
 
     if(attackHitboxOn){
         attacking(attackX, attackY);
     }
+
+    
+    tilemapDraw(offset);
 
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         if (EA.E[i].hitTime) {
@@ -453,6 +462,7 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
     Attack();
     
     enemy();
+    
 }
 function slowLoop() { //loop co se spouští jednou za vteřinu
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
