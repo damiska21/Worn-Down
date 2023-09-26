@@ -229,6 +229,9 @@ EA.newEnemy(550, 300, 75, 50, 3, 3); EA.E[0].move("right");
 
 function enemy() {
     for (let i = 0; i < EA.getEnemyNum(); i++) {
+        if (EA.E[i].X < -EA.E[i].width || EA.E[i].X > window.innerWidth) {
+            continue;
+        }
         EA.E[i].oldX = EA.E[i].X;
         EA.E[i].X += EA.E[i].friction;
 
@@ -401,48 +404,64 @@ function Click(event) {
     }
 }
 var moved = 1500; //hranice přechodu kamery
+//-200
 var playerOffset = 500; //offset hráče od okraje obrazovky při přechodu
+//playerOffset se musí rovnat cameraOffset
 var cameraOffset = 1000; //offset kamery při přechodu
 var cameraLock = false;
 
+
+moved = (window.innerWidth)-400;
+if (playerOffset + cameraOffset != moved) {
+    playerOffset = (moved/3);
+    cameraOffset = (moved - playerOffset);
+    console.log("playerOffset: " + playerOffset + "  cameraOffset: " + cameraOffset);
+    console.log("moved: " + moved);
+}
 function Camera() {
     if (player.X > moved && !cameraLock) {
         offset += cameraOffset;
-        console.log("playerX před: " + player.X)
-        player.X-= moved -playerOffset;
+        player.X-= cameraOffset;
         offset = (Math.floor(offset*0.01))*100;
-        console.log("playerX po: " + player.X);
-        console.log("cam pryč offset: "+offset);
 
         for (let i = 0; i < EA.E.length; i++) {
             EA.E[i].X-=moved - playerOffset;
         }
-    }else if (player.X < 200 && offset != 0 && !cameraLock) {
+    }else if (player.X < 100 && offset != 0 && !cameraLock) {
         offset -= cameraOffset;
-        playerX+=moved - playerOffset;
+        if (offset < 0) {
+            offset = 0;
+        }
+        console.log("playerX před: " + player.X)
+        player.X+= cameraOffset;
         offset = (Math.floor(offset*0.01))*100;
         console.log("cam zpět offset: "+offset);
+        console.log("playerX po: " + player.X);
         for (let i = 0; i < EA.E.length; i++) {
             EA.E[i].X+=moved - playerOffset;
         }
     }
 }
+var harambe = new Image();
+harambe.src = "img/harambe.png";
+
+var smurfcat = new Image();
+smurfcat.src = "img/player.png";
 
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
-    c.clearRect(0, 0, canvas.width, canvas.height);
 
     c.fillStyle = "#D4FFE6";
     c.fillRect(0, 0, canvas.width, canvas.height);
 
     c.fillStyle = "blue";
-    c.fillRect(player.X, player.Y, player.width, player.height);
+    //c.fillRect(player.X, player.Y, player.width, player.height);
+    c.drawImage(smurfcat, player.X, player.Y)
 
 
     if(attackHitboxOn){
         attacking(attackX, attackY);
     }
 
-    
     tilemapDraw(offset);
 
     for (let i = 0; i < EA.getEnemyNum(); i++) {
@@ -451,7 +470,8 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         }else{
             c.fillStyle = "black";
         }
-        c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
+        //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
+        c.drawImage(harambe, EA.E[i].X, EA.E[i].Y);
     }
     window.requestAnimationFrame(draw);
 }
@@ -466,6 +486,7 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
 }
 function slowLoop() { //loop co se spouští jednou za vteřinu
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
+
 }
 
 window.addEventListener("keydown", KeyDown);
