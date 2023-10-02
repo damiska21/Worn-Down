@@ -107,7 +107,7 @@ class entity {
 
                 if (direction == "left") {
                     this.friction = -6;
-                    this.gravity = -10;
+                    this.gravity -= -10;
                 }else if(direction == "right"){
                     this.friction = 6;
                     this.gravity = -10;
@@ -425,7 +425,7 @@ function Camera() {
         offset = (Math.floor(offset*0.01))*100;
 
         for (let i = 0; i < EA.E.length; i++) {
-            EA.E[i].X-=moved - playerOffset;
+            EA.E[i].X-=cameraOffset;
         }
     }else if (player.X < 100 && offset != 0 && !cameraLock) {
         offset -= cameraOffset;
@@ -438,7 +438,7 @@ function Camera() {
         console.log("cam zpět offset: "+offset);
         console.log("playerX po: " + player.X);
         for (let i = 0; i < EA.E.length; i++) {
-            EA.E[i].X+=moved - playerOffset;
+            EA.E[i].X+=cameraOffset;
         }
     }
 }
