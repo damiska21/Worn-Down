@@ -225,7 +225,6 @@ function playerFunc() {
 }
 var EA = new enemies(); //EA znamená enemy array btw :D
 //EA.newEnemy(250, 250, 75, 50, 3);
-EA.newEnemy(550, 300, 75, 50, 3, 3); EA.E[0].move("right");
 
 function enemy() {
     for (let i = 0; i < EA.getEnemyNum(); i++) {
@@ -332,15 +331,11 @@ function Attack() {
                     EA.E[i].hit(hitDamage, i, facing);
                 }
 
-                attackTiming++;
-                if (attackTiming == 10) {
-                    attackHitboxOn=false;
-                    attackTiming=0;
-                    EA.E[i].invulnerable = false;
-                }
+                
             }
+            
         }
-    }else{
+    }
         if (attackHitboxOn) {
             attackTiming++;
                 if (attackTiming == 10) {
@@ -348,7 +343,7 @@ function Attack() {
                     attackTiming=0;
                 }
         }
-    }
+    
     attackDown = false;
 }
 //jenom na texturu
@@ -437,8 +432,10 @@ function Camera() {
         offset = (Math.floor(offset*0.01))*100;
         console.log("cam zpět offset: "+offset);
         console.log("playerX po: " + player.X);
+        player.oldX = player.X;
         for (let i = 0; i < EA.E.length; i++) {
             EA.E[i].X+=cameraOffset;
+            EA.E[i].oldX = EA.E[i].X;
         }
     }
 }

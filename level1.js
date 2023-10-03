@@ -1,5 +1,7 @@
 /*tady jsou veškerý tilemapy
 načítají se postupně tilemap1 .... chapeš
+taky by tady mohli bejt gimmics levelu
+jako třeba tile = 40 --> zmenšení velikosti dílků levelu (bacha dole uprostřed není kolize, přes jednoblok propadne)
 */
 
 var tilemap1 = [
@@ -62,3 +64,14 @@ TM.newTilemap(10, 10, tilemap2, 4, 0);
 TM.newTilemap(10, 10, tilemap3, 5, 0);
 TM.newTilemap(10, 10, tilemap1, 6, 0);
 TM.newTilemap(10, 10, tilemap3, 7, 0);
+
+
+EA.newEnemy(550, 300, 75, 50, 3, 3); EA.E[0].move("right");
+EA.newEnemy(560, 300, 75, 50, 3, 3); EA.E[1].move("right");
+EA.newEnemy(570, 300, 75, 50, 3, 3); EA.E[2].move("right");
+EA.newEnemy(580, 300, 75, 50, 3, 3); EA.E[3].move("right");
+EA.newEnemy(590, 300, 75, 50, 3, 3); EA.E[4].move("right");
+EA.newEnemy(600, 300, 75, 50, 3, 3); EA.E[5].move("right");
+EA.newEnemy(610, 300, 75, 50, 3, 3); EA.E[6].move("right");
+EA.newEnemy(620, 300, 75, 50, 3, 3); EA.E[7].move("right");
+EA.newEnemy(630, 300, 75, 50, 3, 3); EA.E[8].move("right");
