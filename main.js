@@ -214,7 +214,7 @@ function playerFunc() {
 
     if (player.Y<0) {
         player.Y=0;
-    }if (player.Y > (vyska * tile) + 50) {
+    }if (player.Y > window.innerHeight) {
         player.Y = 100;
         player.X = 100;
     }if (player.X < 0) {

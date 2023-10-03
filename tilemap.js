@@ -9,23 +9,43 @@ class tilemap {
 }
 class tilemapConstructor {
     constructor() {
-        this.A = []
+        this.A = [],
+        this.B = []
     }
     newTilemap(width, height, tilemapArray, Xpos, Ypos) {
         let a = new tilemap(width, height, tilemapArray, Xpos, Ypos);
+        if (Ypos==1) {
+            this.B = this.B.concat(a);
+            return;
+        }
         this.A = this.A.concat(a);
     }
 
-    drawTilemap(tilemapIndex, offset) {
+    drawTilemap(tilemapIndex, offset, Y) {
         //console.log("vykreslování tilemapy " + tilemapIndex + " na souřadnicích X: " + TM.A[tilemapIndex].Xpos + " Y: " + TM.A[tilemapIndex].Ypos);
-        for (let i = 0; i < sirka; i++) {
-            for (let j = 0; j < vyska; j++) {
-                if ((TM.A[tilemapIndex].tilemapArray[j][i]%10000 > 0) || TM.A[tilemapIndex].tilemapArray[j][i] == -1) {
-                    c.fillStyle = "green";
-                    if (TM.A[tilemapIndex].Xpos > 0) {
-                        c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, j*tile, tile, tile);
-                    }else {
-                        c.fillRect(i*tile-offset, j*tile, tile, tile);
+        if (Y == 0) {
+            for (let i = 0; i < sirka; i++) {
+                for (let j = 0; j < vyska; j++) {
+                    if ((TM.A[tilemapIndex].tilemapArray[j][i]%10000 > 0) || TM.A[tilemapIndex].tilemapArray[j][i] == -1) {
+                        c.fillStyle = "green";
+                        if (TM.A[tilemapIndex].Xpos > 0) {
+                            c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, j*tile, tile, tile);
+                        }else {
+                            c.fillRect(i*tile-offset, j*tile, tile, tile);
+                        }
+                    }
+                }
+            }
+        }else if (Y == 1) {
+            for (let i = 0; i < sirka; i++) {
+                for (let j = 0; j < vyska; j++) {
+                    if ((TM.A[tilemapIndex].tilemapArray[j][i]%10000 > 0) || TM.A[tilemapIndex].tilemapArray[j][i] == -1) {
+                        c.fillStyle = "green";
+                        if (TM.A[tilemapIndex].Xpos > 0) {
+                            c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, (j+(Y*TM.B[0].width))*tile, tile, tile);
+                        }else {
+                            c.fillRect(i*tile-offset, (j+(Y*TM.B[0].width))*tile, tile, tile);
+                        }
                     }
                 }
             }
@@ -33,10 +53,18 @@ class tilemapConstructor {
     }
     getTile(X, Y) {
         //console.log(this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][Math.floor(X/this.A[0].width)] + " X: " + X + " Y: " + Y);
+        if (Y>9) {
+            return this.B[Math.floor(X/TM.A[0].width)].tilemapArray[Y-10][Math.floor(X%this.A[0].width)];
+        }
         return this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][Math.floor(X%this.A[0].width)];
     }
-    getTilemapNum(){
-        return this.A.length;
+    getTilemapNum(Y){
+        if (Y == 0) {
+            return this.A.length;
+        }
+        if (Y == 1) {
+            return this.B.length;
+        }
     }
 }
 var TM = new tilemapConstructor(); //tm je TileMap
@@ -44,7 +72,7 @@ var TM = new tilemapConstructor(); //tm je TileMap
 
 var tilemapV = [//je nutný aby tady těch prázdnejch arrayů bylo stejně jako vyska
     [],//jinak se to zesere
-    [],
+    [],//actually možná ne protože tohle už nepoužívám ale nemam balls na to to smazat
     [],
     [],
     [],
@@ -83,7 +111,10 @@ nedělej jednoblokový díry
 VŮBEC
 */
 function tilemapDraw(offset){
-    for (let i = 0; i < TM.getTilemapNum(); i++) {
-       TM.drawTilemap(i, offset);
+    for (let i = 0; i < TM.getTilemapNum(0); i++) {
+       TM.drawTilemap(i, offset, 0);
+    }
+    for (let i = 0; i < TM.getTilemapNum(1); i++) {
+          TM.drawTilemap(i, offset, 1);
     }
 }
