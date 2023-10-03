@@ -153,7 +153,7 @@ class enemies {
         return this.E[index];
     }
 }
-var tile = 50;
+var tile = 47;
 var offset = 0;
 
 var mezernikDown = false;

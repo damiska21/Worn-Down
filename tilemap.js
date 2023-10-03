@@ -39,12 +39,12 @@ class tilemapConstructor {
         }else if (Y == 1) {
             for (let i = 0; i < sirka; i++) {
                 for (let j = 0; j < vyska; j++) {
-                    if ((TM.A[tilemapIndex].tilemapArray[j][i]%10000 > 0) || TM.A[tilemapIndex].tilemapArray[j][i] == -1) {
+                    if ((TM.B[tilemapIndex].tilemapArray[j][i]%10000 > 0) || TM.B[tilemapIndex].tilemapArray[j][i] == -1) {
                         c.fillStyle = "green";
-                        if (TM.A[tilemapIndex].Xpos > 0) {
-                            c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, (j+(Y*TM.B[0].width))*tile, tile, tile);
+                        if (TM.B[tilemapIndex].Xpos > 0) {
+                            c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, j*tile+(10*tile), tile, tile);
                         }else {
-                            c.fillRect(i*tile-offset, (j+(Y*TM.B[0].width))*tile, tile, tile);
+                            c.fillRect(i*tile-offset, j*tile+(10*tile), tile, tile);
                         }
                     }
                 }
