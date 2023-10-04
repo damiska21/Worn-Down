@@ -244,7 +244,7 @@ function enemy() {
         }
         EA.E[i].Y += EA.E[i].gravity;
 
-        EA.E[i] = collisionT(EA.E[i], offset);
+        EA.E[i] = collisionT(EA.E[i], offset, Yoffset);
 
         if (EA.E[i].sideCollided == "right") {
             EA.E[i].move("no");
@@ -483,7 +483,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 }
 function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale chápeš)
     playerFunc();
-    player = collisionT(player, offset);
+    player = collisionT(player, offset, Yoffset);
     Camera();
     Attack();
     

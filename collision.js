@@ -1,7 +1,7 @@
-function collisionT(entity, offset) {
+function collisionT(entity, offset, Yoffset) {
     //              poziceX  
     var topLeftX = ((entity.X+offset)-((entity.X+offset) % tile)) / tile;
-    var topLeftY = (entity.Y-(entity.Y % tile)) / tile;
+    var topLeftY = ((entity.Y+Yoffset)-((entity.Y+Yoffset) % tile)) / tile;
     var topLeftTile = TM.getTile(topLeftX, topLeftY);
 
     var botLeftX = ((entity.X+offset)-((entity.X+offset) % tile)) / tile;
