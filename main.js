@@ -404,7 +404,7 @@ var playerOffset = 500; //offset hráče od okraje obrazovky při přechodu
 var cameraOffset = 1000; //offset kamery při přechodu
 var cameraLock = false;
 
-var Ymoved = 600;
+var Ymoved = 300;
 
 var offset = 0;
 var Yoffset = 0;
@@ -442,9 +442,25 @@ function Camera() {
         }
     }
 
+//Y
     if (window.innerHeight < TM.getTilemapHeight()*tile) {
-        if (playerY > window.innerHeight-300) {
+        if (player.Y > window.innerHeight-300) {
             Yoffset += Ymoved;
+            player.Y -= Ymoved;
+            for (let i = 0; i < EA.E.length; i++) {
+                EA.E[i].Y-=Ymoved;
+                EA.E[i].oldY = EA.E[i].Y;
+            }
+        }
+        else if (Yoffset != 0) {
+            if (player.Y < 300) {
+                Yoffset -= Ymoved;
+                player.Y += Ymoved;
+                for (let i = 0; i < EA.E.length; i++) {
+                    EA.E[i].Y+=Ymoved;
+                    EA.E[i].oldY = EA.E[i].Y;
+                }
+            }
         }
     }
 }
