@@ -153,8 +153,7 @@ class enemies {
         return this.E[index];
     }
 }
-var tile = 47;
-var offset = 0;
+var tile = 50;
 
 var mezernikDown = false;
 var leftDown = false;
@@ -405,6 +404,10 @@ var playerOffset = 500; //offset hráče od okraje obrazovky při přechodu
 var cameraOffset = 1000; //offset kamery při přechodu
 var cameraLock = false;
 
+var Ymoved = 600;
+
+var offset = 0;
+var Yoffset = 0;
 
 moved = (window.innerWidth)-400;
 if (playerOffset + cameraOffset != moved) {
@@ -436,6 +439,12 @@ function Camera() {
         for (let i = 0; i < EA.E.length; i++) {
             EA.E[i].X+=cameraOffset;
             EA.E[i].oldX = EA.E[i].X;
+        }
+    }
+
+    if (window.innerHeight < TM.getTilemapHeight()*tile) {
+        if (playerY > window.innerHeight-300) {
+            Yoffset += Ymoved;
         }
     }
 }

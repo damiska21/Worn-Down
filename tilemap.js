@@ -29,9 +29,9 @@ class tilemapConstructor {
                     if ((TM.A[tilemapIndex].tilemapArray[j][i]%10000 > 0) || TM.A[tilemapIndex].tilemapArray[j][i] == -1) {
                         c.fillStyle = "green";
                         if (TM.A[tilemapIndex].Xpos > 0) {
-                            c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, j*tile, tile, tile);
+                            c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, j*tile-Yoffset, tile, tile);
                         }else {
-                            c.fillRect(i*tile-offset, j*tile, tile, tile);
+                            c.fillRect(i*tile-offset, j*tile-Yoffset, tile, tile);
                         }
                     }
                 }
@@ -42,9 +42,9 @@ class tilemapConstructor {
                     if ((TM.B[tilemapIndex].tilemapArray[j][i]%10000 > 0) || TM.B[tilemapIndex].tilemapArray[j][i] == -1) {
                         c.fillStyle = "green";
                         if (TM.B[tilemapIndex].Xpos > 0) {
-                            c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, j*tile+(10*tile), tile, tile);
+                            c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, j*tile+(10*tile)-Yoffset, tile, tile);
                         }else {
-                            c.fillRect(i*tile-offset, j*tile+(10*tile), tile, tile);
+                            c.fillRect(i*tile-offset, j*tile+(10*tile)-Yoffset, tile, tile);
                         }
                     }
                 }
@@ -65,6 +65,12 @@ class tilemapConstructor {
         if (Y == 1) {
             return this.B.length;
         }
+    }
+    getTilemapHeight(){
+        if (this.B.length > 0) {
+            return this.B[0].height + this.A[0].height;
+        }
+        return this.A[0].height;
     }
 }
 var TM = new tilemapConstructor(); //tm je TileMap

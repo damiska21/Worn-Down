@@ -5,23 +5,23 @@ function collisionT(entity, offset) {
     var topLeftTile = TM.getTile(topLeftX, topLeftY);
 
     var botLeftX = ((entity.X+offset)-((entity.X+offset) % tile)) / tile;
-    var botLeftY = ((entity.Y + entity.height +0.001)-((entity.Y + entity.height +0.001) % tile)) / tile;
+    var botLeftY = (((entity.Y+Yoffset) + entity.height +0.001)-(((entity.Y+Yoffset) + entity.height +0.001) % tile)) / tile;
     var botLeftTile = TM.getTile(botLeftX, botLeftY);
 
     var botLeftX2 = (((entity.X+offset)-((entity.X+offset) % tile))) / tile;
-    var botLeftY2 = ((entity.Y + entity.height - 5.001)-((entity.Y + entity.height - 5.001) % tile)) / tile;
+    var botLeftY2 = (((entity.Y+Yoffset) + entity.height - 5.001)-(((entity.Y+Yoffset) + entity.height - 5.001) % tile)) / tile;
     var botLeftTile2 = TM.getTile(botLeftX2, botLeftY2);
 
     var botRightX = (((entity.X+offset) + entity.width)-(((entity.X+offset) + entity.width) % tile)) / tile;
-    var botRightY = ((entity.Y + entity.height +0.001)-((entity.Y + entity.height +0.001) % tile)) / tile;
+    var botRightY = (((entity.Y+Yoffset) + entity.height +0.001)-(((entity.Y+Yoffset) + entity.height +0.001) % tile)) / tile;
     var botRightTile = TM.getTile(botRightX, botRightY);
 
     var botRightX2 = (((entity.X+offset) + entity.width)-(((entity.X+offset) + entity.width) % tile)) / tile;
-    var botRightY2 = ((entity.Y + entity.height - 5.001)-((entity.Y + entity.height - 5.001) % tile)) / tile;
+    var botRightY2 = (((entity.Y+Yoffset) + entity.height - 5.001)-(((entity.Y+Yoffset) + entity.height - 5.001) % tile)) / tile;
     var botRightTile2 = TM.getTile(botRightX2,botRightY2);
 
     var topRightX = (((entity.X+offset) + entity.width)-(((entity.X+offset) + entity.width) % tile)) / tile;
-    var topRightY = (entity.Y-(entity.Y % tile)) / tile;
+    var topRightY = ((entity.Y+Yoffset)-((entity.Y+Yoffset) % tile)) / tile;
     var topRightTile = TM.getTile(topRightX, topRightY);
     
     var topCollidedX = 0;
@@ -81,8 +81,8 @@ function collisionT(entity, offset) {
         if (entity.gravity > 0) {//jinak false
             if ((index % 10)>=1) {
                 if(playerTile === "botLeft") {
-                    if((botLeftY)*tile > entity.oldY + entity.height) {
-                        entity.Y -= (entity.Y+entity.height) % tile;
+                    if((botLeftY)*tile > entity.oldY + entity.height + Yoffset) {
+                        entity.Y -= (entity.Y+entity.height+Yoffset) % tile;
                         entity.gravity = 0;
                         entity.onground = true;
                         botCollidedX = botLeftX;
@@ -91,8 +91,8 @@ function collisionT(entity, offset) {
                     }
                 }
                 if(playerTile === "botRight"){
-                    if ((botRightY)*tile > entity.oldY + entity.height) {
-                        entity.Y -= (entity.Y+entity.height) % tile;
+                    if ((botRightY)*tile > entity.oldY + entity.height + Yoffset) {
+                        entity.Y -= (entity.Y+entity.height + Yoffset) % tile;
                         entity.gravity = 0;
                         entity.onground = true;
                         botCollidedX = botRightX;
