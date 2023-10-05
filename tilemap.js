@@ -58,6 +58,13 @@ class tilemapConstructor {
         }
         return this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][Math.floor(X%this.A[0].width)];
     }
+    setTile(X, Y, value){
+        if (Y>9) {
+            this.B[X/10].tilemapArray[Y][X] = value; return;
+        }
+        this.A[X/10].tilemapArray[Y][X] = value;
+        return;
+    }
     getTilemapNum(Y){
         if (Y == 0) {
             return this.A.length;
