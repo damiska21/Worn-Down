@@ -443,7 +443,7 @@ function Camera() {
     }
 
 //Y
-    if (window.innerHeight < TM.getTilemapHeight()*tile) {
+    if (window.innerHeight < TM.getTilemapHeight()*tile && !cameraLock) {
         if (player.Y > window.innerHeight-300) {
             Yoffset += Ymoved;
             player.Y -= Ymoved;
@@ -462,6 +462,27 @@ function Camera() {
                 }
             }
         }
+    }
+}
+function moveCamera(Xoffset, YYoffset){
+    if (Xoffset > offset) {
+        offset += Xoffset-offset;
+        player.X-= Xoffset-offset;
+        console.log(Xoffset - offset);
+        offset = Xoffset;
+
+        for (let i = 0; i < EA.E.length; i++) {
+            EA.E[i].X-=Xoffset-offset;
+        }
+    }
+    if (YYoffset < Yoffset) {
+        player.Y += Yoffset-YYoffset;
+        for (let i = 0; i < EA.E.length; i++) {
+            EA.E[i].Y-=Ymoved;
+            EA.E[i].oldY = EA.E[i].Y;
+        }
+        console.log("tr");
+        Yoffset = YYoffset;
     }
 }
 var harambe = new Image();
@@ -504,7 +525,7 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
     Attack();
     
     enemy();
-    
+    levelLoop();
 }
 function slowLoop() { //loop co se spouští jednou za vteřinu
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
