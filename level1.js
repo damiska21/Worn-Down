@@ -116,18 +116,26 @@ TM.newTilemap(10, 10, tilemapFloor3, 4, 1);
 TM.newTilemap(10, 10, tilemap51, 5, 1);
 TM.newTilemap(10, 10, tilemap61, 6, 1);
 TM.newTilemap(10, 10, tilemap71, 7, 1);
-TM.newTilemap(10, 10, tilemapFloor4, 8, 1); EA.newEnemy(4400, 725, 75, 50, 3, 3);
+TM.newTilemap(10, 10, tilemapFloor4, 8, 1); EA.newEnemy(4400, 725+Yoffset, 75, 50, 3, 3);
 TM.newTilemap(10, 10, tilemap91, 9, 1);
 
 //endwrite zařizuje nepromrdávání posledního bloku v levelu
 TM.endWrite();
 
 function levelLoop() {
-    if (player.X > 500 && offset >= 1600) {
+    if (cameraLock && player.X > 1000) {
+        cameraLock = false;
+    }
+    else if (player.X > 500 && offset >= 1600 && offset < 3000&& player.X< 1000 && !cameraLock) {
         moveCamera(2500, 0);
         cameraLock = true;
+        player.Y = 775;
+        player.X = 50;
+    }
+    if (player.X <50 && player.Y < 600) {
+        cameraLock = false;
     }
 }
 
-player.X = 2500;
+//player.X = 5000;
 player.Y = 700;
