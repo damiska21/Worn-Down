@@ -131,6 +131,7 @@ function levelLoop() {
         cameraLock = true;
         player.Y = 775;
         player.X = 50;
+        player.gravity = 0;
     }
     if (player.X <50 && player.Y < 600) {
         cameraLock = false;

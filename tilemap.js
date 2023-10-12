@@ -23,7 +23,9 @@ class tilemap {
 class tilemapConstructor {
     constructor() {
         this.A = [],
-        this.B = []
+        this.B = [],
+
+        this.low = 0//nejnižší úroveň levelu
     }
     newTilemap(width, height, tilemapArray, Xpos, Ypos) {
         let a = new tilemap(width, height, tilemapArray, Xpos, Ypos);
@@ -101,30 +103,6 @@ class tilemapConstructor {
 }
 var TM = new tilemapConstructor(); //tm je TileMap
 
-
-var tilemapV = [//je nutný aby tady těch prázdnejch arrayů bylo stejně jako vyska
-    [],//jinak se to zesere
-    [],//actually možná ne protože tohle už nepoužívám ale nemam balls na to to smazat
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    []
-];
-
 var sirka = 10;
 var vyska = 10;
 
@@ -137,16 +115,20 @@ var vyska = 10;
   -----          -----  
            top   bot    left   right
 
-blok 0 0 nesmí mít žádnou kolizy, nebude pravděpodobně fungovat
+blok 0 0 nesmí mít žádnou kolizy (kromě horní), nebude pravděpodobně fungovat
 bloky v prvním sloupci mohou mít jenom horní kolizy, boční nefunguje
 nedělej jednoblokový díry
 VŮBEC
 */
 function tilemapDraw(offset){
     for (let i = 0; i < TM.getTilemapNum(0); i++) {
-       TM.drawTilemap(i, offset, 0);
+        if ((i*sirka)*tile > offset -1600 && (i*sirka) < offset + 3000) {
+            TM.drawTilemap(i, offset, 0);
+        }
     }
     for (let i = 0; i < TM.getTilemapNum(1); i++) {
+        if ((i*sirka)*tile > offset -1600 && (i*sirka) < offset + 3000) {
           TM.drawTilemap(i, offset, 1);
+        }
     }
 }
