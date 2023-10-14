@@ -410,14 +410,14 @@ var offset = 0;
 var Yoffset = 0;
 
 moved = (window.innerWidth)-400;
-if (playerOffset + cameraOffset != moved) {
+/*if (playerOffset + cameraOffset != moved) {
     playerOffset = (moved/3);
     cameraOffset = (moved - playerOffset);
     console.log("playerOffset: " + playerOffset + "  cameraOffset: " + cameraOffset);
     console.log("moved: " + moved);
-}
+}*/
 function Camera() {
-    if (player.X > moved && !cameraLock) {
+    /*if (player.X > moved && !cameraLock) {
         offset += cameraOffset;
         player.X-= cameraOffset;
         offset = (Math.floor(offset*0.01))*100;
@@ -440,10 +440,42 @@ function Camera() {
             EA.E[i].X+=cameraOffset;
             EA.E[i].oldX = EA.E[i].X;
         }
+    }*/ 
+    if (offset < player.X - 200) {
+        offset++;
+        offset *= 1.1;
+    }else if (offset > player.X + 200) {
+        offset *= 0.9;
     }
+    if (offset < 0) {
+        offset = 0;
+    }
+    function cameraXmove(side) {
+        if (side == "right") {
+            offset += cameraOffset;
+            player.X-= cameraOffset;
+            offset = (Math.floor(offset*0.01))*100;
 
+            for (let i = 0; i < EA.E.length; i++) {
+                EA.E[i].X-=cameraOffset;
+            }
+        }
+        
+        else if (side == "right") {
+            offset -= cameraOffset;
+            if (offset < 0) {
+                offset = 0;
+            }
+            offset = (Math.floor(offset*0.01))*100;
+            player.oldX = player.X;
+            for (let i = 0; i < EA.E.length; i++) {
+            EA.E[i].X+=cameraOffset;
+            EA.E[i].oldX = EA.E[i].X;
+            }
+        }
+    }
 //Y
-    if (window.innerHeight < TM.getTilemapHeight()*tile && !cameraLock) {
+    /*if (window.innerHeight < TM.getTilemapHeight()*tile && !cameraLock) {
         if (player.Y > window.innerHeight-300) {
             Yoffset += Ymoved;
             player.Y -= Ymoved;
@@ -462,7 +494,7 @@ function Camera() {
                 }
             }
         }
-    }
+    }*/
 }
 function moveCamera(Xoffset, YYoffset){
     if (Xoffset > offset) {

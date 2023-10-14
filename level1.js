@@ -123,7 +123,7 @@ TM.newTilemap(10, 10, tilemap91, 9, 1);
 TM.endWrite();
 
 function levelLoop() {
-    if (cameraLock && player.X > 1000) {
+    /*if (cameraLock && player.X > 1000) {
         cameraLock = false;
     }
     else if (player.X > 500 && offset >= 1600 && offset < 3000&& player.X< 1000 && !cameraLock) {
@@ -135,8 +135,8 @@ function levelLoop() {
     }
     if (player.X <50 && player.Y < 600) {
         cameraLock = false;
-    }
+    }*/
 }
 
-//player.X = 5000;
+player.X = 0;
 player.Y = 700;
