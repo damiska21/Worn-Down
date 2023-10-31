@@ -329,10 +329,7 @@ function Attack() {
                 else if(attackX < EA.E[i].X + (EA.E[i].width / 2) && attackY < EA.E[i].Y + (EA.E[i].height / 2)&&attackX+attackXsize > EA.E[i].X + (EA.E[i].width / 2) && attackY + attackYsize > EA.E[i].Y + (EA.E[i].height / 2)){
                     EA.E[i].hit(hitDamage, i, facing);
                 }
-
-                
             }
-            
         }
     }
         if (attackHitboxOn) {
@@ -344,10 +341,6 @@ function Attack() {
         }
     
     attackDown = false;
-}
-//jenom na texturu
-function attacking(x, y) {
-    
 }
 function KeyDown(event) {
     switch(event.keyCode) {
@@ -403,102 +396,12 @@ function Click(event) {
 var offset = 0;
 var Yoffset = 0;
 
-/*if (playerOffset + cameraOffset != moved) {
-    playerOffset = (moved/3);
-    cameraOffset = (moved - playerOffset);
-    console.log("playerOffset: " + playerOffset + "  cameraOffset: " + cameraOffset);
-    console.log("moved: " + moved);
-}*/
 function Camera() {
-    /*if (player.X > moved && !cameraLock) {
-        offset += cameraOffset;
-        player.X-= cameraOffset;
-        offset = (Math.floor(offset*0.01))*100;
-
-        for (let i = 0; i < EA.E.length; i++) {
-            EA.E[i].X-=cameraOffset;
-        }
-    }else if (player.X < 100 && offset != 0 && !cameraLock) {
-        offset -= cameraOffset;
-        if (offset < 0) {
-            offset = 0;
-        }
-        console.log("playerX před: " + player.X)
-        player.X+= cameraOffset;
-        offset = (Math.floor(offset*0.01))*100;
-        console.log("cam zpět offset: "+offset);
-        console.log("playerX po: " + player.X);
-        player.oldX = player.X;
-        for (let i = 0; i < EA.E.length; i++) {
-            EA.E[i].X+=cameraOffset;
-            EA.E[i].oldX = EA.E[i].X;
-        }
-    }*/ 
-    if (offset < player.X - 200) {
-        var offsetNum = 25;
-        offset += offsetNum;
-    }else if (offset > player.X + 200) {
-        offset *= 0.9;
+    if(player.X - offset > window.innerWidth*0.4) {
+        offset += 5;
+    }else if(player.X - offset < window.innerWidth*0.4) {
+        offset -=5;
     }
-    if (offset < 0) {
-        offset = 0;
-    }
-    function cameraXmove(side) {
-        if (side == "right") {
-            offset += cameraOffset;
-            offset = (Math.floor(offset*0.01))*100;
-
-            for (let i = 0; i < EA.E.length; i++) {
-                
-            }
-        }
-        
-        else if (side == "right") {
-            offset -= cameraOffset;
-            if (offset < 0) {
-                offset = 0;
-            }
-            offset = (Math.floor(offset*0.01))*100;
-            
-            for (let i = 0; i < EA.E.length; i++) {
-            EA.E[i].X+=cameraOffset;
-            EA.E[i].oldX = EA.E[i].X;
-            }
-        }
-    }
-//Y
-    /*if (window.innerHeight < TM.getTilemapHeight()*tile && !cameraLock) {
-        if (player.Y > window.innerHeight-300) {
-            Yoffset += Ymoved;
-            player.Y -= Ymoved;
-            for (let i = 0; i < EA.E.length; i++) {
-                EA.E[i].Y-=Ymoved;
-                EA.E[i].oldY = EA.E[i].Y;
-            }
-        }
-        else if (Yoffset != 0) {
-            if (player.Y < 300) {
-                Yoffset -= Ymoved;
-                player.Y += Ymoved;
-                for (let i = 0; i < EA.E.length; i++) {
-                    EA.E[i].Y+=Ymoved;
-                    EA.E[i].oldY = EA.E[i].Y;
-                }
-            }
-        }
-    }*/
-}
-function moveCamera(Xoffset, YYoffset){
-    if (Xoffset > offset) {
-        offset += Xoffset-offset;
-        console.log(Xoffset - offset);
-        offset = Xoffset;
-
-        for (let i = 0; i < EA.E.length; i++) {
-            
-        }
-    }
-    
 }
 var harambe = new Image();
 harambe.src = "img/harambe.png";
