@@ -1,27 +1,27 @@
-function collisionT(entity, offset, Yoffset) {
+function collisionT(entity) {
     //              poziceX  
-    var topLeftX = ((entity.X+offset)-((entity.X+offset) % tile)) / tile;
-    var topLeftY = ((entity.Y+Yoffset)-((entity.Y+Yoffset) % tile)) / tile;
+    var topLeftX = ((entity.X)-((entity.X) % tile)) / tile;
+    var topLeftY = ((entity.Y)-((entity.Y) % tile)) / tile;
     var topLeftTile = TM.getTile(topLeftX, topLeftY);
 
-    var botLeftX = ((entity.X+offset)-((entity.X+offset) % tile)) / tile;
-    var botLeftY = (((entity.Y+Yoffset) + entity.height +0.001)-(((entity.Y+Yoffset) + entity.height +0.001) % tile)) / tile;
+    var botLeftX = ((entity.X)-((entity.X) % tile)) / tile;
+    var botLeftY = (((entity.Y) + entity.height +0.001)-(((entity.Y) + entity.height +0.001) % tile)) / tile;
     var botLeftTile = TM.getTile(botLeftX, botLeftY);
 
-    var botLeftX2 = (((entity.X+offset)-((entity.X+offset) % tile))) / tile;
-    var botLeftY2 = (((entity.Y+Yoffset) + entity.height - 5.001)-(((entity.Y+Yoffset) + entity.height - 5.001) % tile)) / tile;
+    var botLeftX2 = (((entity.X)-((entity.X) % tile))) / tile;
+    var botLeftY2 = (((entity.Y) + entity.height - 5.001)-(((entity.Y) + entity.height - 5.001) % tile)) / tile;
     var botLeftTile2 = TM.getTile(botLeftX2, botLeftY2);
 
-    var botRightX = (((entity.X+offset) + entity.width)-(((entity.X+offset) + entity.width) % tile)) / tile;
-    var botRightY = (((entity.Y+Yoffset) + entity.height +0.001)-(((entity.Y+Yoffset) + entity.height +0.001) % tile)) / tile;
+    var botRightX = (((entity.X) + entity.width)-(((entity.X) + entity.width) % tile)) / tile;
+    var botRightY = (((entity.Y) + entity.height +0.001)-(((entity.Y) + entity.height +0.001) % tile)) / tile;
     var botRightTile = TM.getTile(botRightX, botRightY);
 
-    var botRightX2 = (((entity.X+offset) + entity.width)-(((entity.X+offset) + entity.width) % tile)) / tile;
-    var botRightY2 = (((entity.Y+Yoffset) + entity.height - 5.001)-(((entity.Y+Yoffset) + entity.height - 5.001) % tile)) / tile;
+    var botRightX2 = (((entity.X) + entity.width)-(((entity.X) + entity.width) % tile)) / tile;
+    var botRightY2 = (((entity.Y) + entity.height - 5.001)-(((entity.Y) + entity.height - 5.001) % tile)) / tile;
     var botRightTile2 = TM.getTile(botRightX2,botRightY2);
 
-    var topRightX = (((entity.X+offset) + entity.width)-(((entity.X+offset) + entity.width) % tile)) / tile;
-    var topRightY = ((entity.Y+Yoffset)-((entity.Y+Yoffset) % tile)) / tile;
+    var topRightX = (((entity.X) + entity.width)-(((entity.X) + entity.width) % tile)) / tile;
+    var topRightY = ((entity.Y)-((entity.Y) % tile)) / tile;
     var topRightTile = TM.getTile(topRightX, topRightY);
     
     var topCollidedX = 0;
@@ -81,8 +81,8 @@ function collisionT(entity, offset, Yoffset) {
         if (entity.gravity > 0) {//jinak false
             if ((index % 10)>=1) {
                 if(playerTile === "botLeft") {
-                    if((botLeftY)*tile > entity.oldY + entity.height + Yoffset) {
-                        entity.Y -= (entity.Y+entity.height+Yoffset) % tile;
+                    if((botLeftY)*tile > entity.oldY + entity.height) {
+                        entity.Y -= (entity.Y+entity.height) % tile;
                         entity.gravity = 0;
                         entity.onground = true;
                         botCollidedX = botLeftX;
@@ -91,8 +91,8 @@ function collisionT(entity, offset, Yoffset) {
                     }
                 }
                 if(playerTile === "botRight"){
-                    if ((botRightY)*tile > entity.oldY + entity.height + Yoffset) {
-                        entity.Y -= (entity.Y+entity.height + Yoffset) % tile;
+                    if ((botRightY)*tile > entity.oldY + entity.height) {
+                        entity.Y -= (entity.Y+entity.height) % tile;
                         entity.gravity = 0;
                         entity.onground = true;
                         botCollidedX = botRightX;
@@ -112,16 +112,16 @@ function collisionT(entity, offset, Yoffset) {
     function rightCollision() {
         if (entity.friction < 0) { 
             if ((botLeftX != botLeftX2 || botLeftY != botLeftY2) || !entity.onground) {
-                if (entity.oldX+0.001 > ((botLeftX2*tile)-offset)) {
+                if (entity.oldX+0.001 > ((botLeftX2*tile))) {
                     if (topLeftTile%10000 >= 1000) {
                         if (topLeftX != topCollidedX && topLeftY != entity.topCollidedY) {
-                            entity.X = topLeftX*tile + tile + 0.01-offset;
+                            entity.X = topLeftX*tile + tile + 0.01;
                             entity.sideCollided = "right";
                             return true;
                         }
                     }else if(botLeftTile2%10000 >= 1000){
                         if (botLeftX2 != botCollidedX && botLeftY2 != botCollidedY) {
-                            entity.X = botLeftX2*tile + tile + 0.01-offset;
+                            entity.X = botLeftX2*tile + tile + 0.01;
                             entity.sideCollided = "right";
                             return true;
                         }
@@ -138,13 +138,13 @@ function collisionT(entity, offset, Yoffset) {
                if (entity.oldX+entity.width <= (topRightX+2)*tile - tile) {
                    if (topRightTile%1000 >=100) {
                         if (topRightX != topCollidedX && topRightX != topCollidedY) {
-                            entity.X = topRightX*tile - 0.01 - tile-offset;
+                            entity.X = topRightX*tile - 0.01 - tile;
                             entity.sideCollided = "left";
                             return true;
                         }
                    }else if(botRightTile2%1000 >=100){
                         if(botRightX2 != botCollidedX && botRightY2 != botCollidedY){
-                            entity.X = botRightX2*tile - 0.01 - tile-offset;
+                            entity.X = botRightX2*tile - 0.01 - tile;
                             entity.sideCollided = "left";
                         return true;
                         }

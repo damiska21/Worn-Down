@@ -347,8 +347,7 @@ function Attack() {
 }
 //jenom na texturu
 function attacking(x, y) {
-    c.fillStyle = "red";
-        c.fillRect(x, y, attackXsize, attackYsize);
+    
 }
 function KeyDown(event) {
     switch(event.keyCode) {
@@ -386,6 +385,9 @@ function KeyUp(event) {
         case 74://J
             attackDown = false;
             break;
+        case 27: //Esc
+            pause = !pause;
+            break;
     }
 }
 function Click(event) {
@@ -397,19 +399,10 @@ function Click(event) {
             break;
     }
 }
-var moved = 1500; //hranice přechodu kamery
-//-200
-var playerOffset = 500; //offset hráče od okraje obrazovky při přechodu
-//playerOffset se musí rovnat cameraOffset
-var cameraOffset = 1000; //offset kamery při přechodu
-var cameraLock = false;
-
-var Ymoved = 300;
 
 var offset = 0;
 var Yoffset = 0;
 
-moved = (window.innerWidth)-400;
 /*if (playerOffset + cameraOffset != moved) {
     playerOffset = (moved/3);
     cameraOffset = (moved - playerOffset);
@@ -442,8 +435,8 @@ function Camera() {
         }
     }*/ 
     if (offset < player.X - 200) {
-        offset++;
-        offset *= 1.1;
+        var offsetNum = 25;
+        offset += offsetNum;
     }else if (offset > player.X + 200) {
         offset *= 0.9;
     }
@@ -453,11 +446,10 @@ function Camera() {
     function cameraXmove(side) {
         if (side == "right") {
             offset += cameraOffset;
-            player.X-= cameraOffset;
             offset = (Math.floor(offset*0.01))*100;
 
             for (let i = 0; i < EA.E.length; i++) {
-                EA.E[i].X-=cameraOffset;
+                
             }
         }
         
@@ -467,7 +459,7 @@ function Camera() {
                 offset = 0;
             }
             offset = (Math.floor(offset*0.01))*100;
-            player.oldX = player.X;
+            
             for (let i = 0; i < EA.E.length; i++) {
             EA.E[i].X+=cameraOffset;
             EA.E[i].oldX = EA.E[i].X;
@@ -499,23 +491,14 @@ function Camera() {
 function moveCamera(Xoffset, YYoffset){
     if (Xoffset > offset) {
         offset += Xoffset-offset;
-        player.X-= Xoffset-offset;
         console.log(Xoffset - offset);
         offset = Xoffset;
 
         for (let i = 0; i < EA.E.length; i++) {
-            EA.E[i].X-=Xoffset-offset;
+            
         }
     }
-    if (YYoffset < Yoffset) {
-        player.Y += Yoffset-YYoffset;
-        for (let i = 0; i < EA.E.length; i++) {
-            EA.E[i].Y-=Ymoved;
-            EA.E[i].oldY = EA.E[i].Y;
-        }
-        console.log("tr");
-        Yoffset = YYoffset;
-    }
+    
 }
 var harambe = new Image();
 harambe.src = "img/harambe.png";
@@ -530,11 +513,12 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
     c.fillStyle = "blue";
     //c.fillRect(player.X, player.Y, player.width, player.height);
-    c.drawImage(smurfcat, player.X, player.Y)
+    c.drawImage(smurfcat, player.X-offset, player.Y-Yoffset)
 
 
     if(attackHitboxOn){
-        attacking(attackX, attackY);
+        c.fillStyle = "red";
+        c.fillRect(attackX-offset, attackY-Yoffset, attackXsize, attackYsize);
     }
 
     tilemapDraw(offset);
@@ -546,14 +530,18 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
             c.fillStyle = "black";
         }
         //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
-        c.drawImage(harambe, EA.E[i].X, EA.E[i].Y);
+        c.drawImage(harambe, EA.E[i].X-offset, EA.E[i].Y-Yoffset);
     }
     window.requestAnimationFrame(draw);
 }
+var pause = false;
 function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale chápeš)
+    if (pause) {
+        return;
+    }
     playerFunc();
     player = collisionT(player, offset, Yoffset);
-    Camera();
+    //Camera();
     Attack();
     
     enemy();

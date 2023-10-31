@@ -1,6 +1,6 @@
 /*tady jsou veškerý tilemapy
 načítají se postupně tilemap1 .... chapeš
-taky by tady mohli bejt gimmics levelu
+taky by tady mohli bejt gimmics levelu (můžou být v levelLoop (tam se spouští každý frame))
 jako třeba tile = 40 --> zmenšení velikosti dílků levelu (bacha dole uprostřed není kolize, přes jednoblok propadne)
 */
 
@@ -71,3 +71,6 @@ TM.newTilemap(10, 10, tilemap1, 0, 1);
 //EA.newEnemy(pozice X, pozice Y, Vyska, Sirka, HP, Rychlost)
 EA.newEnemy(550, 300, 75, 50, 3, 3); EA.E[0].move("right");
 EA.newEnemy(1000, 300, 75, 50, 3, 3); EA.E[1].move("right");
+function levelLoop() {
+    
+}

@@ -63,7 +63,7 @@ class tilemapConstructor {
                         }
                     }
                 }
-            }
+           }
         }
     }
     getTile(X, Y) {
