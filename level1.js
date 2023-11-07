@@ -140,3 +140,6 @@ function levelLoop() {
 
 player.X = 0;
 player.Y = 700;
+
+respawnX = 4000;
+respawnY = 200;

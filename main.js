@@ -161,6 +161,9 @@ var rightDown = false;
 var attackDown = false;
 var facing = "right";
 
+var respawnX = 0;
+var respawnY = 0;
+
 var player = new entity(100, 100, 75, 50, 5, 10);
 function playerFunc() {
     player.oldX = player.X;
@@ -207,6 +210,9 @@ function playerFunc() {
         }
         player.gravity = -17;
         player.onground = false;
+        if (player.moving != "no") {
+            player.friction *=1.5;
+        }
     }
 
     //aby nevyskočil z mapy
@@ -214,8 +220,8 @@ function playerFunc() {
     if (player.Y<0) {
         player.Y=0;
     }if (player.Y > window.innerHeight) {
-        player.Y = 100;
-        player.X = 100;
+        player.Y = respawnY;
+        player.X = respawnX;
     }if (player.X < 0) {
         player.X = 0;
     }if (player.X > sirka * tile) {
@@ -397,10 +403,20 @@ var offset = 0;
 var Yoffset = 0;
 
 function Camera() {
-    if(player.X - offset > window.innerWidth*0.4) {
+    if(player.X - offset > 700) {
         offset += 5;
-    }else if(player.X - offset < window.innerWidth*0.4) {
+    }else if(player.X - offset < 300) {
         offset -=5;
+    }if (player.X - offset < 100) {
+        offset -=5;
+    }if(player.X - offset > 1000) {
+        offset +=5;
+    }
+    if (player.X - offset < -100) {
+        offset-=20;
+    }
+    if(offset<0) {
+        offset= 0;
     }
 }
 var harambe = new Image();
@@ -444,7 +460,7 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
     }
     playerFunc();
     player = collisionT(player, offset, Yoffset);
-    //Camera();
+    Camera();
     Attack();
     
     enemy();
