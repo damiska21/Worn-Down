@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jumper JS Map Maker</title>
+        <style>
+            .grid {
+  display: grid;
+  gap: 0px;
+}
+.cell {
+  height: 50px;
+  width:50px;
+}
+.demoB {
+    height: 500px;
+    width: 500px;
+}
+        </style>
+    </head>
+    <body>
+        <div id="demoB" class="grid" contenteditable="true"></div>
+        <script>
+            // (C1) DATA ARRAY
+var data = [
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 11101, 10000],
+    [10001, 11001, 10000, 10000, 10101, 11001, 10000, 10000, 10100, 11011],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10100, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10100, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000]
+];
+             
+// (C2) SET NUMBER OF COLUMNS
+var grid = document.getElementById("demoB");
+grid.style.cssText = `grid-template-columns:repeat(${data[0].length}, minmax(0, 1fr))`;
+ function draw() {
+    try{
+    for (let i=0; i<data.length; i++) {
+  for (let j of data[i]) {
+    let cell = document.getElementById("cell");
+    cell.remove();
+  }
+}
+    }catch{}
+// (C3) FIRST ROW - HEADER
+// (C4) FOLLOWING ROWS - CELLS
+for (let i=0; i<data.length; i++) {
+  for (let j of data[i]) {
+    let cell = document.createElement("div");
+    cell.innerHTML = j;
+    cell.style.background = (j%10000 > 0) ? "green":"white";
+    cell.className = "cell";
+    grid.appendChild(cell);
+  }
+}
+ }
+ draw();
+            </script>
+    </body>
+</html>

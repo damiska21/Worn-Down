@@ -401,22 +401,35 @@ function Click(event) {
 
 var offset = 0;
 var Yoffset = 0;
-
+var cameraLock = false;
 function Camera() {
-    if(player.X - offset > 700) {
-        offset += 5;
+    if (cameraLock) {return;}
+    
+    //X kamera
+    if(player.X - offset > window.innerWidth/2) {
+        offset += 6;
     }else if(player.X - offset < 300) {
-        offset -=5;
+        offset -=6;
     }if (player.X - offset < 100) {
-        offset -=5;
-    }if(player.X - offset > 1000) {
-        offset +=5;
+        offset -=6;
+    }if(player.X - offset > (window.innerWidth/3)*2) {
+        offset +=6;
     }
     if (player.X - offset < -100) {
         offset-=20;
     }
     if(offset<0) {
         offset= 0;
+    }
+
+    //Y kamera
+    if (player.Y - Yoffset> window.innerHeight-200) {
+        Yoffset+=5;
+    }else if(player.Y - Yoffset < 300) {
+        Yoffset -=5;
+    }
+    if (Yoffset <0) {
+        Yoffset = 0;
     }
 }
 var harambe = new Image();
@@ -431,7 +444,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     c.fillRect(0, 0, canvas.width, canvas.height);
 
     c.fillStyle = "blue";
-    //c.fillRect(player.X, player.Y, player.width, player.height);
+    //c.fillRect(player.X, player.Y, player.width, player.height); //starej kód na čtverec
     c.drawImage(smurfcat, player.X-offset, player.Y-Yoffset)
 
 
@@ -468,7 +481,6 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
 }
 function slowLoop() { //loop co se spouští jednou za vteřinu
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
-
 }
 
 window.addEventListener("keydown", KeyDown);
