@@ -18,9 +18,8 @@
         </style>
     </head>
     <body>
-        <div id="demoB" class="grid" contenteditable="true"></div>
-        <script>
-            // (C1) DATA ARRAY
+        <div id="demoB" class="grid"></div>
+<script>
 var data = [
     [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
     [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
@@ -33,32 +32,49 @@ var data = [
     [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
     [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000]
 ];
-             
-// (C2) SET NUMBER OF COLUMNS
+    
 var grid = document.getElementById("demoB");
+
 grid.style.cssText = `grid-template-columns:repeat(${data[0].length}, minmax(0, 1fr))`;
- function draw() {
-    try{
+function draw() {
+  try{
     for (let i=0; i<data.length; i++) {
-  for (let j of data[i]) {
-    let cell = document.getElementById("cell");
-    cell.remove();
-  }
-}
-    }catch{}
-// (C3) FIRST ROW - HEADER
-// (C4) FOLLOWING ROWS - CELLS
+      for (let j of data[i]) {
+        document.getElementById("bb").remove();
+      }
+    }
+}catch{}
 for (let i=0; i<data.length; i++) {
   for (let j of data[i]) {
     let cell = document.createElement("div");
     cell.innerHTML = j;
     cell.style.background = (j%10000 > 0) ? "green":"white";
     cell.className = "cell";
+    cell.id = "bb";
+    cell.contentEditable = "true";
     grid.appendChild(cell);
   }
 }
- }
- draw();
-            </script>
+}
+draw();
+
+function setChangeListener (div, listener) {
+
+div.addEventListener("blur", listener);
+div.addEventListener("keyup", listener);
+div.addEventListener("paste", listener);
+div.addEventListener("copy", listener);
+div.addEventListener("cut", listener);
+div.addEventListener("delete", listener);
+div.addEventListener("mouseup", listener);
+
+}
+
+var div = document.querySelector("someDiv");
+
+setChangeListener(div, function(event){
+console.log(event);
+});
+</script>
     </body>
 </html>
