@@ -15,13 +15,18 @@
     height: 500px;
     width: 500px;
 }
+.bbb{
+width:500px;
+}
         </style>
     </head>
     <body>
+      <div id="bbb">
         <div id="demoB" class="grid"></div>
+      </div>
 <script>
 var data = [
-    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [11000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
     [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
     [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
     [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 11101, 10000],
@@ -38,9 +43,12 @@ var grid = document.getElementById("demoB");
 grid.style.cssText = `grid-template-columns:repeat(${data[0].length}, minmax(0, 1fr))`;
 function draw() {
   try{
-    for (let i=0; i<data.length; i++) {
-      for (let j of data[i]) {
-        document.getElementById("bb").remove();
+    for (let i=0; i<10; i++) {
+      for (let j =0; j<10;j++) {
+        data[i, j] = (document.getElementById("bb").innerText).toInt();
+        document.getElementById("bb");bb.remove();
+        
+       
       }
     }
 }catch{}
@@ -56,25 +64,12 @@ for (let i=0; i<data.length; i++) {
   }
 }
 }
-draw();
-
-function setChangeListener (div, listener) {
-
-div.addEventListener("blur", listener);
-div.addEventListener("keyup", listener);
-div.addEventListener("paste", listener);
-div.addEventListener("copy", listener);
-div.addEventListener("cut", listener);
-div.addEventListener("delete", listener);
-div.addEventListener("mouseup", listener);
+function check() {
 
 }
 
-var div = document.querySelector("someDiv");
-
-setChangeListener(div, function(event){
-console.log(event);
-});
+draw();
+setInterval(check, 1000);
 </script>
     </body>
 </html>

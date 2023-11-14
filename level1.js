@@ -116,9 +116,10 @@ TM.newTilemap(10, 10, tilemapFloor3, 4, 1);
 TM.newTilemap(10, 10, tilemap51, 5, 1);
 TM.newTilemap(10, 10, tilemap61, 6, 1);
 TM.newTilemap(10, 10, tilemap71, 7, 1);
-TM.newTilemap(10, 10, tilemapFloor4, 8, 1); EA.newEnemy(4400, 725+Yoffset, 75, 50, 3, 3);
+TM.newTilemap(10, 10, tilemapFloor4, 8, 1); 
 TM.newTilemap(10, 10, tilemap91, 9, 1);
 
+EA.newEnemy(4400, 700, 75, 50, 3, 3);EA.E[0].move("right");
 //endwrite zařizuje nepromrdávání posledního bloku v levelu
 TM.endWrite();
 

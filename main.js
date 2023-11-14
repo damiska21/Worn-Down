@@ -131,7 +131,7 @@ class entity {
             }
             if (this.hp <= 0) {
                 console.log("GAME OVER");
-
+                gameOver = true;
             }
         }
     }
@@ -163,6 +163,8 @@ var facing = "right";
 
 var respawnX = 0;
 var respawnY = 0;
+
+var gameOver = false;
 
 var player = new entity(100, 100, 75, 50, 5, 10);
 function playerFunc() {
@@ -233,7 +235,7 @@ var EA = new enemies(); //EA znamená enemy array btw :D
 
 function enemy() {
     for (let i = 0; i < EA.getEnemyNum(); i++) {
-        if (EA.E[i].X < -EA.E[i].width || EA.E[i].X > window.innerWidth) {
+        if (EA.E[i].X-offset > window.innerWidth) {
             continue;
         }
         EA.E[i].oldX = EA.E[i].X;
@@ -408,20 +410,25 @@ function Camera() {
     //X kamera
     if(player.X - offset > window.innerWidth/2) {
         offset += 6;
-    }else if(player.X - offset < 300) {
+        console.log(player.X-offset + " > " + (window.innerWidth/2));
+    }else if(player.X - offset < 200) {
         offset -=6;
+        console.log(player.X-offset + " < " + 200);
+    }if(player.X - offset > (window.innerWidth-100)) {
+        offset +=6;
+        console.log(player.X-offset + " > " + (window.innerWidth-100));
     }if (player.X - offset < 100) {
         offset -=6;
-    }if(player.X - offset > (window.innerWidth/3)*2) {
-        offset +=6;
+        console.log(player.X-offset + " < " + 100);
     }
     if (player.X - offset < -100) {
         offset-=20;
+        console.log(player.X-offset + " < " + -100);
     }
     if(offset<0) {
         offset= 0;
+        console.log("offset 0");
     }
-
     //Y kamera
     if (player.Y - Yoffset> window.innerHeight-200) {
         Yoffset+=5;
@@ -430,7 +437,11 @@ function Camera() {
     }
     if (Yoffset <0) {
         Yoffset = 0;
-    }
+    }/*if(player.X - offset > window.innerWidth*0.2) {
+        Yoffset += 5;
+    }else if(player.X - offset < window.innerWidth*0.2) {
+        Yoffset -=5;
+    }*/
 }
 var harambe = new Image();
 harambe.src = "img/harambe.png";
@@ -464,13 +475,18 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
         c.drawImage(harambe, EA.E[i].X-offset, EA.E[i].Y-Yoffset);
     }
+    if (pause) {
+        c.font = "30px Arial";
+        c.fillText("Pozastaveno", 10, 50);
+    }if (gameOver) {
+        c.font = "30px Arial";
+        c.fillText("Prohral jsi!", 10, 50);
+    }
     window.requestAnimationFrame(draw);
 }
 var pause = false;
 function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale chápeš)
-    if (pause) {
-        return;
-    }
+    if (pause || gameOver) {return;}
     playerFunc();
     player = collisionT(player, offset, Yoffset);
     Camera();
