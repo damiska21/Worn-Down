@@ -85,6 +85,7 @@ function collisionT(entity) {
                         entity.Y -= (entity.Y+entity.height) % tile;
                         entity.gravity = 0;
                         entity.onground = true;
+                        entity.coyoteTime = true;
                         botCollidedX = botLeftX;
                         botCollidedY = botLeftY;
                         return true;
@@ -95,6 +96,7 @@ function collisionT(entity) {
                         entity.Y -= (entity.Y+entity.height) % tile;
                         entity.gravity = 0;
                         entity.onground = true;
+                        entity.coyoteTime = true;
                         botCollidedX = botRightX;
                         botCollidedY = botRightY;
                         return true;

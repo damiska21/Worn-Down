@@ -221,7 +221,7 @@ function playerFunc() {
 
     if (player.Y<0) {
         player.Y=0;
-    }if (player.Y > window.innerHeight) {
+    }if (player.Y > window.innerHeight + 500) {
         player.Y = respawnY;
         player.X = respawnX;
     }if (player.X < 0) {
