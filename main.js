@@ -410,24 +410,24 @@ function Camera() {
     //X kamera
     if(player.X - offset > window.innerWidth/2) {
         offset += 6;
-        console.log(player.X-offset + " > " + (window.innerWidth/2));
+        //console.log(player.X-offset + " > " + (window.innerWidth/2));
     }else if(player.X - offset < 200) {
         offset -=6;
-        console.log(player.X-offset + " < " + 200);
+        //console.log(player.X-offset + " < " + 200);
     }if(player.X - offset > (window.innerWidth-100)) {
         offset +=6;
-        console.log(player.X-offset + " > " + (window.innerWidth-100));
+        //console.log(player.X-offset + " > " + (window.innerWidth-100));
     }if (player.X - offset < 100) {
         offset -=6;
-        console.log(player.X-offset + " < " + 100);
+        //console.log(player.X-offset + " < " + 100);
     }
     if (player.X - offset < -100) {
         offset-=20;
-        console.log(player.X-offset + " < " + -100);
+        //console.log(player.X-offset + " < " + -100);
     }
     if(offset<0) {
         offset= 0;
-        console.log("offset 0");
+        //console.log("offset 0");
     }
     //Y kamera
     if (player.Y - Yoffset> window.innerHeight-200) {

@@ -1,5 +1,9 @@
 function collisionT(entity) {
     //              poziceX  
+    //reference: https://github.com/pothonprogramming/pothonprogramming.github.io/tree/master/content/top-down-tiles
+
+    var leftCollumn = entity.x/tile;
+
     var topLeftX = ((entity.X)-((entity.X) % tile)) / tile;
     var topLeftY = ((entity.Y)-((entity.Y) % tile)) / tile;
     var topLeftTile = TM.getTile(topLeftX, topLeftY);
@@ -38,9 +42,9 @@ function collisionT(entity) {
         if(!leftCollision()) {   botCollision("topLeft", topLeftTile);}
     }
     rightCollision();
-    leftCollision();
+    leftCollision(leftCollumn);
     rightCollision();
-    leftCollision();
+    leftCollision(leftCollumn);
     
     if (botLeftTile%10000 == 0 && botRightTile%10000 == 0) { 
         if(entity.onground) {entity.coyoteTime = true; } entity.onground = false;
@@ -134,8 +138,8 @@ function collisionT(entity) {
         return false;
     }
 
-    function leftCollision() {
-        if (entity.friction > 0) {
+    function leftCollision(x) {
+        /*if (entity.friction > 0) {
            if (((botRightX != botRightX2) || (botRightY != botRightY2)) || !entity.onground) {
                if (entity.oldX+entity.width <= (topRightX+2)*tile - tile) {
                    if (topRightTile%1000 >=100) {
@@ -153,6 +157,17 @@ function collisionT(entity) {
                    }
                }
            }
+        }
+        return false;*/
+
+        //console.log(entity.X - entity.oldX +">"+ 0);
+        if((entity.X - entity.oldX) > 0) {
+            var left = x * tile;console.log(entity.X+entity.width+">"+left +"&&"+ entity.oldX+entity.width+ "<="+ left);
+            if (entity.X+entity.width>left && entity.oldX+entity.width <= left) {
+                entity.friction = 0;
+                entity.X = left-entity.width-0.001;
+                return true;
+            }
         }
         return false;
     }
