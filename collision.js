@@ -34,7 +34,34 @@ function collisionT(entity) {
     var botCollidedY = 0;
 
     entity.sideCollided = "no";
-    //neptej se, jsem retard
+    
+    
+
+    var leftCollumn = Math.floor((entity.X) / tile);
+    topLeft: if (topLeftTile % 10000 > 0) {
+        if (leftCollision(topLeftX)) { break topLeft;}
+        if (rightCollision()) { break topLeft;}
+        botCollision();
+    }
+    botLeft: if (botLeftTile % 10000 > 0) {
+        if (topCollision(botLeftY)) {break botLeft;}
+        if (leftCollision(botLeftX)) { break botLeft;}
+        if (rightCollision()) { break botLeft;}
+        botCollision();
+    }
+
+    topRight: if (topRightTile % 10000 > 0) {
+        if (leftCollision(topRightX)) { break topRight;}
+        if (rightCollision()) { break topRight;}
+        botCollision();
+    }
+    botRight: if (botRightTile % 10000 > 0) {
+        if (topCollision(botRightY)) {break botRight;}
+        if (leftCollision(botRightX)) { break botRight;}
+        if (rightCollision()) { break botRight;}
+        botCollision();
+    }
+/*
     if(!topCollision("botLeft", botLeftTile)){
         if(!rightCollision()) { botCollision("topRight", topRightTile);}
     }
@@ -42,13 +69,13 @@ function collisionT(entity) {
         if(!leftCollision()) {   botCollision("topLeft", topLeftTile);}
     }
 
-    var leftCollumn = Math.floor((player.X+player.width) / tile);
-    //console.log(leftCollumn);
     rightCollision();
-    leftCollision(leftCollumn);
+    if (botRightTile2%1000 >=100 || topRightTile%1000 >=100 || botRightTile%1000 >=100) {
+        leftCollision(leftCollumn);
+        console.log("negr");
+    }
     rightCollision();
-    leftCollision(leftCollumn);
-    
+    */
     if (botLeftTile%10000 == 0 && botRightTile%10000 == 0) { 
         if(entity.onground) {entity.coyoteTime = true; } entity.onground = false;
     } //padání (detekce bloků pod hráčem)
@@ -84,7 +111,20 @@ function collisionT(entity) {
         }
         return false;
     }
-    function topCollision(playerTile, index) { //pokud byla kolize provedena vrací true
+
+    function topCollision(row) {
+        if (entity.Y - entity.oldY > 0) {
+          var top = row * tile;
+          if (entity.Y + entity.height > top && entity.oldX+entity.height <= top) {
+            entity.gravity = 0;
+            entity.Y = top - entity.height - 0.01;
+            return true;
+          }
+        }
+        return false;
+      }
+
+    function topCollision1(playerTile, index) { //pokud byla kolize provedena vrací true
         if (entity.gravity > 0) {//jinak false
             if ((index % 10)>=1) {
                 if(playerTile === "botLeft") {
@@ -142,45 +182,26 @@ function collisionT(entity) {
     }
 
     function leftCollision(x) {
-        /*if (entity.friction > 0) {
-           if (((botRightX != botRightX2) || (botRightY != botRightY2)) || !entity.onground) {
-               if (entity.oldX+entity.width <= (topRightX+2)*tile - tile) {
-                   if (topRightTile%1000 >=100) {
-                        if (topRightX != topCollidedX && topRightX != topCollidedY) {
-                            entity.X = topRightX*tile - 0.01 - tile;
-                            entity.sideCollided = "left";
-                            return true;
-                        }
-                   }else if(botRightTile2%1000 >=100){
-                        if(botRightX2 != botCollidedX && botRightY2 != botCollidedY){
-                            entity.X = botRightX2*tile - 0.01 - tile;
-                            entity.sideCollided = "left";
-                        return true;
-                        }
-                   }
-               }
-           }
-        }
-        return false;*/
-
-        //console.log(entity.X - entity.oldX +">"+ 0);
         if((entity.X - entity.oldX) > 0) {
             var left = x * tile;
-            console.log(x + " * " + tile);
-            console.log(entity.X+entity.width+" > "+left +" && "+ entity.oldX+entity.width+ " <= "+ left);
-            if (entity.X + entity.width > left && entity.oldX + entity.width <= left) {
-                entity.friction = 0;
-                entity.X = left-entity.width-0.001;
-                return true;
+            if(botRightTile2%1000 >=100 || topRightTile%1000 >=100 || botRightTile%1000 >=100)
+            {
+                if ((entity.X + entity.width) > left && (entity.oldX + entity.width) <= left) {
+                    entity.friction = 0;
+                    entity.X = left-entity.width-0.001;
+                    entity.sideCollided = "left";
+                    return true;
+                }
             }
+            
         }
         return false;
     }
+
     entity.oldBotCollidedX = botCollidedX;
     entity.oldBotCollidedY = botCollidedY;
     entity.oldTopCollidedX = topCollidedX;
     entity.oldTopCollidedY = topCollidedY;
-
 
     return entity;
 }
