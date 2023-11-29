@@ -2,7 +2,7 @@ function collisionT(entity) {
     //              poziceX  
     //reference: https://github.com/pothonprogramming/pothonprogramming.github.io/tree/master/content/top-down-tiles
 
-    var leftCollumn = entity.x/tile;
+
 
     var topLeftX = ((entity.X)-((entity.X) % tile)) / tile;
     var topLeftY = ((entity.Y)-((entity.Y) % tile)) / tile;
@@ -41,6 +41,9 @@ function collisionT(entity) {
     if(!topCollision("botRight", botRightTile)){
         if(!leftCollision()) {   botCollision("topLeft", topLeftTile);}
     }
+
+    var leftCollumn = Math.floor((player.X+player.width) / tile);
+    //console.log(leftCollumn);
     rightCollision();
     leftCollision(leftCollumn);
     rightCollision();
@@ -162,8 +165,10 @@ function collisionT(entity) {
 
         //console.log(entity.X - entity.oldX +">"+ 0);
         if((entity.X - entity.oldX) > 0) {
-            var left = x * tile;console.log(entity.X+entity.width+">"+left +"&&"+ entity.oldX+entity.width+ "<="+ left);
-            if (entity.X+entity.width>left && entity.oldX+entity.width <= left) {
+            var left = x * tile;
+            console.log(x + " * " + tile);
+            console.log(entity.X+entity.width+" > "+left +" && "+ entity.oldX+entity.width+ " <= "+ left);
+            if (entity.X + entity.width > left && entity.oldX + entity.width <= left) {
                 entity.friction = 0;
                 entity.X = left-entity.width-0.001;
                 return true;
