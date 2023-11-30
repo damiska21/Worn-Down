@@ -488,7 +488,7 @@ var pause = false;
 function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale chápeš)
     if (pause || gameOver) {return;}
     playerFunc();
-    player = collisionT(player, offset, Yoffset);
+    collision(player);
     Camera();
     Attack();
     
