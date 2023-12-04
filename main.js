@@ -175,7 +175,6 @@ function playerFunc() {
     }if (player.hitTimeTick == 0) {
         player.hitTimeTick = 10;
         player.invulnerable = false;
-        console.log("invul stop");
     }
     //pohyb vpravo/vlevo a friction
     if (leftDown && player.friction > - 10) {

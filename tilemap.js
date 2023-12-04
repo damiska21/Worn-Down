@@ -1,14 +1,24 @@
 var emptyTilemap = [
-    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
-    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
-    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
-    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
-    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
-    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
-    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
-    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
-    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
-    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000]
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000],
+    [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000]
 ];
 
 class tilemap {
@@ -29,22 +39,22 @@ class tilemapConstructor {
     }
     newTilemap(width, height, tilemapArray, Xpos, Ypos) {
         let a = new tilemap(width, height, tilemapArray, Xpos, Ypos);
-        if (Ypos==1) {
-            this.B = this.B.concat(a);
+        if (Ypos==0) {
+            this.A = this.A.concat(a);
             return;
         }
-        this.A = this.A.concat(a);
+        this.B = this.B.concat(a);
     }
 
     drawTilemap(tilemapIndex, offset, Y) {
         //console.log("vykreslování tilemapy " + tilemapIndex + " na souřadnicích X: " + TM.A[tilemapIndex].Xpos + " Y: " + TM.A[tilemapIndex].Ypos);
+                        c.fillStyle = "green";
         if (Y == 0) {
             for (let i = 0; i < sirka; i++) {
                 for (let j = 0; j < vyska; j++) {
-                    if ((TM.A[tilemapIndex].tilemapArray[j][i]%10000 > 0) || TM.A[tilemapIndex].tilemapArray[j][i] == -1) {
-                        c.fillStyle = "green";
-                        if (TM.A[tilemapIndex].Xpos > 0) {
-                            c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, j*tile-Yoffset, tile, tile);
+                    if ((TM.getTile(i+(tilemapIndex*20), j)%10000 > 0) || TM.getTile(i+(tilemapIndex*20), j) == -1) {
+                        if (tilemapIndex > 0) {
+                            c.fillRect((i*tile -offset) + (TM.A[tilemapIndex].Xpos *(TM.A[tilemapIndex].width*tile)), j*tile-Yoffset, tile, tile);
                         }else {
                             c.fillRect(i*tile-offset, j*tile-Yoffset, tile, tile);
                         }
@@ -54,12 +64,11 @@ class tilemapConstructor {
         }else if (Y == 1) {
             for (let i = 0; i < sirka; i++) {
                 for (let j = 0; j < vyska; j++) {
-                    if ((TM.B[tilemapIndex].tilemapArray[j][i]%10000 > 0) || TM.B[tilemapIndex].tilemapArray[j][i] == -1) {
-                        c.fillStyle = "green";
+                    if ((TM.getTile(i, j)%10000 > 0) || TM.getTile(i, j) == -1) {
                         if (TM.B[tilemapIndex].Xpos > 0) {
                             c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, j*tile+(10*tile)-Yoffset, tile, tile);
                         }else {
-                            c.fillRect(i*tile-offset, j*tile+(10*tile)-Yoffset, tile, tile);
+                            c.fillRect(i*tile-offset, j*tile+(20*tile)-Yoffset, tile, tile);
                         }
                     }
                 }
@@ -68,16 +77,16 @@ class tilemapConstructor {
     }
     getTile(X, Y) {
         //console.log(this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][Math.floor(X/this.A[0].width)] + " X: " + X + " Y: " + Y);
-        if (Y>9) {
-            return this.B[Math.floor(X/TM.A[0].width)].tilemapArray[Y-10][Math.floor(X%this.A[0].width)];
+        if (Y>19) {
+            return this.B[Math.floor(X/TM.B[0].width)].tilemapArray[Y-20][X%this.B[0].width];
         }
-        return this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][Math.floor(X%this.A[0].width)];
+        return this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][X%20];
     }
     setTile(X, Y, value){
-        if (Y>9) {
-            this.B[X/10].tilemapArray[Y][X] = value; return;
+        if (Y>19) {
+            this.B[X/20].tilemapArray[Y][X] = value; return;
         }
-        this.A[X/10].tilemapArray[Y][X] = value;
+        this.A[X/20].tilemapArray[Y][X] = value;
         return;
     }
     getTilemapNum(Y){
@@ -95,16 +104,16 @@ class tilemapConstructor {
         return this.A[0].height;
     }
     endWrite(){
-        let a = new tilemap(10, 10, emptyTilemap, this.A.length, 0);
-        let b = new tilemap(10, 10, emptyTilemap, this.B.length, 1);
+        let a = new tilemap(20, 20, emptyTilemap, this.A.length, 0);
+        let b = new tilemap(20, 20, emptyTilemap, this.B.length, 1);
         this.A = this.A.concat(a);
         this.B = this.B.concat(b);
     }
 }
 var TM = new tilemapConstructor(); //tm je TileMap
 
-var sirka = 10;
-var vyska = 10;
+var sirka = 20;
+var vyska = 20;
 
 
 /*
@@ -121,14 +130,16 @@ nedělej jednoblokový díry
 VŮBEC
 */
 function tilemapDraw(offset){
-    for (let i = 0; i < TM.getTilemapNum(0); i++) {
-        if ((i*sirka)*tile > offset -1600 && (i*sirka) < offset + 3000) {
-            TM.drawTilemap(i, offset, 0);
+    for (let i = 0; i < TM.A.length; i++) {
+        if ((i*sirka)*tile > offset -1600 && (i*sirka) < offset + 3000) { //aby se nevykreslovalo mimo screen
+            
         }
     }
-    for (let i = 0; i < TM.getTilemapNum(1); i++) {
+    TM.drawTilemap(0, offset, 0);
+    TM.drawTilemap(1, offset, 0);
+    /*for (let i = 0; i < TM.B.length; i++) {
         if ((i*sirka)*tile > offset -1600 && (i*sirka) < offset + 3000) {
           TM.drawTilemap(i, offset, 1);
         }
-    }
+    }*/
 }

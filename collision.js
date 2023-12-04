@@ -42,7 +42,7 @@ function collision(entity) {
         botCollision();
     }
     botLeft: if (botLeftTile % 10000 > 0) {
-        if (topCollision(botLeftY)) {break botLeft;}
+        if (topCollision(botLeftY, botLeftTile)) {break botLeft;}
         if (leftCollision(botLeftX)) { break botLeft;}
         rightCollision(botLeftX)
     }
@@ -52,7 +52,7 @@ function collision(entity) {
         botCollision();
     }
     botRight: if (botRightTile % 10000 > 0) {
-        if (topCollision(botRightY)) {break botRight;}
+        if (topCollision(botRightY, botRightTile)) {break botRight;}
         if (leftCollision(botRightX)) { break botRight;}
         rightCollision(botRightX)
     }
@@ -107,16 +107,19 @@ function collision(entity) {
         return false;
     }
 
-    function topCollision(row) {
+    function topCollision(row, index) {
         if (entity.Y - entity.oldY > 0) {
-          var top = row * tile;
-          if (entity.Y + entity.height > top && entity.oldX+entity.height <= top) {
+          if ((index % 10)>=1) {
+            
+          var top = row * tile;//object.oldBottom <= top
+          if ((entity.Y + entity.height) > top && entity.oldY+entity.height <=top) {
             entity.gravity = 0;
             entity.Y = top - entity.height - 0.01;
             entity.onground = true;
             entity.coyoteTime = true;
             return true;
           }
+        }
         }
         return false;
       }
