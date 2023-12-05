@@ -35,7 +35,11 @@ class tilemapConstructor {
         this.A = [],
         this.B = [],
 
-        this.low = 0//nejnižší úroveň levelu
+        this.low = 0,//nejnižší úroveň levelu (nepoužívané)
+
+        this.respawnX = 0,
+        this.respawnY = 0,
+        this.tile = 50
     }
     newTilemap(width, height, tilemapArray, Xpos, Ypos) {
         let a = new tilemap(width, height, tilemapArray, Xpos, Ypos);
@@ -48,15 +52,15 @@ class tilemapConstructor {
 
     drawTilemap(tilemapIndex, offset, Y) {
         //console.log("vykreslování tilemapy " + tilemapIndex + " na souřadnicích X: " + TM.A[tilemapIndex].Xpos + " Y: " + TM.A[tilemapIndex].Ypos);
-                        c.fillStyle = "green";
+        c.fillStyle = "green";
         if (Y == 0) {
             for (let i = 0; i < sirka; i++) {
                 for (let j = 0; j < vyska; j++) {
                     if ((TM.getTile(i+(tilemapIndex*20), j)%10000 > 0) || TM.getTile(i+(tilemapIndex*20), j) == -1) {
                         if (tilemapIndex > 0) {
-                            c.fillRect((i*tile -offset) + (TM.A[tilemapIndex].Xpos *(TM.A[tilemapIndex].width*tile)), j*tile-Yoffset, tile, tile);
+                            c.fillRect((i*this.tile -offset) + (TM.A[tilemapIndex].Xpos *(TM.A[tilemapIndex].width*this.tile)), j*this.tile-Yoffset, this.tile, this.tile);
                         }else {
-                            c.fillRect(i*tile-offset, j*tile-Yoffset, tile, tile);
+                            c.fillRect(i*this.tile-offset, j*this.tile-Yoffset, this.tile, this.tile);
                         }
                     }
                 }
@@ -66,9 +70,9 @@ class tilemapConstructor {
                 for (let j = 0; j < vyska; j++) {
                     if ((TM.getTile(i, j)%10000 > 0) || TM.getTile(i, j) == -1) {
                         if (TM.B[tilemapIndex].Xpos > 0) {
-                            c.fillRect((i*tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*tile, j*tile+(10*tile)-Yoffset, tile, tile);
+                            c.fillRect((i*this.tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*this.tile, j*this.tile+(10*this.tile)-Yoffset, this.tile, this.tile);
                         }else {
-                            c.fillRect(i*tile-offset, j*tile+(20*tile)-Yoffset, tile, tile);
+                            c.fillRect(i*this.tile-offset, j*this.tile+(20*this.tile)-Yoffset, this.tile, this.tile);
                         }
                     }
                 }
@@ -131,14 +135,14 @@ VŮBEC
 */
 function tilemapDraw(offset){
     for (let i = 0; i < TM.A.length; i++) {
-        if ((i*sirka)*tile > offset -1600 && (i*sirka) < offset + 3000) { //aby se nevykreslovalo mimo screen
+        if ((i*sirka)*this.tile > offset -1600 && (i*sirka) < offset + 3000) { //aby se nevykreslovalo mimo screen
             
         }
     }
     TM.drawTilemap(0, offset, 0);
     TM.drawTilemap(1, offset, 0);
     /*for (let i = 0; i < TM.B.length; i++) {
-        if ((i*sirka)*tile > offset -1600 && (i*sirka) < offset + 3000) {
+        if ((i*sirka)*this.tile > offset -1600 && (i*sirka) < offset + 3000) {
           TM.drawTilemap(i, offset, 1);
         }
     }*/

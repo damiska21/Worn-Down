@@ -4,35 +4,30 @@ function collision(entity) {
 
 
 
-    var topLeftX = ((entity.X)-((entity.X) % tile)) / tile;
-    var topLeftY = ((entity.Y)-((entity.Y) % tile)) / tile;
+    var topLeftX = ((entity.X)-((entity.X) % TM.tile)) / TM.tile;
+    var topLeftY = ((entity.Y)-((entity.Y) % TM.tile)) / TM.tile;
     var topLeftTile = TM.getTile(topLeftX, topLeftY);
 
-    var botLeftX = ((entity.X)-((entity.X) % tile)) / tile;
-    var botLeftY = (((entity.Y) + entity.height +0.001)-(((entity.Y) + entity.height +0.001) % tile)) / tile;
+    var botLeftX = ((entity.X)-((entity.X) % TM.tile)) / TM.tile;
+    var botLeftY = (((entity.Y) + entity.height +0.001)-(((entity.Y) + entity.height +0.001) % TM.tile)) / TM.tile;
     var botLeftTile = TM.getTile(botLeftX, botLeftY);
 
-    var botLeftX2 = (((entity.X)-((entity.X) % tile))) / tile;
-    var botLeftY2 = (((entity.Y) + entity.height - 5.001)-(((entity.Y) + entity.height - 5.001) % tile)) / tile;
-    var botLeftTile2 = TM.getTile(botLeftX2, botLeftY2);
+    var midLeftX = (((entity.X)-((entity.X) % TM.tile))) / TM.tile;
+    var midLeftY = (((entity.Y) + entity.height/2)-(((entity.Y) + entity.height/2) % TM.tile)) / TM.tile;
+    var midLeftTile = TM.getTile(midLeftX, midLeftY);
 
-    var botRightX = (((entity.X) + entity.width)-(((entity.X) + entity.width) % tile)) / tile;
-    var botRightY = (((entity.Y) + entity.height +0.001)-(((entity.Y) + entity.height +0.001) % tile)) / tile;
+    var botRightX = (((entity.X) + entity.width)-(((entity.X) + entity.width) % TM.tile)) / TM.tile;
+    var botRightY = (((entity.Y) + entity.height +0.001)-(((entity.Y) + entity.height +0.001) % TM.tile)) / TM.tile;
     var botRightTile = TM.getTile(botRightX, botRightY);
 
-    var botRightX2 = (((entity.X) + entity.width)-(((entity.X) + entity.width) % tile)) / tile;
-    var botRightY2 = (((entity.Y) + entity.height - 5.001)-(((entity.Y) + entity.height - 5.001) % tile)) / tile;
-    var botRightTile2 = TM.getTile(botRightX2,botRightY2);
+    var midRightX = (((entity.X) + entity.width)-(((entity.X) + entity.width) % TM.tile)) / TM.tile;
+    var midRightY = (((entity.Y) + entity.height/2)-(((entity.Y) + entity.height/2) % TM.tile)) / TM.tile;
+    var midRightTile = TM.getTile(midRightX, midRightY);
 
-    var topRightX = (((entity.X) + entity.width)-(((entity.X) + entity.width) % tile)) / tile;
-    var topRightY = ((entity.Y)-((entity.Y) % tile)) / tile;
+    var topRightX = (((entity.X) + entity.width)-(((entity.X) + entity.width) % TM.tile)) / TM.tile;
+    var topRightY = ((entity.Y)-((entity.Y) % TM.tile)) / TM.tile;
     var topRightTile = TM.getTile(topRightX, topRightY);
     
-    var topCollidedX = 0;
-    var topCollidedY = 0;
-    var botCollidedX = 0;
-    var botCollidedY = 0;
-
     entity.sideCollided = "no";
     entity.onground = false;
 
@@ -53,12 +48,13 @@ function collision(entity) {
         leftCollision(botRightX);
     }
 
-    botLeft: if (botLeftTile2 % 10000 > 0) {
-        rightCollision(botLeftX2);
+    botLeft: if (midLeftTile % 10000 > 0) {
+        rightCollision(midLeftX);
     }
-    botRight: if (botRightTile2% 10000 > 0) {
-        leftCollision(botRightX2);
+    botRight: if (midRightTile% 10000 > 0) {
+        leftCollision(midRightX);
     }
+
     if (entity.coyoteTime) { //coyote time je 160 ms
         if (entity.coyoteTimeTick < 10) {
             entity.coyoteTimeTick++;
@@ -67,32 +63,9 @@ function collision(entity) {
             entity.coyoteTimeTick = 0;
         }
     }
-    
-    /*function botCollision(playerTile, index) {
-        if (entity.gravity < 0 && !entity.botCollided) {
-            if (index%100 >= 10) {
-                if (playerTile === "topRight") {
-                    //if ((topRightY*(tile+2)) > oldPlayerY) {
-                        entity.Y += tile - (entity.Y % tile);
-                        topCollidedX = topRightX;
-                        topCollidedY = topRightY;
-                        entity.botCollided = true;
-                        return true;
-                    //}
-                }else if (playerTile === "topLeft") {
-                    entity.Y += tile - (entity.Y % tile);
-                    topCollidedX = topLeftX;
-                    topCollidedY = topLeftY;
-                    entity.botCollided = true;
-                    return true;
-                }
-            }
-        }
-        return false;
-    }*/
     function botCollision(row) {
         if (entity.Y - entity.oldY < 0) {
-          var bottom = (row + 1) * tile;
+          var bottom = (row + 1) * TM.tile;
           if (entity.Y < bottom && entity.oldY >= bottom) {
             entity.Y = bottom;
           }
@@ -102,7 +75,7 @@ function collision(entity) {
         if (entity.Y - entity.oldY > 0) {
           if ((index % 10)>=1) {
             
-          var top = row * tile;//object.oldBottom <= top
+          var top = row * TM.tile;//object.oldBottom <= top
           if ((entity.Y + entity.height) > top && entity.oldY+entity.height <=top) {
             entity.gravity = 0;
             entity.Y = top - entity.height - 0.01;
@@ -116,13 +89,13 @@ function collision(entity) {
       }
     function rightCollision(column) {
         if (entity.X - entity.oldX < 0) {
-          if(botLeftTile%10000 >= 1000 || botLeftTile2%10000 >= 1000 || topLeftTile%10000 >= 1000) {
-            var right = (column + 1) * tile;
-            console.log(entity.oldX + " >= " + right + "  X " + entity.X + " < " + right);
+          if(botLeftTile%10000 >= 1000 || midLeftTile%10000 >= 1000 || topLeftTile%10000 >= 1000) {
+            var right = (column + 1) * TM.tile;
+            //console.log(entity.oldX + " >= " + right + "  X " + entity.X + " < " + right);
             if (entity.X < right && entity.oldX+2 >= right) {
                 entity.friction = 0;
                 entity.X = right;
-                console.log("bb");
+                entity.sideCollided = "right";
                 return true;
               }
           }
@@ -131,8 +104,8 @@ function collision(entity) {
       }
     function leftCollision(x) {
         if((entity.X - entity.oldX) > 0) {
-            var left = x * tile;
-            if(botRightTile2%1000 >=100 || topRightTile%1000 >=100 || botRightTile%1000 >=100)
+            var left = x * TM.tile;
+            if(midRightTile%1000 >=100 || topRightTile%1000 >=100 || botRightTile%1000 >=100)
             {
                 if ((entity.X + entity.width) > left && (entity.oldX + entity.width-2) <= left) {
                     entity.friction = 0;
