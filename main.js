@@ -4,6 +4,7 @@ var mezernikDown = false;
 var leftDown = false;
 var rightDown = false;
 var attackDown = false;
+var KabilityDown = false;
 var facing = "right";
 
 var gameOver = false;
@@ -26,6 +27,8 @@ function KeyDown(event) {
             rightDown = true;facing = "right"; break;
         case 74: //J
             attackDown = true; break;
+        case 75:/*K*/ 
+            KabilityDown = true; break;
     }
 }
 function KeyUp(event) {
@@ -35,7 +38,8 @@ function KeyUp(event) {
         case 65:/*A*/ leftDown = false;   break;
         case 68:/*D*/ rightDown = false;  break;
         case 74:/*J*/ attackDown = false; break;
-        case 27: /*Esc*/ pause = !pause;  break;
+        case 27:/*Esc*/ pause = !pause;  break;
+        case 75:/*K*/ KabilityDown = false; break;
     }
 }
 function Click(event) {

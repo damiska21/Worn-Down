@@ -279,6 +279,43 @@ function Attack() {
 
 //#region PLAYER
 var player = new entity(100, 100, 75, 50, 5, 10);
+
+var dashDuration = 0;
+var dashVelocity = 0;
+var dashDirection = "no";
+var abilityOn = false;
+
+function ability(ability1/*, ability2*/) {
+    console.log("KablilityDown" + KabilityDown + "  abilityOn" + abilityOn + "  dashDuration" + dashDuration + "  vel" + dashVelocity);
+    if (KabilityDown && !abilityOn) {
+        switch (ability1) {
+            case "dash":
+                abilityOn=true;
+                dashDuration = 30;
+                break;
+        }
+    }
+
+    if (abilityOn && dashDuration > 0) {
+        dashDuration--;
+        if (ability1 == "dash") {
+            if (dashDuration < 11) {
+                dashVelocity -= 2;
+            }else if(dashDuration > 20) {
+                dashVelocity+=2;
+            }
+        }
+    }if (abilityOn && dashDuration <= 0) {
+        abilityOn = false;
+        dashVelocity = 0;
+    }
+    if (abilityOn) {
+        player.X += dashVelocity;
+        player.gravity = 0;
+    }
+    
+}
+
 function playerFunc() {
     player.oldX = player.X;
     player.oldY = player.Y;
@@ -340,5 +377,6 @@ function playerFunc() {
     }if (player.X > sirka * TM.tile) {
         
     }
+    ability("dash");
 }
 //#endregion

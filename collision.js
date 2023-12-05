@@ -83,7 +83,7 @@ function collision(entity) {
             entity.coyoteTime = true;
             return true;
           }
-        }
+         }
         }
         return false;
       }
