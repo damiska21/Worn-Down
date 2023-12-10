@@ -99,7 +99,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
     c.fillStyle = "blue";
     //c.fillRect(player.X, player.Y, player.width, player.height); //starej kód na čtverec
-    c.drawImage(smurfcat, player.X-offset, player.Y-Yoffset)
+    if(dashDuration == 0){c.drawImage(smurfcat, player.X-offset, player.Y-Yoffset)}
 
 
     if(attackHitboxOn){

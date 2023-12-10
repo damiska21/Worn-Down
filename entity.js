@@ -284,14 +284,19 @@ var dashDuration = 0;
 var dashVelocity = 0;
 var dashDirection = "no";
 var abilityOn = false;
+class ability {
+    constructor(){
 
-function ability(ability1/*, ability2*/) {
-    console.log("KablilityDown" + KabilityDown + "  abilityOn" + abilityOn + "  dashDuration" + dashDuration + "  vel" + dashVelocity);
+    }
+}
+function abilityFunc(ability1/*, ability2*/) {
+    //console.log("KablilityDown" + KabilityDown + "  abilityOn" + abilityOn + "  dashDuration" + dashDuration + "  vel" + dashVelocity);
     if (KabilityDown && !abilityOn) {
         switch (ability1) {
             case "dash":
                 abilityOn=true;
-                dashDuration = 15;
+                dashDuration = 10;
+                KabilityDown = false;
                 break;
         }
     }
@@ -299,18 +304,18 @@ function ability(ability1/*, ability2*/) {
     if (abilityOn && dashDuration > 0) {
         dashDuration--;
         if (ability1 == "dash") {
-            if (dashDuration < 10) {
-                dashVelocity -= 2;
-            }else if(dashDuration > 10) {
-                dashVelocity+=2;
-            }
+            
         }
     }if (abilityOn && dashDuration <= 0) {
         abilityOn = false;
         dashVelocity = 0;
     }
     if (abilityOn) {
-        player.friction += dashVelocity;
+        if (dashDuration > 5) {
+            player.friction += 15;
+        }else{
+            player.friction += 5;
+        }
         player.gravity = 0;
     }
     
@@ -377,6 +382,6 @@ function playerFunc() {
     }if (player.X > sirka * TM.tile) {
         
     }
-    ability("dash");
+    abilityFunc("dash");
 }
 //#endregion
