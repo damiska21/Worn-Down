@@ -291,7 +291,7 @@ function ability(ability1/*, ability2*/) {
         switch (ability1) {
             case "dash":
                 abilityOn=true;
-                dashDuration = 30;
+                dashDuration = 15;
                 break;
         }
     }
@@ -299,9 +299,9 @@ function ability(ability1/*, ability2*/) {
     if (abilityOn && dashDuration > 0) {
         dashDuration--;
         if (ability1 == "dash") {
-            if (dashDuration < 11) {
+            if (dashDuration < 10) {
                 dashVelocity -= 2;
-            }else if(dashDuration > 20) {
+            }else if(dashDuration > 10) {
                 dashVelocity+=2;
             }
         }
@@ -310,7 +310,7 @@ function ability(ability1/*, ability2*/) {
         dashVelocity = 0;
     }
     if (abilityOn) {
-        player.X += dashVelocity;
+        player.friction += dashVelocity;
         player.gravity = 0;
     }
     

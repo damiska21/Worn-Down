@@ -1,9 +1,8 @@
 function collision(entity) {
-    //              poziceX  
     //reference: https://github.com/pothonprogramming/pothonprogramming.github.io/tree/master/content/top-down-tiles
 
-
-
+//#region POČTY
+//tahle matika by asi šla zlepšit ale na to jsem moc línej
     var topLeftX = ((entity.X)-((entity.X) % TM.tile)) / TM.tile;
     var topLeftY = ((entity.Y)-((entity.Y) % TM.tile)) / TM.tile;
     var topLeftTile = TM.getTile(topLeftX, topLeftY);
@@ -30,7 +29,9 @@ function collision(entity) {
     
     entity.sideCollided = "no";
     entity.onground = false;
+//#endregion
 
+//#region spouštění funkcí
     topLeft: if (topLeftTile % 10000 > 0) {
         if (rightCollision(topLeftX)) { break topLeft;}
         botCollision(topLeftY);
@@ -48,10 +49,10 @@ function collision(entity) {
         leftCollision(botRightX);
     }
 
-    botLeft: if (midLeftTile % 10000 > 0) {
+    if (midLeftTile % 10000 > 0) {
         rightCollision(midLeftX);
     }
-    botRight: if (midRightTile% 10000 > 0) {
+    if (midRightTile% 10000 > 0) {
         leftCollision(midRightX);
     }
 
@@ -63,6 +64,9 @@ function collision(entity) {
             entity.coyoteTimeTick = 0;
         }
     }
+    //#endregion
+
+    //#region FUNKCE
     function botCollision(row) {
         if (entity.Y - entity.oldY < 0) {
           var bottom = (row + 1) * TM.tile;
@@ -95,7 +99,7 @@ function collision(entity) {
             if (entity.X < right && entity.oldX+2 >= right) {
                 entity.friction = 0;
                 entity.X = right;
-                entity.sideCollided = "right";
+                entity.sideCollided = "right"; //tohle je pro nepřítele aby věděli kdy se otočit
                 return true;
               }
           }
@@ -118,5 +122,6 @@ function collision(entity) {
         }
         return false;
     }
+    //#endregion
     return entity;
 }
