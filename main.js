@@ -4,7 +4,7 @@ var mezernikDown = false;
 var leftDown = false;
 var rightDown = false;
 var attackDown = false;
-var KabilityDown = false;
+var skillDown = false;
 var facing = "right";
 
 var gameOver = false;
@@ -20,15 +20,17 @@ function KeyDown(event) {
         case 32://mezernik
             mezernikDown = true; break;
         case 87://W
-            mezernikDown = true;facing="up"; break;
+            mezernikDown = true; facing="up"; break;
         case 65://A
             leftDown = true;facing = "left"; break;
         case 68://D
             rightDown = true;facing = "right"; break;
+        case 83: //S
+            facing = "down";break;//tady stačí vědět že míří dolů pro útok
         case 74: //J
             attackDown = true; break;
         case 75:/*K*/ 
-            KabilityDown = true; break;
+        skillDown = true; break;
     }
 }
 function KeyUp(event) {
@@ -39,7 +41,7 @@ function KeyUp(event) {
         case 68:/*D*/ rightDown = false;  break;
         case 74:/*J*/ attackDown = false; break;
         case 27:/*Esc*/ pause = !pause;  break;
-        case 75:/*K*/ KabilityDown = false; break;
+        case 75:/*K*/ skillDown = false; break;
     }
 }
 function Click(event) {
@@ -99,12 +101,15 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
     c.fillStyle = "blue";
     //c.fillRect(player.X, player.Y, player.width, player.height); //starej kód na čtverec
-    if(dashDuration == 0){c.drawImage(smurfcat, player.X-offset, player.Y-Yoffset)}
+    c.drawImage(smurfcat, player.X-offset, player.Y-Yoffset)
 
 
-    if(attackHitboxOn){
+    if(playerAttack.hitboxOn){
         c.fillStyle = "red";
-        c.fillRect(attackX-offset, attackY-Yoffset, attackXsize, attackYsize);
+        c.fillRect(playerAttack.X-offset, playerAttack.Y-Yoffset, playerAttack.activeXsize, playerAttack.activeYsize);
+    }if (playerSkill.hitboxOn) {
+        c.fillStyle = "black";
+        c.fillRect(playerSkill.X-offset, playerSkill.Y-Yoffset, playerSkill.Xsize, playerSkill.Ysize);
     }
 
     tilemapDraw(offset);
@@ -133,6 +138,7 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
     collision(player);
     Camera();
     Attack();
+    Skill();
     enemy();
     levelLoop();
 }

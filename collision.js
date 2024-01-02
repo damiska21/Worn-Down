@@ -1,5 +1,5 @@
 function collision(entity) {
-    //reference: https://github.com/pothonprogramming/pothonprogramming.github.io/tree/master/content/top-down-tiles
+//reference: https://github.com/pothonprogramming/pothonprogramming.github.io/tree/master/content/top-down-tiles
 
 //#region POČTY
 //tahle matika by asi šla zlepšit ale na to jsem moc línej
@@ -66,7 +66,7 @@ function collision(entity) {
     }
     //#endregion
 
-    //#region FUNKCE
+ //#region FUNKCE
     function botCollision(row) {
         if (entity.Y - entity.oldY < 0) {
           var bottom = (row + 1) * TM.tile;

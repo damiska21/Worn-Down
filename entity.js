@@ -106,6 +106,8 @@ class entity {
                 }else if(direction == "right"){
                     this.friction = 6;
                     this.gravity = -10;
+                }else if(direction == "up"){
+                    this.gravity = -10;
                 }
         
                 this.hitTime = true;
@@ -149,7 +151,7 @@ class enemies {
     }
 }
 //#endregion
-
+//funkce attack je v enemy
 //#region ENEMY
 
 
@@ -214,112 +216,129 @@ function enemy() {
         //#endregion
     }
 }
-var attackX = 0;
-var attackY = 0;
-var attackHitboxOn = false;
-var attackTiming = 0;
-var attackXsize = 100;
-var attackYsize = 75;
-var invulnerableTiming = 15;//čas jak dlouho je enemy invulnerable na attacky (aby netankoval dva hity při jednom útoku hráče)
+class attackHandler {
+    constructor(mainAttack, Xoffset, Yoffset, Xsize, Ysize){
+        this.X = 0,
+        this.Y = 0,
+        this.hitboxOn = false,
+        this.attackTiming = 0,
+        this.Xsize = Xsize,
+        this.Ysize = Ysize,
 
-var hitDamage = 1; //kolik dává damage (hp je přímo v enemy)
-function Attack() {
-    if (attackDown && attackTiming == 0) {
-        switch (facing) {
+        this.attackXsize = 150,
+        this.attackYsize = 25,
+        this.attackXsize2 = 25,
+        this.attackYsize2 = 150,
+        this.activeFacing = "left", //aby hráč nemohl měnit směr útoku uprostřed normálního útoku což nefunguje směr ze strany nahoru a zpátky
+        this.mainAttack = mainAttack,
+
+        this.invulnerableTiming = 15,//čas jak dlouho je enemy invulnerable na this.Y (aby netankoval dva hity při jednom útoku hráče)
+        this.Xoffset = Xoffset,
+        this.Yoffset = Yoffset
+    }
+    start(facing, entity, keyBool){
+        if (!keyBool || this.attackTiming != 0) {return;}//pokud se nespouští attack okamžitě vrátí funkci
+        this.hitboxOn = true;this.attackTiming = 0;//spouští časování délky útoku
+        //#region Main Attack
+        if (this.mainAttack){
+            switch (facing) {
+                case "left":
+                    this.X = entity.X-this.Xsize; this.Y = entity.Y+30;
+                    this.Xsize = this.attackXsize; this.Ysize = this.attackYsize; this.activeFacing = "left";
+                    break;
+                case "right":
+                    this.X = entity.X+entity.width; this.Y = entity.Y+30;
+                    this.Xsize = this.attackXsize; this.Ysize = this.attackYsize; this.activeFacing = "right";
+                    break;
+                case "up":
+                    this.X = entity.X + 10; this.Y = entity.Y - this.attackYsize2;
+                    this.Xsize = this.attackXsize2; this.Ysize = this.attackYsize2; this.activeFacing = "up";
+                    break;
+                case "down":
+                    this.X = entity.X + 10; this.Y = entity.Y + entity.height;
+                    this.Xsize = this.attackXsize2; this.Ysize = this.attackYsize2; this.activeFacing = "down";
+                    break;}return;}//skvělej řádek
+            //#endregion
+        this.X = entity.X+this.Xoffset;this.Y = entity.Y+this.Yoffset;
+    }
+    moveCheck(entity){
+        if(playerAttack.attackTiming == 0) {return;}
+        switch (this.activeFacing) {
             case "left":
-                attackX = player.X-attackXsize; attackY = player.Y;
-                attackHitboxOn = true;attackTiming =0;
+                this.X = entity.X-this.Xsize; this.Y = entity.Y+30;
                 break;
             case "right":
-                attackX = player.X+player.width; attackY = player.Y;
-                attackHitboxOn = true;attackTiming =0;
+                this.X = entity.X+entity.width; this.Y = entity.Y+30;
+                break;
+            case "up":
+                this.X = entity.X + 10; this.Y = entity.Y - this.attackYsize2;
+                break;
+            case "down":
+                this.X = entity.X + 10; this.Y = entity.Y + entity.height;
                 break;
         }
     }
+    hitCheck(i, entity){
+        //levý horní
+        if (this.X < entity.X && this.Y < entity.Y &&this.X+this.Xsize > entity.X && this.Y + this.Ysize > entity.Y) {
+            entity.hit(hitDamage, i, facing); 
+          }//pravý horní
+          else if (this.X < entity.X + entity.width && this.Y < entity.Y &&this.X+this.Xsize > entity.X + entity.width && this.Y + this.Ysize > entity.Y) {
+              entity.hit(hitDamage, i, facing);
+          }//levý dolní
+          else if (this.X < entity.X && this.Y < entity.Y + entity.height &&this.X+this.Xsize > entity.X && this.Y + this.Ysize > entity.Y + entity.height) {
+              entity.hit(hitDamage, i, facing);
+          }//pravý dolní
+          else if (this.X < entity.X + entity.width && this.Y < entity.Y + entity.height &&this.X+this.Xsize > entity.X + entity.width && this.Y + this.Ysize > entity.Y + entity.height) {
+              entity.hit(hitDamage, i, facing);
+          }//absolutní střed
+          else if(this.X < entity.X + (entity.width / 2) && this.Y < entity.Y + (entity.height / 2)&&this.X+this.Xsize > entity.X + (entity.width / 2) && this.Y + this.Ysize > entity.Y + (entity.height / 2)){
+              entity.hit(hitDamage, i, facing);
+          }
+    }
+    tick(){
+        if (!this.hitboxOn) {return;}
+        this.attackTiming++;
+        if (this.attackTiming == 10) {
+            this.hitboxOn=false;
+            this.attackTiming=0;
+        }
+    }
+}
+var playerAttack = new attackHandler(true, 0, 0, 0, 0);
+var playerSkill = new attackHandler(false, -150, -100, 350, 200);
+
+var hitDamage = 1; //kolik dává damage (hp je přímo v enemy)
+function Attack() {
+    playerAttack.start(facing, player, attackDown); //checkuje jestli se začíná attack
+    playerAttack.moveCheck(player); //checkuje jestli je potřeba pohnout s existujícím attackem
+
     if (EA.getEnemyNum() > 0) {
         for (let i = 0; i < EA.getEnemyNum(); i++) {
-
             if (EA.E[i].hitTime) {
                 EA.E[i].hitTimeTick++;
-            }if (EA.E[i].hitTimeTick >=invulnerableTiming) {
+            }if (EA.E[i].hitTimeTick >=playerAttack.invulnerableTiming) {
                 EA.E[i].hitTimeTick = 0;
                 EA.E[i].hitTime = false;
                 EA.E[i].invulnerable = false;
             }
-            if(attackHitboxOn){//levý horní
-                if (attackX < EA.E[i].X && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y) {
-                  EA.E[i].hit(hitDamage, i, facing); 
-                }//pravý horní
-                else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y) {
-                    EA.E[i].hit(hitDamage, i, facing);
-                }//levý dolní
-                else if (attackX < EA.E[i].X && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
-                    EA.E[i].hit(hitDamage, i, facing);
-                }//pravý dolní
-                else if (attackX < EA.E[i].X + EA.E[i].width && attackY < EA.E[i].Y + EA.E[i].height &&attackX+attackXsize > EA.E[i].X + EA.E[i].width && attackY + attackYsize > EA.E[i].Y + EA.E[i].height) {
-                    EA.E[i].hit(hitDamage, i, facing);
-                }//absoltní střed
-                else if(attackX < EA.E[i].X + (EA.E[i].width / 2) && attackY < EA.E[i].Y + (EA.E[i].height / 2)&&attackX+attackXsize > EA.E[i].X + (EA.E[i].width / 2) && attackY + attackYsize > EA.E[i].Y + (EA.E[i].height / 2)){
-                    EA.E[i].hit(hitDamage, i, facing);
-                }
+            if(playerAttack.hitboxOn){
+                playerAttack.hitCheck(i, EA.E[i]);
             }
         }
     }
-        if (attackHitboxOn) {
-            attackTiming++;
-                if (attackTiming == 10) {
-                    attackHitboxOn=false;
-                    attackTiming=0;
-                }
-        }
-    
+    playerAttack.tick();
     attackDown = false;
+}
+function Skill() {
+    playerSkill.start("null", player, skillDown);
+    playerSkill.tick();
+    skillDown = false;
 }
 //#endregion
 
 //#region PLAYER
 var player = new entity(100, 100, 75, 50, 5, 10);
-
-var dashDuration = 0;
-var dashVelocity = 0;
-var dashDirection = "no";
-var abilityOn = false;
-class ability {
-    constructor(){
-
-    }
-}
-function abilityFunc(ability1/*, ability2*/) {
-    //console.log("KablilityDown" + KabilityDown + "  abilityOn" + abilityOn + "  dashDuration" + dashDuration + "  vel" + dashVelocity);
-    if (KabilityDown && !abilityOn) {
-        switch (ability1) {
-            case "dash":
-                abilityOn=true;
-                dashDuration = 10;
-                KabilityDown = false;
-                break;
-        }
-    }
-
-    if (abilityOn && dashDuration > 0) {
-        dashDuration--;
-        if (ability1 == "dash") {
-            
-        }
-    }if (abilityOn && dashDuration <= 0) {
-        abilityOn = false;
-        dashVelocity = 0;
-    }
-    if (abilityOn) {
-        if (dashDuration > 5) {
-            player.friction += 15;
-        }else{
-            player.friction += 5;
-        }
-        player.gravity = 0;
-    }
-    
-}
 
 function playerFunc() {
     player.oldX = player.X;
@@ -382,6 +401,5 @@ function playerFunc() {
     }if (player.X > sirka * TM.tile) {
         
     }
-    abilityFunc("dash");
 }
 //#endregion
