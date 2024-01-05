@@ -9,11 +9,6 @@ class entity {
         this.onground = false,
         this.gravity = 0,
         this.friction= 0,
-        this.oldTopCollidedX= -1,
-        this.oldTopCollidedY= -1,
-        this.oldBotCollidedX= -1,
-        this.oldBotCollidedY= -1,
-        this.botCollided = false,
         this.sideCollided = "left",
         this.moving = "no",
         this.height = height,
@@ -281,15 +276,19 @@ class attackHandler {
     hitCheck(i, entity){
         //levý horní
         if (this.X < entity.X && this.Y < entity.Y &&this.X+this.Xsize > entity.X && this.Y + this.Ysize > entity.Y) {
+            if (!this.mainAttack) {entity.hit(hitDamage, i, "left");return;}
             entity.hit(hitDamage, i, facing); 
           }//pravý horní
           else if (this.X < entity.X + entity.width && this.Y < entity.Y &&this.X+this.Xsize > entity.X + entity.width && this.Y + this.Ysize > entity.Y) {
+            if (!this.mainAttack) {entity.hit(hitDamage, i, "right");return;}
               entity.hit(hitDamage, i, facing);
           }//levý dolní
           else if (this.X < entity.X && this.Y < entity.Y + entity.height &&this.X+this.Xsize > entity.X && this.Y + this.Ysize > entity.Y + entity.height) {
+            if (!this.mainAttack) {entity.hit(hitDamage, i, "left");return;}
               entity.hit(hitDamage, i, facing);
           }//pravý dolní
           else if (this.X < entity.X + entity.width && this.Y < entity.Y + entity.height &&this.X+this.Xsize > entity.X + entity.width && this.Y + this.Ysize > entity.Y + entity.height) {
+                if (!this.mainAttack) {entity.hit(hitDamage, i, "right");return;}
               entity.hit(hitDamage, i, facing);
           }//absolutní střed
           else if(this.X < entity.X + (entity.width / 2) && this.Y < entity.Y + (entity.height / 2)&&this.X+this.Xsize > entity.X + (entity.width / 2) && this.Y + this.Ysize > entity.Y + (entity.height / 2)){
@@ -311,29 +310,41 @@ var playerSkill = new attackHandler(false, -150, -100, 350, 200);
 var hitDamage = 1; //kolik dává damage (hp je přímo v enemy)
 function Attack() {
     playerAttack.start(facing, player, attackDown); //checkuje jestli se začíná attack
+    attackDown = false;
     playerAttack.moveCheck(player); //checkuje jestli je potřeba pohnout s existujícím attackem
-
-    if (EA.getEnemyNum() > 0) {
-        for (let i = 0; i < EA.getEnemyNum(); i++) {
-            if (EA.E[i].hitTime) {
-                EA.E[i].hitTimeTick++;
-            }if (EA.E[i].hitTimeTick >=playerAttack.invulnerableTiming) {
-                EA.E[i].hitTimeTick = 0;
-                EA.E[i].hitTime = false;
-                EA.E[i].invulnerable = false;
-            }
-            if(playerAttack.hitboxOn){
-                playerAttack.hitCheck(i, EA.E[i]);
-            }
+    
+    playerAttack.tick();
+    if (EA.getEnemyNum() < 1) {return;}
+    for (let i = 0; i < EA.getEnemyNum(); i++) {
+        if (EA.E[i].hitTime) {
+            EA.E[i].hitTimeTick++;
+        }if (EA.E[i].hitTimeTick >=playerAttack.invulnerableTiming) {
+            EA.E[i].hitTimeTick = 0;
+            EA.E[i].hitTime = false;
+            EA.E[i].invulnerable = false;
+        }
+        if(playerAttack.hitboxOn){
+            playerAttack.hitCheck(i, EA.E[i]);
         }
     }
-    playerAttack.tick();
-    attackDown = false;
 }
 function Skill() {
     playerSkill.start("null", player, skillDown);
-    playerSkill.tick();
     skillDown = false;
+    playerSkill.tick();
+    if (EA.getEnemyNum() < 1) {return;}
+    for (let i = 0; i < EA.getEnemyNum(); i++) {
+        if (EA.E[i].hitTime) {
+            EA.E[i].hitTimeTick++;
+        }if (EA.E[i].hitTimeTick >=playerSkill.invulnerableTiming) {
+            EA.E[i].hitTimeTick = 0;
+            EA.E[i].hitTime = false;
+            EA.E[i].invulnerable = false;
+        }
+        if(playerSkill.hitboxOn){
+            playerSkill.hitCheck(i, EA.E[i]);
+        }
+    }
 }
 //#endregion
 

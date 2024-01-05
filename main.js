@@ -30,7 +30,7 @@ function KeyDown(event) {
         case 74: //J
             attackDown = true; break;
         case 75:/*K*/ 
-        skillDown = true; break;
+            skillDown = true; break;
     }
 }
 function KeyUp(event) {
@@ -106,7 +106,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
     if(playerAttack.hitboxOn){
         c.fillStyle = "red";
-        c.fillRect(playerAttack.X-offset, playerAttack.Y-Yoffset, playerAttack.activeXsize, playerAttack.activeYsize);
+        c.fillRect(playerAttack.X-offset, playerAttack.Y-Yoffset, playerAttack.Xsize, playerAttack.Ysize);
     }if (playerSkill.hitboxOn) {
         c.fillStyle = "black";
         c.fillRect(playerSkill.X-offset, playerSkill.Y-Yoffset, playerSkill.Xsize, playerSkill.Ysize);
