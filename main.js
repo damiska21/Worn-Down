@@ -36,10 +36,10 @@ function KeyDown(event) {
 function KeyUp(event) {
     switch(event.keyCode) {
         case 32:/*mezernik*/ mezernikDown = false; break;
-        case 87: mezernikDown = false;    break;
-        case 65:/*A*/ leftDown = false;   break;
-        case 68:/*D*/ rightDown = false;  break;
-        case 74:/*J*/ attackDown = false; break;
+        case 87: mezernikDown = false;   break;
+        case 65:/*A*/ leftDown = false;  break;
+        case 68:/*D*/ rightDown = false; break;
+        case 74:/*J*/ attackDown = false;break;
         case 27:/*Esc*/ pause = !pause;  break;
         case 75:/*K*/ skillDown = false; break;
     }

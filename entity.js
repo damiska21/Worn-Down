@@ -212,7 +212,7 @@ function enemy() {
     }
 }
 class attackHandler {
-    constructor(mainAttack, Xoffset, Yoffset, Xsize, Ysize){
+    constructor(mainAttack, Xoffset, Yoffset, Xsize, Ysize, cooldown){
         this.X = 0,
         this.Y = 0,
         this.hitboxOn = false,
@@ -227,13 +227,17 @@ class attackHandler {
         this.activeFacing = "left", //aby hráč nemohl měnit směr útoku uprostřed normálního útoku což nefunguje směr ze strany nahoru a zpátky
         this.mainAttack = mainAttack,
 
-        this.invulnerableTiming = 15,//čas jak dlouho je enemy invulnerable na this.Y (aby netankoval dva hity při jednom útoku hráče)
+        this.invulnerableTiming = 20,//čas jak dlouho je enemy invulnerable na this.Y (aby netankoval dva hity při jednom útoku hráče)
         this.Xoffset = Xoffset,
-        this.Yoffset = Yoffset
+        this.Yoffset = Yoffset,
+
+        this.cooldown = cooldown*60,
+        this.cooldownTime = 0
     }
     start(facing, entity, keyBool){
-        if (!keyBool || this.attackTiming != 0) {return;}//pokud se nespouští attack okamžitě vrátí funkci
+        if (!keyBool || this.attackTiming != 0 || this.cooldownTime>0) {return;}//pokud se nespouští attack okamžitě vrátí funkci
         this.hitboxOn = true;this.attackTiming = 0;//spouští časování délky útoku
+        this.cooldownTime = this.cooldown; //spouští cooldown schopnosti
         //#region Main Attack
         if (this.mainAttack){
             switch (facing) {
@@ -274,28 +278,40 @@ class attackHandler {
         }
     }
     hitCheck(i, entity){
-        //levý horní
+        if(this.mainAttack){//levý horní
         if (this.X < entity.X && this.Y < entity.Y &&this.X+this.Xsize > entity.X && this.Y + this.Ysize > entity.Y) {
-            if (!this.mainAttack) {entity.hit(hitDamage, i, "left");return;}
+            //if (!this.mainAttack) {entity.hit(hitDamage, i, "left");return;}
             entity.hit(hitDamage, i, facing); 
           }//pravý horní
           else if (this.X < entity.X + entity.width && this.Y < entity.Y &&this.X+this.Xsize > entity.X + entity.width && this.Y + this.Ysize > entity.Y) {
-            if (!this.mainAttack) {entity.hit(hitDamage, i, "right");return;}
+            //if (!this.mainAttack) {entity.hit(hitDamage, i, "right");return;}
               entity.hit(hitDamage, i, facing);
           }//levý dolní
           else if (this.X < entity.X && this.Y < entity.Y + entity.height &&this.X+this.Xsize > entity.X && this.Y + this.Ysize > entity.Y + entity.height) {
-            if (!this.mainAttack) {entity.hit(hitDamage, i, "left");return;}
+            //if (!this.mainAttack) {entity.hit(hitDamage, i, "left");return;}
               entity.hit(hitDamage, i, facing);
           }//pravý dolní
           else if (this.X < entity.X + entity.width && this.Y < entity.Y + entity.height &&this.X+this.Xsize > entity.X + entity.width && this.Y + this.Ysize > entity.Y + entity.height) {
-                if (!this.mainAttack) {entity.hit(hitDamage, i, "right");return;}
+              //  if (!this.mainAttack) {entity.hit(hitDamage, i, "right");return;}
               entity.hit(hitDamage, i, facing);
           }//absolutní střed
           else if(this.X < entity.X + (entity.width / 2) && this.Y < entity.Y + (entity.height / 2)&&this.X+this.Xsize > entity.X + (entity.width / 2) && this.Y + this.Ysize > entity.Y + (entity.height / 2)){
               entity.hit(hitDamage, i, facing);
+          }return;}
+          if ((this.X < entity.X+entity.width && this.X+this.Xsize > entity.X )&&(this.Y < entity.Y+entity.height && this.Y + this.Ysize > entity.Y)) {
+            if (entity.X-this.X >= this.Xsize/2) {
+                entity.hit(hitDamage, i, "right");
+            }else{
+                entity.hit(hitDamage, i, "left");
+            }
           }
     }
     tick(){
+        if (this.cooldownTime > 0) {
+            this.cooldownTime--;
+        }else if(this.cooldownTime <= 0){
+            this.cooldownTime = 0;
+        }
         if (!this.hitboxOn) {return;}
         this.attackTiming++;
         if (this.attackTiming == 10) {
@@ -304,8 +320,8 @@ class attackHandler {
         }
     }
 }
-var playerAttack = new attackHandler(true, 0, 0, 0, 0);
-var playerSkill = new attackHandler(false, -150, -100, 350, 200);
+var playerAttack = new attackHandler(true, 0, 0, 0, 0, 0.5);
+var playerSkill = new attackHandler(false, -150, -100, 350, 200, 5);
 
 var hitDamage = 1; //kolik dává damage (hp je přímo v enemy)
 function Attack() {
