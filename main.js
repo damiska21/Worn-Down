@@ -123,6 +123,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
         c.drawImage(harambe, EA.E[i].X-offset, EA.E[i].Y-Yoffset);
     }
+    particles("blue", playerWalkParticles);
     if (pause) {
         c.font = "30px Arial";
         c.fillText("Pozastaveno", 10, 50);
@@ -132,6 +133,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     }
     window.requestAnimationFrame(draw);
 }
+
 function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale chápeš)
     if (pause || gameOver) {return;}
     playerFunc();
@@ -146,9 +148,16 @@ function slowLoop() { //loop co se spouští jednou za vteřinu
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
 }
 
+function initiate(){
+    playerWalkParticles.addParticle(-0.1, 0.1, 5);
+    playerWalkParticles.addParticle(-0.1, -0.2, 5);
+
+    setInterval(slowLoop, 1000);
+    setInterval(mainLoop, 16);
+    window.requestAnimationFrame(draw);
+}
+
 window.addEventListener("keydown", KeyDown);
 window.addEventListener("keyup", KeyUp);
 window.addEventListener("mousedown", Click);
-setInterval(slowLoop, 1000);
-setInterval(mainLoop, 16);
-window.requestAnimationFrame(draw);
+window.addEventListener("load", initiate);

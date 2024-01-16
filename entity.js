@@ -320,7 +320,7 @@ class attackHandler {
         }
     }
 }
-var playerAttack = new attackHandler(true, 0, 0, 0, 0, 0.5);
+var playerAttack = new attackHandler(true, 0, 0, 0, 0, 1);
 var playerSkill = new attackHandler(false, -150, -100, 350, 200, 5);
 
 var hitDamage = 1; //kolik dává damage (hp je přímo v enemy)
