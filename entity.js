@@ -383,9 +383,6 @@ function playerFunc() {
     else if (rightDown && player.friction < 10) {
         player.friction += 1.1;
     }
-    else if (player.invulnerable) {
-        //player.friction *= 0.85;
-    }
     else{
         player.friction *= 0.8;
     }

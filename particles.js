@@ -7,6 +7,7 @@ class particle {
         this.size = size //velikost bloku
     }
     move(){
+        this.gravity += 0.05;
         this.y += this.gravity;
         this.x += this.direction;
     }
