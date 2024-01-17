@@ -149,9 +149,7 @@ canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
 }
 
 function initiate(){
-    playerWalkParticles.addParticle(-0.1, 0.1, 5);
-    playerWalkParticles.addParticle(-0.1, -0.2, 5);
-
+particlesInitiate();
     setInterval(slowLoop, 1000);
     setInterval(mainLoop, 16);
     window.requestAnimationFrame(draw);

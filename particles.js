@@ -1,14 +1,14 @@
 class particle {
     constructor(x, y, gravity, direction, size){
-        this.X = x,
-        this.Y = y,
+        this.x = x,
+        this.y = y,
         this.gravity = gravity, //směr pohybu bloku na y
         this.direction = direction, //směr pohybu bloku na x
         this.size = size //velikost bloku
     }
     move(){
-        this.Y += this.gravity;
-        this.X += this.direction;
+        this.y += this.gravity;
+        this.x += this.direction;
     }
 }
 class particleGenerator{
@@ -40,7 +40,10 @@ function particles(color, particleGenerator) {
 }
 
 function particlesInitiate(color, ammount, particleGenerator, startX, startY){
-    for (let i = 0; i < ammount; i++) {
+    /*for (let i = 0; i < ammount; i++) {
         particleGenerator.addParticle(startX, startY, -5, 5, 2);
-    }
+    }*/
+    
+    playerWalkParticles.addParticle(-0.1, 0.1, 5);
+    playerWalkParticles.addParticle(-0.1, -0.2, 5);
 }
