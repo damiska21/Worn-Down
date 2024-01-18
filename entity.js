@@ -16,8 +16,6 @@ class entity {
 
         this.hp = hp,
         this.invulnerable = false,
-        this.hitTimeTick = 0,
-        this.hitTime = false,
         this.stunTime = 0,
 
         this.moveSpeed = moveSpeed,
@@ -86,45 +84,42 @@ class entity {
                 break;
         }
     }
-    hit(hitpoints, index, direction){
-        if (!this.invulnerable) {
-            this.hp -= hitpoints;
-             console.log("enemy " + index + " hp "+ this.hp);
-            if(index != -1){
-                this.invulnerable = true;
-                this.friction = 0;
-                this.stunTime = 25;
-
-                if (direction == "left") {
-                    this.friction = -6;
-                    this.gravity = -10;
-                }else if(direction == "right"){
-                    this.friction = 6;
-                    this.gravity = -10;
-                }else if(direction == "up"){
-                    this.gravity = -10;
-                }
-        
-                this.hitTime = true;
-                if (this.hp <= 0) {
-                    console.log("smazán index" + index);
-                    EA.E.splice(index, 1);
-                }
-                return;
-            }
-
+    hit(hitpoints, index, direction, KBfriction, KBgravity){
+        if (this.invulnerable) {return;}
+        this.hp -= hitpoints;
+        console.log("enemy " + index + " hp "+ this.hp);
+        if(index != -1){
             this.invulnerable = true;
-            if (direction == "left") {
-                this.friction = -15;
-                this.gravity = -15;
-            }else if(direction == "right"){
-                this.friction = 15;
-                this.gravity = -15;
+            this.friction = 0;
+            this.stunTime = 25;
+
+            this.gravity = -KBgravity;
+            switch (direction) {
+                case "left":
+                    this.friction = -KBfriction;
+                    break;
+                case "right":
+                    this.friction = KBfriction;
+                    break;
             }
+        
             if (this.hp <= 0) {
-                console.log("GAME OVER");
-                gameOver = true;
+                console.log("smazán index" + index);
+                EA.E.splice(index, 1);
             }
+            return;
+        }
+
+        if (direction == "left") {
+            this.friction = -15;
+            this.gravity = -15;
+        }else if(direction == "right"){
+            this.friction = 15;
+            this.gravity = -15;
+        }
+        if (this.hp <= 0) {
+            console.log("GAME OVER");
+            gameOver = true;
         }
     }
 
@@ -212,13 +207,19 @@ function enemy() {
     }
 }
 class attackHandler {
+<<<<<<< Updated upstream
     constructor(mainAttack, Xoffset, Yoffset, Xsize, Ysize, cooldown){
+=======
+    constructor(mainAttack, Xoffset, Yoffset, Xsize, Ysize, KBfriction, KBgravity){
+>>>>>>> Stashed changes
         this.X = 0,
         this.Y = 0,
         this.hitboxOn = false,
         this.attackTiming = 0,
         this.Xsize = Xsize,
         this.Ysize = Ysize,
+        this.KBfriction = KBfriction,
+        this.KBgravity = KBgravity,
 
         this.attackXsize = 150,
         this.attackYsize = 25,
@@ -278,6 +279,7 @@ class attackHandler {
         }
     }
     hitCheck(i, entity){
+<<<<<<< Updated upstream
         if(this.mainAttack){//levý horní
         if (this.X < entity.X && this.Y < entity.Y &&this.X+this.Xsize > entity.X && this.Y + this.Ysize > entity.Y) {
             //if (!this.mainAttack) {entity.hit(hitDamage, i, "left");return;}
@@ -305,6 +307,22 @@ class attackHandler {
                 entity.hit(hitDamage, i, "left");
             }
           }
+=======
+        if ((this.X < entity.X+entity.width && this.X+this.Xsize > entity.X )&& (this.Y < entity.Y+entity.height && this.Y + this.Ysize > entity.Y)) {
+            if (!this.mainAttack) {
+                if (this.X + this.Xsize/2 < entity.X) {
+                    entity.hit(hitDamage, i, "right", this.KBfriction, this.KBgravity);
+                }
+                else if (this.X + this.Xsize/2 > entity.X) {
+                    entity.hit(hitDamage, i, "left", this.KBfriction, this.KBgravity);
+                }else{
+                    entity.hit(hitDamage, i, "up", this.KBfriction, this.KBgravity);
+                }
+                return;
+            }
+            entity.hit(hitDamage, i, facing, this.KBfriction, this.KBgravity);
+        }
+>>>>>>> Stashed changes
     }
     tick(){
         if (this.cooldownTime > 0) {
@@ -317,11 +335,19 @@ class attackHandler {
         if (this.attackTiming == 10) {
             this.hitboxOn=false;
             this.attackTiming=0;
+            for (let i = 0; i < EA.E.length; i++) {
+                EA.E[i].invulnerable = false;
+            }
         }
     }
 }
+<<<<<<< Updated upstream
 var playerAttack = new attackHandler(true, 0, 0, 0, 0, 1);
 var playerSkill = new attackHandler(false, -150, -100, 350, 200, 5);
+=======
+var playerAttack = new attackHandler(true, 0, 0, 0, 0, 3, 8);
+var playerSkill = new attackHandler(false, -150, -100, 350, 200, 6, 13);
+>>>>>>> Stashed changes
 
 var hitDamage = 1; //kolik dává damage (hp je přímo v enemy)
 function Attack() {
@@ -332,13 +358,6 @@ function Attack() {
     playerAttack.tick();
     if (EA.getEnemyNum() < 1) {return;}
     for (let i = 0; i < EA.getEnemyNum(); i++) {
-        if (EA.E[i].hitTime) {
-            EA.E[i].hitTimeTick++;
-        }if (EA.E[i].hitTimeTick >=playerAttack.invulnerableTiming) {
-            EA.E[i].hitTimeTick = 0;
-            EA.E[i].hitTime = false;
-            EA.E[i].invulnerable = false;
-        }
         if(playerAttack.hitboxOn){
             playerAttack.hitCheck(i, EA.E[i]);
         }
@@ -350,13 +369,6 @@ function Skill() {
     playerSkill.tick();
     if (EA.getEnemyNum() < 1) {return;}
     for (let i = 0; i < EA.getEnemyNum(); i++) {
-        if (EA.E[i].hitTime) {
-            EA.E[i].hitTimeTick++;
-        }if (EA.E[i].hitTimeTick >=playerSkill.invulnerableTiming) {
-            EA.E[i].hitTimeTick = 0;
-            EA.E[i].hitTime = false;
-            EA.E[i].invulnerable = false;
-        }
         if(playerSkill.hitboxOn){
             playerSkill.hitCheck(i, EA.E[i]);
         }
@@ -370,12 +382,6 @@ var player = new entity(100, 100, 75, 50, 5, 10);
 function playerFunc() {
     player.oldX = player.X;
     player.oldY = player.Y;
-    if (player.invulnerable) {
-        player.hitTimeTick--;
-    }if (player.hitTimeTick == 0) {
-        player.hitTimeTick = 10;
-        player.invulnerable = false;
-    }
     //pohyb vpravo/vlevo a friction
     if (leftDown && player.friction > - 10) {
         player.friction += -1.1;
