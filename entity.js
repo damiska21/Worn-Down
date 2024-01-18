@@ -207,11 +207,7 @@ function enemy() {
     }
 }
 class attackHandler {
-<<<<<<< Updated upstream
-    constructor(mainAttack, Xoffset, Yoffset, Xsize, Ysize, cooldown){
-=======
-    constructor(mainAttack, Xoffset, Yoffset, Xsize, Ysize, KBfriction, KBgravity){
->>>>>>> Stashed changes
+    constructor(mainAttack, Xoffset, Yoffset, Xsize, Ysize, KBfriction, KBgravity, cooldown){
         this.X = 0,
         this.Y = 0,
         this.hitboxOn = false,
@@ -279,35 +275,6 @@ class attackHandler {
         }
     }
     hitCheck(i, entity){
-<<<<<<< Updated upstream
-        if(this.mainAttack){//levý horní
-        if (this.X < entity.X && this.Y < entity.Y &&this.X+this.Xsize > entity.X && this.Y + this.Ysize > entity.Y) {
-            //if (!this.mainAttack) {entity.hit(hitDamage, i, "left");return;}
-            entity.hit(hitDamage, i, facing); 
-          }//pravý horní
-          else if (this.X < entity.X + entity.width && this.Y < entity.Y &&this.X+this.Xsize > entity.X + entity.width && this.Y + this.Ysize > entity.Y) {
-            //if (!this.mainAttack) {entity.hit(hitDamage, i, "right");return;}
-              entity.hit(hitDamage, i, facing);
-          }//levý dolní
-          else if (this.X < entity.X && this.Y < entity.Y + entity.height &&this.X+this.Xsize > entity.X && this.Y + this.Ysize > entity.Y + entity.height) {
-            //if (!this.mainAttack) {entity.hit(hitDamage, i, "left");return;}
-              entity.hit(hitDamage, i, facing);
-          }//pravý dolní
-          else if (this.X < entity.X + entity.width && this.Y < entity.Y + entity.height &&this.X+this.Xsize > entity.X + entity.width && this.Y + this.Ysize > entity.Y + entity.height) {
-              //  if (!this.mainAttack) {entity.hit(hitDamage, i, "right");return;}
-              entity.hit(hitDamage, i, facing);
-          }//absolutní střed
-          else if(this.X < entity.X + (entity.width / 2) && this.Y < entity.Y + (entity.height / 2)&&this.X+this.Xsize > entity.X + (entity.width / 2) && this.Y + this.Ysize > entity.Y + (entity.height / 2)){
-              entity.hit(hitDamage, i, facing);
-          }return;}
-          if ((this.X < entity.X+entity.width && this.X+this.Xsize > entity.X )&&(this.Y < entity.Y+entity.height && this.Y + this.Ysize > entity.Y)) {
-            if (entity.X-this.X >= this.Xsize/2) {
-                entity.hit(hitDamage, i, "right");
-            }else{
-                entity.hit(hitDamage, i, "left");
-            }
-          }
-=======
         if ((this.X < entity.X+entity.width && this.X+this.Xsize > entity.X )&& (this.Y < entity.Y+entity.height && this.Y + this.Ysize > entity.Y)) {
             if (!this.mainAttack) {
                 if (this.X + this.Xsize/2 < entity.X) {
@@ -322,7 +289,6 @@ class attackHandler {
             }
             entity.hit(hitDamage, i, facing, this.KBfriction, this.KBgravity);
         }
->>>>>>> Stashed changes
     }
     tick(){
         if (this.cooldownTime > 0) {
@@ -341,13 +307,8 @@ class attackHandler {
         }
     }
 }
-<<<<<<< Updated upstream
-var playerAttack = new attackHandler(true, 0, 0, 0, 0, 1);
-var playerSkill = new attackHandler(false, -150, -100, 350, 200, 5);
-=======
-var playerAttack = new attackHandler(true, 0, 0, 0, 0, 3, 8);
-var playerSkill = new attackHandler(false, -150, -100, 350, 200, 6, 13);
->>>>>>> Stashed changes
+var playerAttack = new attackHandler(true, 0, 0, 0, 0, 3, 8, 0.5);
+var playerSkill = new attackHandler(false, -150, -100, 350, 200, 6, 13, 5);
 
 var hitDamage = 1; //kolik dává damage (hp je přímo v enemy)
 function Attack() {
