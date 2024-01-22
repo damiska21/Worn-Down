@@ -25,6 +25,12 @@ class particleGenerator{
         let p = new particle(this.startX, this.startY, gravity, direction, size);
         this.particles.push(p);
     }
+    reset(){
+        for (let i = 0; i < this.particles.length; i++) {
+            this.particles[i].x = this.startX;
+            this.particles[i].y = this.startY;
+        }
+    }
 }
 var playerWalkParticles = new particleGenerator((player.X + player.width/2), player.Y+player.height);
 

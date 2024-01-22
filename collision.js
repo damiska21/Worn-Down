@@ -85,6 +85,7 @@ function collision(entity) {
             entity.Y = top - entity.height - 0.01;
             entity.onground = true;
             entity.coyoteTime = true;
+            
             return true;
           }
          }

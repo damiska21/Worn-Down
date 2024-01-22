@@ -340,7 +340,6 @@ function Skill() {
 //#region PLAYER
 var player = new entity(100, 100, 75, 50, 5, 10);
 
-var oldOnground = false;
 function playerFunc() {
     player.oldX = player.X;
     player.oldY = player.Y;
@@ -393,10 +392,5 @@ function playerFunc() {
     }if (player.X > sirka * TM.tile) {
         
     }
-    if(!oldOnground && player.onground){
-        playerWalkParticles.enabled = true;
-        console.log(oldOnground + " " +player.onground);
-    }
-    oldOnground = player.onground;
 }
 //#endregion
