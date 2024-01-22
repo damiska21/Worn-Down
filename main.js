@@ -127,7 +127,9 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
         c.drawImage(harambe, EA.E[i].X-offset, EA.E[i].Y-Yoffset);
     }
-    particles("blue", playerWalkParticles);
+    if (playerWalkParticles.enabled) {
+        particles("white", playerWalkParticles);
+    }
     if (pause) {
         c.font = "30px Arial";
         c.fillText("Pozastaveno", 10, 50);
@@ -153,7 +155,7 @@ canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
 }
 
 function initiate(){
-particlesInitiate();
+    particlesInitiate();
     setInterval(slowLoop, 1000);
     setInterval(mainLoop, 16);
     window.requestAnimationFrame(draw);
