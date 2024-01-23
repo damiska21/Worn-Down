@@ -23,7 +23,7 @@ class entity {
         this.coyoteTime = false,
         this.coyoteTimeTick = 0,
 
-        this.facing
+        this.facing = "no"
     }
 
     jump(){
@@ -129,9 +129,7 @@ class entity {
 
 
 //#endregion
-//funkce attack je v enemy
-//#region ENEMY
-
+//funkce attack
 
 class attackHandler {
     constructor(mainAttack, Xoffset, Yoffset, Xsize, Ysize, KBfriction, KBgravity, cooldown){
@@ -239,7 +237,7 @@ var playerSkill = new attackHandler(false, -150, -100, 350, 200, 6, 13, 5);
 
 var hitDamage = 1; //kolik dává damage (hp je přímo v enemy)
 function Attack() {
-    playerAttack.start(facing, player, attackDown); //checkuje jestli se začíná attack
+    playerAttack.start(player.facing, player, attackDown); //checkuje jestli se začíná attack
     attackDown = false;
     playerAttack.moveCheck(player); //checkuje jestli je potřeba pohnout s existujícím attackem
     

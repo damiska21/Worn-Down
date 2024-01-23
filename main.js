@@ -5,7 +5,6 @@ var leftDown = false;
 var rightDown = false;
 var attackDown = false;
 var skillDown = false;
-var facing = "right";
 
 var gameOver = false;
 
@@ -20,13 +19,13 @@ function KeyDown(event) {
         case 32://mezernik
             mezernikDown = true; break;
         case 87://W
-            mezernikDown = true; facing="up"; break;
+            mezernikDown = true; player.facing="up"; break;
         case 65://A
-            leftDown = true;facing = "left"; break;
+            leftDown = true;player.facing = "left"; break;
         case 68://D
-            rightDown = true;facing = "right"; break;
+            rightDown = true;player.facing = "right"; break;
         case 83: //S
-            facing = "down";break;//tady stačí vědět že míří dolů pro útok
+            player.facing = "down";break;//tady stačí vědět že míří dolů pro útok
         case 74: //J
             attackDown = true; break;
         case 75:/*K*/ 

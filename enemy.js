@@ -78,10 +78,20 @@ function enemyFunc() {
 class enemy {
     constructor(entity, type){
         this.entity = entity,
-        this.type = type
+        this.type = type,
+        this.attackHandler
     }
     
-    shootProjectile(direction){
+    shootProjectile(){
+        switch (this.entity.facing) {
+            case "left":
+                
+                break;
+            case "right":
 
+                break;
+            default:
+                break;
+        }
     }
 }
