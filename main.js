@@ -96,7 +96,7 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
     Camera();
     Attack();
     Skill();
-    enemy();
+    enemyFunc();
     levelLoop();
 }
 function slowLoop() { //loop co se spouští jednou za vteřinu

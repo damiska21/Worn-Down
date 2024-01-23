@@ -65,7 +65,7 @@ function particlesInitiate(color, ammount, particleGenerator, startX, startY){
         particleGenerator.addParticle(startX, startY, -5, 5, 2);
     }*/
     
-    playerWalkParticles.addParticle(-0.15, 0.1, 5);
+    playerWalkParticles.addParticle(-0.15, 0.1, 5); //tohle je particle smoke při dopadu, nebyl jsem schopnej ho správně spouštět
     playerWalkParticles.addParticle(-0.15, -0.2, 5);
     playerWalkParticles.addParticle(-0.15, 0.2, 3);
     playerWalkParticles.addParticle(-0.25, -0.3, 6);

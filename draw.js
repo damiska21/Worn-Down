@@ -25,18 +25,13 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         c.fillStyle = "black";
         c.fillRect(playerSkill.X-offset, playerSkill.Y-Yoffset, playerSkill.Xsize, playerSkill.Ysize);
     }
-
-    tilemapDraw(offset);
-
     for (let i = 0; i < EA.getEnemyNum(); i++) {
-        if (EA.E[i].hitTime) {
-            c.fillStyle = "purple";
-        }else{
-            c.fillStyle = "black";
-        }
         //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
         c.drawImage(harambe, EA.E[i].X-offset, EA.E[i].Y-Yoffset);
     }
+    tilemapDraw(offset);
+
+    
     if (playerWalkParticles.enabled) {
         particles("white", playerWalkParticles);
     }
