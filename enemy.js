@@ -2,9 +2,10 @@ class enemies {
     constructor(){
         this.E = [];
     }
-    newEnemy(X, Y, height, width, hp, moveSpeed){
+    newEnemy(X, Y, height, width, hp, moveSpeed, type){
         let e = new entity(X, Y, height, width, hp, moveSpeed);
-        this.E.push(e);
+        let i = new enemy(e, type, shootHandler);
+        this.E.push(i);
     }
     getEnemyNum(){
         return this.E.length;
@@ -74,24 +75,67 @@ function enemyFunc() {
         //#endregion
     }
 }
-
+var shootHandler = new attackHandler(false, 20, 0, 20, 20, 3, 8, 5);
 class enemy {
-    constructor(entity, type){
+    constructor(entity, type, attackHandler){
         this.entity = entity,
         this.type = type,
-        this.attackHandler
+        this.attackHandler = attackHandler
     }
     
-    shootProjectile(){
-        switch (this.entity.facing) {
-            case "left":
-                
-                break;
-            case "right":
+    enemyLoop(){
+        if (this.entity.X-offset > window.innerWidth) {
+            return;
+        }
+        this.entity.oldX = this.entity.X;
+        this.entity.oldY = this.entity.Y;
+        this.entity.X += this.entity.friction;
 
-                break;
-            default:
-                break;
+        if (this.entity.stunTime > 0) {
+            this.entity.stunTime--;
+        }else{
+            this.entity.move();
+        }
+
+        if (!this.entity.onground) {
+            this.entity.gravity += 1.2;
+        }
+        this.entity.Y += this.entity.gravity;
+
+        this.entity = collision(this.entity, offset, Yoffset);
+
+        if (this.entity.sideCollided == "right") {
+            this.entity.move("no");
+            this.entity.move("right");
+        }
+        if(this.entity.sideCollided == "left"){
+            this.entity.move("no");
+            this.entity.move("left");
+        }
+
+        //#region PLAYER KOLIZE - top right
+        if ((player.X + player.width > this.entity.X && player.X + player.width < this.entity.X + this.entity.width)/*X*/ && (player.Y >= this.entity.Y && player.Y < this.entity.Y + this.entity.height)) {
+            console.log("top right p hit");
+            player.hit(1, -1, "left");
+            this.entity.stunTime = 25;
+        }
+        //top left
+        else if((player.X > this.entity.X && player.X < this.entity.X + this.entity.width)/*X*/ && (player.Y >= this.entity.Y && player.Y < this.entity.Y + this.entity.height)){
+            console.log("top left p hit");
+            player.hit(1, -1, "right");
+            this.entity.stunTime = 25;
+        }
+        //bot right
+        else if ((player.X + player.width > this.entity.X && player.X + player.width < this.entity.X + this.entity.width)/*X*/ && (player.Y + player.height >= this.entity.Y && player.Y+ player.height < this.entity.Y + this.entity.height)) {
+            console.log("bot right p hit");
+            player.hit(1, -1, "left");
+            this.entity.stunTime = 25;
+        }
+        //bot left
+        else if ((player.X > this.entity.X && player.X < this.entity.X + this.entity.width)/*X*/ && (player.Y + player.height >= this.entity.Y && player.Y+ player.height < this.entity.Y + this.entity.height)) {
+            console.log("bot left p hit");
+            player.hit(1, -1, "right");
+            this.entity.stunTime = 25;
         }
     }
 }

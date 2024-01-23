@@ -263,7 +263,7 @@ function Skill() {
 //#endregion
 
 //#region PLAYER
-var player = new entity(100, 100, 75, 50, 5, 10);
+var player = new entity(100, 100, 75, 50, 5, 10, "shooter");
 
 function playerFunc() {
     player.oldX = player.X;
