@@ -59,7 +59,7 @@ TM.endWrite();
 
 //Zápis nepřítele - by Jáchym Kristal (jako ten prášek na vaření aka cukr)
 //EA.newEnemy(pozice X, pozice Y, Vyska, Sirka, HP, Rychlost)
-EA.newEnemy(550, 300, 50, 50, 10, 3); EA.E[0].move("right");
+EA.newEnemy(550, 300, 50, 50, 10, 3); EA.E[0].entity.move("right");
 //EA.newEnemy(1000, 300, 75, 50, 3, 3); EA.E[1].move("right");
 
 function levelLoop() {

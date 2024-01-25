@@ -27,7 +27,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     }
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
-        c.drawImage(harambe, EA.E[i].X-offset, EA.E[i].Y-Yoffset);
+        c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
     }
     tilemapDraw(offset);
 

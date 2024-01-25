@@ -139,8 +139,8 @@ class attackHandler {
         this.attackTiming = 0,
         this.Xsize = Xsize,
         this.Ysize = Ysize,
-        this.KBfriction = KBfriction,
-        this.KBgravity = KBgravity,
+        this.KBfriction = KBfriction,//knockback horizontální
+        this.KBgravity = KBgravity,//vertikální
 
         this.attackXsize = 150,
         this.attackYsize = 25,
@@ -199,7 +199,7 @@ class attackHandler {
                 break;
         }
     }
-    hitCheck(i, entity){
+    hitCheck(i, entity, attackingEntity){
         if ((this.X < entity.X+entity.width && this.X+this.Xsize > entity.X )&& (this.Y < entity.Y+entity.height && this.Y + this.Ysize > entity.Y)) {
             if (!this.mainAttack) {
                 if (this.X + this.Xsize/2 < entity.X) {
@@ -212,7 +212,7 @@ class attackHandler {
                 }
                 return;
             }
-            entity.hit(hitDamage, i, facing, this.KBfriction, this.KBgravity);
+            entity.hit(hitDamage, i, attackingEntity.facing, this.KBfriction, this.KBgravity);
         }
     }
     tick(){
@@ -227,7 +227,7 @@ class attackHandler {
             this.hitboxOn=false;
             this.attackTiming=0;
             for (let i = 0; i < EA.E.length; i++) {
-                EA.E[i].invulnerable = false;
+                EA.E[i].entity.invulnerable = false;
             }
         }
     }
@@ -245,7 +245,7 @@ function Attack() {
     if (EA.getEnemyNum() < 1) {return;}
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         if(playerAttack.hitboxOn){
-            playerAttack.hitCheck(i, EA.E[i]);
+            playerAttack.hitCheck(i, EA.E[i].entity, player);
         }
     }
 }
@@ -263,7 +263,7 @@ function Skill() {
 //#endregion
 
 //#region PLAYER
-var player = new entity(100, 100, 75, 50, 5, 10, "shooter");
+var player = new entity(100, 100, 75, 50, 5, 10);
 
 function playerFunc() {
     player.oldX = player.X;
