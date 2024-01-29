@@ -10,7 +10,7 @@ var tilemapGuide = [10001, 10010, 11000, 10100, -1, 11010, 11001, 10101, 10110 ,
 
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
 
-    c.fillStyle = "#D4FFE6";
+    c.fillStyle = "gray";
     c.fillRect(0, 0, canvas.width, canvas.height);
 
     c.fillStyle = "blue";
@@ -29,6 +29,11 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
         c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
     }
+
+    for (let i = 0; i < EA.getEnemyNum(); i++) {
+        EA.E[i].attackHandler.drawAttack();
+    }
+
     tilemapDraw(offset);
 
     

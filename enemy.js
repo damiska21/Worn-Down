@@ -13,9 +13,7 @@ class enemy {
     }
     
     enemyLoop(){
-        if (this.entity.X-offset > window.innerWidth) {
-            return;
-        }
+        if (this.entity.X-offset > window.innerWidth) {return;}//když je enemy mimo obrazovku, nic nedělá
         this.entity.oldX = this.entity.X;
         this.entity.oldY = this.entity.Y;
         this.entity.X += this.entity.friction;
@@ -41,7 +39,8 @@ class enemy {
             this.entity.move("no");
             this.entity.move("left");
         }
-
+        this.attackHandler.tick();
+        if(this.attackHandler.hitboxOn){this.shooterAttack();}
         //#region PLAYER KOLIZE - top right
         if ((player.X + player.width > this.entity.X && player.X + player.width < this.entity.X + this.entity.width)/*X*/ && (player.Y >= this.entity.Y && player.Y < this.entity.Y + this.entity.height)) {
             console.log("top right p hit");
@@ -65,6 +64,21 @@ class enemy {
             console.log("bot left p hit");
             player.hit(1, -1, "right");
             this.entity.stunTime = 25;
+        }
+        //#endregion
+    }
+    shooterAttack(){
+        if (this.entity.facing == "right") {
+            this.attackHandler.X += 10;
+        }else {
+            this.attackHandler.X -= 10;
+        }
+    }
+    normalAttack(){
+        switch (this.type) {
+            case "shooter":
+                this.attackHandler.start(this.entity.facing, this.entity, true);
+                break;
         }
     }
 }

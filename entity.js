@@ -23,7 +23,8 @@ class entity {
         this.coyoteTime = false,
         this.coyoteTimeTick = 0,
 
-        this.facing = "no"
+        this.facing = "no",
+        this.knockback = true
     }
 
     jump(){
@@ -90,11 +91,12 @@ class entity {
         if (this.invulnerable) {return;}
         this.hp -= hitpoints;
         console.log("enemy " + index + " hp "+ this.hp);
+
         if(index != -1){
             this.invulnerable = true;
             this.friction = 0;
             this.stunTime = 25;
-
+            if (!this.knockback) { if (this.hp <= 0) { console.log("smazán index" + index); EA.E.splice(index, 1);}return;}
             this.gravity = -KBgravity;
             switch (direction) {
                 case "left":
@@ -111,17 +113,17 @@ class entity {
             }
             return;
         }
-
-        if (direction == "left") {
-            this.friction = -15;
-            this.gravity = -15;
-        }else if(direction == "right"){
-            this.friction = 15;
-            this.gravity = -15;
-        }
-        if (this.hp <= 0) {
-            console.log("GAME OVER");
-            gameOver = true;
+        if(this.knockback){
+            if (direction == "left") {
+                this.friction = -15;
+                this.gravity = -15;
+            }else if(direction == "right"){
+                this.friction = 15;
+                this.gravity = -15;
+            }}
+            if (this.hp <= 0) {
+                console.log("GAME OVER");
+                gameOver = true;
         }
     }
 
@@ -135,7 +137,7 @@ class attackHandler {
     constructor(mainAttack, Xoffset, Yoffset, Xsize, Ysize, KBfriction, KBgravity, cooldown){
         this.X = 0,
         this.Y = 0,
-        this.hitboxOn = false,
+        this.hitboxOn = false, //jestli je spuštěn attack
         this.attackTiming = 0,
         this.Xsize = Xsize,
         this.Ysize = Ysize,
@@ -156,6 +158,7 @@ class attackHandler {
         this.cooldown = cooldown*60,
         this.cooldownTime = 0
     }
+    //entity spouští útok, tam kde začíná, keyBool kontroluje držení klávesy, facing ukazuje směr při hlavním útoku
     start(facing, entity, keyBool){
         if (!keyBool || this.attackTiming != 0 || this.cooldownTime>0) {return;}//pokud se nespouští attack okamžitě vrátí funkci
         this.hitboxOn = true;this.attackTiming = 0;//spouští časování délky útoku
@@ -230,6 +233,13 @@ class attackHandler {
                 EA.E[i].entity.invulnerable = false;
             }
         }
+    }
+    drawAttack(){
+        if (!this.hitboxOn) {return;}
+        c.fillStyle = "red";
+        c.fillRect(this.X, this.Y, this.Xsize, this.Ysize);
+        
+        console.log(this.X+" "+ this.Y+" "+this.Xsize + " " +this.Ysize);
     }
 }
 var playerAttack = new attackHandler(true, 0, 0, 0, 0, 3, 8, 0.5);
