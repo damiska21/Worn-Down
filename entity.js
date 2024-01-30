@@ -96,7 +96,11 @@ class entity {
             this.invulnerable = true;
             this.friction = 0;
             this.stunTime = 25;
-            if (!this.knockback) { if (this.hp <= 0) { console.log("smazán index" + index); EA.E.splice(index, 1);}return;}
+            if (!this.knockback) { if (this.hp <= 0) { 
+                console.log("smazán index" + index); 
+                EA.E[index].attackHandler.hitboxOn = false;
+                EA.E.splice(index, 1);
+            }return;}
             this.gravity = -KBgravity;
             switch (direction) {
                 case "left":
@@ -108,7 +112,8 @@ class entity {
             }
         
             if (this.hp <= 0) {
-                console.log("smazán index" + index);
+                console.log("smazán index " + index);
+                EA.E[index].attackHandler.hitboxOn = false;
                 EA.E.splice(index, 1);
             }
             return;
@@ -157,7 +162,9 @@ class attackHandler {
         this.Yoffset = Yoffset,
 
         this.cooldown = cooldown*60,
-        this.cooldownTime = 0
+        this.cooldownTime = 0,
+
+        this.deleteOnHit = false
     }
     //entity spouští útok (tam kde začíná), keyBool kontroluje držení klávesy, facing ukazuje směr při hlavním útoku
     start(facing, entity, keyBool){
@@ -203,16 +210,20 @@ class attackHandler {
                 break;
         }
     }
+    //i - ičko nepřítele, entity - entita na kterou to útočí, attackingEntity - dává smysl
     hitCheck(i, entity, attackingEntity){
         if ((this.X < entity.X+entity.width && this.X+this.Xsize > entity.X )&& (this.Y < entity.Y+entity.height && this.Y + this.Ysize > entity.Y)) {
             if (!this.mainAttack) {
                 if (this.X + this.Xsize/2 < entity.X) {
                     entity.hit(hitDamage, i, "right", this.KBfriction, this.KBgravity);
+                    if (this.deleteOnHit) {this.hitboxOn = false; this.attackTiming=0;}
                 }
                 else if (this.X + this.Xsize/2 > entity.X) {
                     entity.hit(hitDamage, i, "left", this.KBfriction, this.KBgravity);
+                    if (this.deleteOnHit) {this.hitboxOn = false; this.attackTiming=0;}
                 }else{
                     entity.hit(hitDamage, i, "up", this.KBfriction, this.KBgravity);
+                    if (this.deleteOnHit) {this.hitboxOn = false; this.attackTiming=0;}
                 }
                 return;
             }

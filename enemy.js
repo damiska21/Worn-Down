@@ -4,7 +4,7 @@ function enemyFunc() {
     }
 }
 
-var shootHandler = new attackHandler(false, 20, 0, 20, 20, 3, 8, 5);
+var shootHandler = new attackHandler(false, -20, 20, 20, 20, 3, 8, 5);
 class enemy {
     constructor(entity, type, attackHandler){
         this.entity = entity,
@@ -14,7 +14,8 @@ class enemy {
     initiate(){ //při spuštění se mění pár interních vlastností
         switch (this.type) {
             case "shooter":
-                this.attackHandler.attackTimeLimit = 50;
+                this.attackHandler.attackTimeLimit = 170; //tohle ujede pět bloků
+                this.attackHandler.deleteOnHit = true;
                 break;
         
             default:
@@ -49,38 +50,37 @@ class enemy {
             this.entity.move("left");
         }
         this.attackHandler.tick();
-        if(this.attackHandler.hitboxOn){this.shooterAttack();}
-        //#region PLAYER KOLIZE - top right
-        if ((player.X + player.width > this.entity.X && player.X + player.width < this.entity.X + this.entity.width)/*X*/ && (player.Y >= this.entity.Y && player.Y < this.entity.Y + this.entity.height)) {
-            console.log("top right p hit");
-            player.hit(1, -1, "left");
-            this.entity.stunTime = 25;
+        if(this.attackHandler.hitboxOn){
+            this.attackLoop(); 
+            this.attackHandler.hitCheck(-1, player, this.entity);
+        }else{
+            this.normalAttack();
         }
-        //top left
-        else if((player.X > this.entity.X && player.X < this.entity.X + this.entity.width)/*X*/ && (player.Y >= this.entity.Y && player.Y < this.entity.Y + this.entity.height)){
-            console.log("top left p hit");
-            player.hit(1, -1, "right");
-            this.entity.stunTime = 25;
-        }
-        //bot right
-        else if ((player.X + player.width > this.entity.X && player.X + player.width < this.entity.X + this.entity.width)/*X*/ && (player.Y + player.height >= this.entity.Y && player.Y+ player.height < this.entity.Y + this.entity.height)) {
-            console.log("bot right p hit");
-            player.hit(1, -1, "left");
-            this.entity.stunTime = 25;
-        }
-        //bot left
-        else if ((player.X > this.entity.X && player.X < this.entity.X + this.entity.width)/*X*/ && (player.Y + player.height >= this.entity.Y && player.Y+ player.height < this.entity.Y + this.entity.height)) {
+        
+        //kolize s hráčem
+        if ((player.X < this.entity.X+this.entity.width && player.X+player.width > this.entity.X )&& (player.Y < this.entity.Y+this.entity.height && player.Y + player.height > this.entity.Y)) {
             console.log("bot left p hit");
-            player.hit(1, -1, "right");
+            if (player.X >= this.entity.X + (this.entity.width/2)) {
+                player.hit(1, -1, "right");
+            }else{
+                player.hit(1, -1, "left");
+            }
             this.entity.stunTime = 25;
         }
         //#endregion
     }
-    shooterAttack(){
+    attackLoop(){
+        switch (this.type) {
+            case "shooter":
+                this.shooterAttackLoop();
+                break;
+        }
+    }
+    shooterAttackLoop(){
         if (this.entity.facing == "right") {
-            this.attackHandler.X += 10;
+            this.attackHandler.X += 5;
         }else {
-            this.attackHandler.X -= 10;
+            this.attackHandler.X -= 5;
         }
     }
     normalAttack(){

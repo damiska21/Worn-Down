@@ -8,8 +8,9 @@ var tilemapImg = new Image();
 tilemapImg.src = "img/tilemap5.png"
 var tilemapGuide = [10001, 10010, 11000, 10100, -1, 11010, 11001, 10101, 10110 ,11111];
 
-function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
 
+function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
+    
     c.fillStyle = "gray";
     c.fillRect(0, 0, canvas.width, canvas.height);
 

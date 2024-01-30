@@ -1,4 +1,5 @@
 var canvas = document.createElement("canvas");canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;document.body.appendChild(canvas);var c = canvas.getContext("2d");
+c.scale(1.1, 1.1);
 
 var mezernikDown = false;
 var leftDown = false;
@@ -100,6 +101,7 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
 }
 function slowLoop() { //loop co se spouští jednou za vteřinu
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
+c.scale(1.1, 1.1);
 }
 
 function initiate(){
