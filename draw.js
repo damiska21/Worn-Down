@@ -5,7 +5,7 @@ var playerImg = new Image();
 playerImg.src = "img/player.png";
 
 var tilemapImg = new Image();
-tilemapImg.src = "img/tilemap5.png"
+tilemapImg.src = "img/bloky1.png"
 var tilemapGuide = [10001, 10010, 11000, 10100, -1, 11010, 11001, 10101, 10110 ,11111];
 
 
@@ -15,8 +15,8 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     c.fillRect(0, 0, canvas.width, canvas.height);
 
     c.fillStyle = "blue";
-    //c.fillRect(player.X, player.Y, player.width, player.height); //starej kód na čtverec
-    c.drawImage(playerImg, player.X-offset-20, player.Y-Yoffset-20)
+    c.fillRect(player.X-offset, player.Y-Yoffset, player.width, player.height); //starej kód na čtverec
+    //c.drawImage(playerImg, player.X-offset-20, player.Y-Yoffset-20);
 
 
     if(playerAttack.hitboxOn){
@@ -41,7 +41,6 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
         c.fillStyle = "red";
         c.fillRect(EA.E[i].attackHandler.X-offset, EA.E[i].attackHandler.Y-Yoffset, EA.E[i].attackHandler.Xsize, EA.E[i].attackHandler.Ysize);
-        console.log(EA.E[i].attackHandler.X + " " + EA.E[i].attackHandler.Y + " " + i);
     }
 
     if (playerWalkParticles.enabled) {

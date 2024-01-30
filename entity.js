@@ -285,7 +285,7 @@ function Skill() {
 //#endregion
 
 //#region PLAYER
-var player = new entity(100, 100, 75, 50, 5, 10);
+var player = new entity(100, 100, 125, 90, 5, 10);
 
 function playerFunc() {
     player.oldX = player.X;
@@ -314,13 +314,13 @@ function playerFunc() {
     //skok a gravitace
     player.Y += player.gravity;
     if (!player.onground) {
-        player.gravity += 1.2;
+        player.gravity += 2;
     }
     if (mezernikDown && (player.onground || player.coyoteTime)) {
         if (player.coyoteTime) {
             player.coyoteTime = false;
         }
-        player.gravity = -17;
+        player.gravity = -28;
         player.onground = false;
         if (player.moving != "no") {
             player.friction *=1.5;

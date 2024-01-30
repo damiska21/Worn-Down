@@ -18,7 +18,7 @@ class tilemapConstructor {
 
         this.respawnX = 0,
         this.respawnY = 0,
-        this.tile = 50
+        this.tile = 90
     }
     newTilemap(width, height, tilemapArray, Xpos, Ypos) {
         let a = new tilemap(width, height, tilemapArray, Xpos, Ypos);
@@ -46,7 +46,9 @@ class tilemapConstructor {
                             }
                         }
                         //          obrázek      x bodu výřezu   y   velikost výřezu     x bodu vykreslení                                                y bodu vykreslení       velikost vykreslení
-                        c.drawImage(tilemapImg, drawingIndex*90, 0,    90, 90,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-20)/*X*/, (j*this.tile-Yoffset)-20, 90, 90);
+                        //c.fillStyle = "brown";
+                        c.drawImage(tilemapImg, drawingIndex*150, 0,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30)/*X*/, (j*this.tile-Yoffset)-40, 150, 170);
+                        //c.fillRect((i*this.tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*this.tile, j*this.tile+(10*this.tile)-Yoffset, this.tile, this.tile);
                     }else {
                         var tm = TM.A[tilemapIndex];
                         var drawingIndex = 4;
@@ -55,7 +57,9 @@ class tilemapConstructor {
                                 drawingIndex = i;
                             }
                         }
-                        c.drawImage(tilemapImg, drawingIndex*90, 0, 90, 90, i*this.tile-offset-20, j*this.tile-Yoffset-20, 90, 90);
+                        c.drawImage(tilemapImg, drawingIndex*150, 0, 150, 170,(i*this.tile-offset)-30, (j*this.tile-Yoffset)-40, 150, 170);
+                        //c.fillStyle = "brown";
+                        //c.fillRect((i*this.tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*this.tile, j*this.tile+(10*this.tile)-Yoffset, this.tile, this.tile);
                     }
                 }
             }

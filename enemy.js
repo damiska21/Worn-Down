@@ -4,7 +4,7 @@ function enemyFunc() {
     }
 }
 
-var shootHandler = new attackHandler(false, -20, 20, 20, 20, 3, 8, 5);
+var shootHandler = new attackHandler(false, -20, 10, 20, 20, 3, 8, 5);
 class enemy {
     constructor(entity, type, attackHandler){
         this.entity = entity,
