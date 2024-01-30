@@ -11,7 +11,16 @@ class enemy {
         this.type = type,
         this.attackHandler = attackHandler
     }
-    
+    initiate(){ //při spuštění se mění pár interních vlastností
+        switch (this.type) {
+            case "shooter":
+                this.attackHandler.attackTimeLimit = 50;
+                break;
+        
+            default:
+                break;
+        }
+    }
     enemyLoop(){
         if (this.entity.X-offset > window.innerWidth) {return;}//když je enemy mimo obrazovku, nic nedělá
         this.entity.oldX = this.entity.X;
