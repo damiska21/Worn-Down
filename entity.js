@@ -139,6 +139,7 @@ class attackHandler {
         this.Y = 0,
         this.hitboxOn = false, //jestli je spuštěn attack
         this.attackTiming = 0,
+        this.attackTimeLimit = 10, //čas, jak dlouho je útok aktivní
         this.Xsize = Xsize,
         this.Ysize = Ysize,
         this.KBfriction = KBfriction,//knockback horizontální
@@ -146,19 +147,19 @@ class attackHandler {
 
         this.attackXsize = 150,
         this.attackYsize = 25,
-        this.attackXsize2 = 25,
+        this.attackXsize2 = 25,//2 je jenom na hlavní útok
         this.attackYsize2 = 150,
         this.activeFacing = "left", //aby hráč nemohl měnit směr útoku uprostřed normálního útoku což nefunguje směr ze strany nahoru a zpátky
-        this.mainAttack = mainAttack,
+        this.mainAttack = mainAttack, //jestli je útok ovlivňován tím kam entita míří
 
         this.invulnerableTiming = 20,//čas jak dlouho je enemy invulnerable na this.Y (aby netankoval dva hity při jednom útoku hráče)
-        this.Xoffset = Xoffset,
+        this.Xoffset = Xoffset, //offset x y spouštějící entity od bodu spuštění útoku
         this.Yoffset = Yoffset,
 
         this.cooldown = cooldown*60,
         this.cooldownTime = 0
     }
-    //entity spouští útok, tam kde začíná, keyBool kontroluje držení klávesy, facing ukazuje směr při hlavním útoku
+    //entity spouští útok (tam kde začíná), keyBool kontroluje držení klávesy, facing ukazuje směr při hlavním útoku
     start(facing, entity, keyBool){
         if (!keyBool || this.attackTiming != 0 || this.cooldownTime>0) {return;}//pokud se nespouští attack okamžitě vrátí funkci
         this.hitboxOn = true;this.attackTiming = 0;//spouští časování délky útoku
@@ -226,7 +227,7 @@ class attackHandler {
         }
         if (!this.hitboxOn) {return;}
         this.attackTiming++;
-        if (this.attackTiming == 10) {
+        if (this.attackTiming == this.attackTimeLimit) {
             this.hitboxOn=false;
             this.attackTiming=0;
             for (let i = 0; i < EA.E.length; i++) {

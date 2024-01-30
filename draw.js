@@ -1,8 +1,8 @@
 var harambe = new Image();
 harambe.src = "img/harambe.png";
 
-var smurfcat = new Image();
-smurfcat.src = "img/player.png";
+var playerImg = new Image();
+playerImg.src = "img/player.png";
 
 var tilemapImg = new Image();
 tilemapImg.src = "img/tilemap5.png"
@@ -15,7 +15,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
     c.fillStyle = "blue";
     //c.fillRect(player.X, player.Y, player.width, player.height); //starej kód na čtverec
-    c.drawImage(smurfcat, player.X-offset, player.Y-Yoffset)
+    c.drawImage(playerImg, player.X-offset-20, player.Y-Yoffset-20)
 
 
     if(playerAttack.hitboxOn){
@@ -30,13 +30,19 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
     }
 
-    for (let i = 0; i < EA.getEnemyNum(); i++) {
-        EA.E[i].attackHandler.drawAttack();
-    }
+    
 
     tilemapDraw(offset);
 
-    
+    for (let i = 0; i < EA.getEnemyNum(); i++) {
+        //EA.E[i].attackHandler.drawAttack();
+        if (!EA.E[i].attackHandler.hitboxOn) {continue;}
+
+        c.fillStyle = "red";
+        c.fillRect(EA.E[i].attackHandler.X-offset, EA.E[i].attackHandler.Y-Yoffset, EA.E[i].attackHandler.Xsize, EA.E[i].attackHandler.Ysize);
+        console.log(EA.E[i].attackHandler.X + " " + EA.E[i].attackHandler.Y + " " + i);
+    }
+
     if (playerWalkParticles.enabled) {
         particles("white", playerWalkParticles);
     }
