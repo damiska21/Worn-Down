@@ -285,7 +285,7 @@ function Skill() {
 //#endregion
 
 //#region PLAYER
-var player = new entity(100, 100, 125, 90, 5, 10);
+var player = new entity(100, 100, 125, 80, 5, 10);
 
 function playerFunc() {
     player.oldX = player.X;
@@ -331,7 +331,7 @@ function playerFunc() {
 
     if (player.Y<0) {
         player.Y=0;
-    }if (player.Y > window.innerHeight + 500) {
+    }if (player.Y > window.innerHeight + 1500) {
         player.Y = TM.respawnY;
         player.X = TM.respawnX;
     }if (player.X < 0) {

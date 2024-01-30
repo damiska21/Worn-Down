@@ -30,52 +30,34 @@ class tilemapConstructor {
     }
 
     drawTilemap(tilemapIndex, offset, Y) {
+        var tileUpCounter = 0;
         //console.log("vykreslování tilemapy " + tilemapIndex + " na souřadnicích X: " + TM.A[tilemapIndex].Xpos + " Y: " + TM.A[tilemapIndex].Ypos);
         c.fillStyle = "green";
-        if (Y == 0) {
-            for (let i = 0; i < sirka; i++) {
-                for (let j = 0; j < vyska; j++) {
-                    var tileDrawn = TM.getTile(i+(tilemapIndex*20), j);
-                    if (tileDrawn%10000==0) { continue; }
-                    if (tilemapIndex > 0) {
-                        var tm = TM.A[tilemapIndex];
-                        var drawingIndex = 4;
-                        for (let i = 0; i < tilemapGuide.length; i++) {
-                            if (tileDrawn == tilemapGuide[i]) {
-                                drawingIndex = i;
-                            }
-                        }
-                        //          obrázek      x bodu výřezu   y   velikost výřezu     x bodu vykreslení                                                y bodu vykreslení       velikost vykreslení
-                        //c.fillStyle = "brown";
-                        c.drawImage(tilemapImg, drawingIndex*150, 0,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30)/*X*/, (j*this.tile-Yoffset)-40, 150, 170);
-                        //c.fillRect((i*this.tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*this.tile, j*this.tile+(10*this.tile)-Yoffset, this.tile, this.tile);
-                    }else {
-                        var tm = TM.A[tilemapIndex];
-                        var drawingIndex = 4;
-                        for (let i = 0; i < tilemapGuide.length; i++) {
-                            if (tileDrawn == tilemapGuide[i]) {
-                                drawingIndex = i;
-                            }
-                        }
-                        c.drawImage(tilemapImg, drawingIndex*150, 0, 150, 170,(i*this.tile-offset)-30, (j*this.tile-Yoffset)-40, 150, 170);
-                        //c.fillStyle = "brown";
-                        //c.fillRect((i*this.tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*this.tile, j*this.tile+(10*this.tile)-Yoffset, this.tile, this.tile);
+        for (let i = 0; i < sirka; i++) {
+            for (let j = 0; j < vyska; j++) {
+                var tileDrawn = TM.getTile(i+(tilemapIndex*20), j);
+                if (tileDrawn%10000==0) { continue; }
+                //if (tilemapIndex > 0) {
+                var tm = TM.A[tilemapIndex];
+                var drawingIndex = 4;
+                for (let i = 0; i < tilemapGuide.length; i++) {
+                    if (tileDrawn == tilemapGuide[i]) {
+                        drawingIndex = i;
                     }
+                }
+                if (tileDrawn === 10001) {
+                    var m = tileUpCounter;
+                    tileUpCounter++;
+                    if (tileUpCounter >= 5) {
+                        tileUpCounter = 0;
+                    }
+                    c.drawImage(tilemapUpImg, m*150, 0,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30)/*X*/, (j*this.tile-Yoffset)-40, 150, 170);
+                }else{
+                    c.drawImage(tilemapImg,  0 ,drawingIndex*170, 150, 170, ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30)/*X*/, (j*this.tile-Yoffset)-40, 150, 170);
                 }
             }
-        }else if (Y == 1) {
-            for (let i = 0; i < sirka; i++) {
-                for (let j = 0; j < vyska; j++) {
-                    if ((TM.getTile(i, j)%10000 > 0) || TM.getTile(i, j) == -1) {
-                        if (TM.B[tilemapIndex].Xpos > 0) {
-                            c.fillRect((i*this.tile-offset) + TM.A[tilemapIndex].Xpos *TM.A[tilemapIndex].width*this.tile, j*this.tile+(10*this.tile)-Yoffset, this.tile, this.tile);
-                        }else {
-                            c.fillRect(i*this.tile-offset, j*this.tile+(20*this.tile)-Yoffset, this.tile, this.tile);
-                        }
-                    }
-                }
-           }
         }
+        
     }
     getTile(X, Y) {
         //console.log(this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][Math.floor(X/this.A[0].width)] + " X: " + X + " Y: " + Y);

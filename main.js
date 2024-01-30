@@ -54,38 +54,41 @@ function Camera() {
     //X kamera
     if(player.X - offset > window.innerWidth/2) {
         offset += 6;
-        //console.log(player.X-offset + " > " + (window.innerWidth/2));
     }else if(player.X - offset < 200) {
         offset -=6;
-        //console.log(player.X-offset + " < " + 200);
-    }if(player.X - offset > (window.innerWidth-100)) {
-        offset +=6;
-        //console.log(player.X-offset + " > " + (window.innerWidth-100));
-    }if (player.X - offset < 100) {
-        offset -=6;
-        //console.log(player.X-offset + " < " + 100);
     }
+    //vyšší zrychlení pokud je hráč na okraji obrazovky
+    if(player.X - offset > (window.innerWidth-100)) {
+        offset +=6;
+    }
+    if (player.X - offset < 100) {
+        offset -=6;
+    }
+
+    //rychlý návrat na spawn (převážně)
     if (player.X - offset < -100) {
         offset-=20;
-        //console.log(player.X-offset + " < " + -100);
     }
+    //aby kamera nešla do mínusu
     if(offset<0) {
         offset= 0;
-        //console.log("offset 0");
     }
+
     //Y kamera
-    if (player.Y - Yoffset> window.innerHeight-200) {
+    if (player.Y - Yoffset > window.innerHeight-250) {
         Yoffset+=5;
-    }else if(player.Y - Yoffset < 300) {
+        if (player.Y - Yoffset < 250) {
+            Yoffset+=5;
+        }
+    }else if(player.Y - Yoffset < 250) {
         Yoffset -=5;
+        if (player.Y - Yoffset < 100) {
+            Yoffset -=5;
+        }
     }
     if (Yoffset <0) {
         Yoffset = 0;
-    }/*if(player.X - offset > window.innerWidth*0.2) {
-        Yoffset += 5;
-    }else if(player.X - offset < window.innerWidth*0.2) {
-        Yoffset -=5;
-    }*/
+    }
 }
 
 function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale chápeš)
@@ -97,6 +100,11 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
     Skill();
     enemyFunc();
     levelLoop();
+}
+//na celý čísla od nuly do to
+function randomNum(to) {
+    var num = Math.floor(Math.random()*to);
+    return num;
 }
 function slowLoop() { //loop co se spouští jednou za vteřinu
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
