@@ -5,6 +5,7 @@ function enemyFunc() {
 }
 
 var shootHandler = new attackHandler(false, -20, 10, 20, 20, 3, 8, 5);
+var triggerHandler =new attackHandler(false, 0,0,0,0,0,0,0); //trigger handler je pro to že tohle může loopovat pořád což se hodí u páček
 class enemy {
     constructor(entity, type, attackHandler){
         this.entity = entity,
@@ -17,7 +18,11 @@ class enemy {
                 this.attackHandler.attackTimeLimit = 170; //tohle ujede pět bloků
                 this.attackHandler.deleteOnHit = true;
                 break;
-        
+            case "trigger":
+                this.entity.hp = 20;
+                this.entity.knockback = false;
+                this.triggered = false;
+                break;
             default:
                 break;
         }
@@ -55,6 +60,7 @@ class enemy {
             this.attackHandler.hitCheck(-1, player, this.entity);
         }else{
             this.normalAttack();
+            
         }
         
         //kolize s hráčem
@@ -74,6 +80,12 @@ class enemy {
             case "shooter":
                 this.shooterAttackLoop();
                 break;
+        }
+    }
+    triggerLoop(){
+        if (this.entity.hp<= 19) {
+            triggered = true;
+            this.entity.hp = 19;
         }
     }
     shooterAttackLoop(){

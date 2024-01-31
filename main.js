@@ -75,10 +75,10 @@ function Camera() {
     }
 
     //Y kamera
-    if (player.Y - Yoffset > window.innerHeight-250) {
+    if (player.Y - Yoffset > window.innerHeight-350) {
         Yoffset+=5;
-        if (player.Y - Yoffset < 250) {
-            Yoffset+=5;
+        if (player.Y - Yoffset > window.innerHeight-150) {
+            Yoffset+=8;
         }
     }else if(player.Y - Yoffset < 250) {
         Yoffset -=5;
@@ -86,6 +86,7 @@ function Camera() {
             Yoffset -=5;
         }
     }
+
     if (Yoffset <0) {
         Yoffset = 0;
     }
