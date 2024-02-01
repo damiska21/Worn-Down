@@ -37,6 +37,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     }
 
     for (let j = 0; j < triggers.getEnemyNum(); j++) {
+        c.fillStyle = "red";
         c.fillRect(triggers.E[j].entity.X-offset, triggers.E[j].entity.Y-Yoffset, triggers.E[j].entity.width, triggers.E[j].entity.height);
         //c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
     }

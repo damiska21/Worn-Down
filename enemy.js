@@ -90,8 +90,11 @@ class enemy {
     }
     triggerLoop(){
         if (this.entity.hp<= 19) {
-            triggered = true;
+            this.triggered = true;
             this.entity.hp = 19;
+        }
+        if (this.triggered) {
+            this.triggerFunction();
         }
     }
     shooterAttackLoop(){

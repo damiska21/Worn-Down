@@ -264,10 +264,15 @@ function Attack() {
     playerAttack.moveCheck(player); //checkuje jestli je potřeba pohnout s existujícím attackem
     
     playerAttack.tick();
-    if (EA.getEnemyNum() < 1) {return;}
+    if (EA.getEnemyNum() < 1 && EA.getEnemyNum() < 1) {return;}
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         if(playerAttack.hitboxOn){
             playerAttack.hitCheck(i, EA.E[i].entity, player);
+        }
+    }
+    for (let j = 0; j < triggers.getEnemyNum(); j++) {
+        if(playerAttack.hitboxOn){
+            playerAttack.hitCheck(j, triggers.E[j].entity, player);
         }
     }
 }
