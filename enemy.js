@@ -2,6 +2,9 @@ function enemyFunc() {
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         EA.E[i].enemyLoop(); 
     }
+    for (let i = 0; i < triggers.getEnemyNum(); i++) {
+        triggers.E[i].enemyLoop();
+    }
 }
 
 var shootHandler = new attackHandler(false, -20, 10, 20, 20, 3, 8, 5);
@@ -22,6 +25,9 @@ class enemy {
                 this.entity.hp = 20;
                 this.entity.knockback = false;
                 this.triggered = false;
+                this.triggerFunction= function triggerFunction() {
+                    console.log("páček :D");
+                }
                 break;
             default:
                 break;
@@ -121,4 +127,5 @@ class enemies {
     }
 }
 var EA = new enemies(); //EA znamená enemy array btw :D
+var triggers = new enemies(); //páčky atp jsou taky nepřátelé
 //EA.newEnemy(250, 250, 75, 50, 3);

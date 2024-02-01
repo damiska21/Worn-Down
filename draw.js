@@ -2,7 +2,8 @@ var harambe = new Image();
 harambe.src = "img/harambe.png";
 
 var playerImg = new Image();
-playerImg.src = "img/player.png";
+playerImg.src = "img/player_1.png";
+//40 zhora zdola - 50 zboku
 
 var tilemapImg = new Image();
 tilemapImg.src = "img/this_shit_ruin_My_life.png"
@@ -18,9 +19,9 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     c.fillStyle = "gray";
     c.fillRect(0, 0, canvas.width, canvas.height);
 
-    c.fillStyle = "blue";
-    c.fillRect(player.X-offset, player.Y-Yoffset, player.width, player.height); //starej kód na čtverec
-    //c.drawImage(playerImg, player.X-offset-20, player.Y-Yoffset-20);
+    //c.fillStyle = "blue";
+    //c.fillRect(player.X-offset, player.Y-Yoffset, player.width, player.height); //starej kód na čtverec
+    
 
 
     if(playerAttack.hitboxOn){
@@ -35,9 +36,14 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
     }
 
-    
+    for (let j = 0; j < triggers.getEnemyNum(); j++) {
+        c.fillRect(triggers.E[j].entity.X-offset, triggers.E[j].entity.Y-Yoffset, triggers.E[j].entity.width, triggers.E[j].entity.height);
+        //c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
+    }
 
     tilemapDraw(offset);
+
+    c.drawImage(playerImg, player.X-offset-60, player.Y-Yoffset-40);
 
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         //EA.E[i].attackHandler.drawAttack();
@@ -47,9 +53,9 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         c.fillRect(EA.E[i].attackHandler.X-offset, EA.E[i].attackHandler.Y-Yoffset, EA.E[i].attackHandler.Xsize, EA.E[i].attackHandler.Ysize);
     }
 
-    if (playerWalkParticles.enabled) {
+    /*if (playerWalkParticles.enabled) {
         particles("white", playerWalkParticles);
-    }
+    }*/
     if (pause) {
         c.font = "30px Arial";
         c.fillText("Pozastaveno", 10, 50);
