@@ -26,6 +26,9 @@ class enemy {
                 this.entity.knockback = false;
                 this.triggered = false;
                 this.triggerFunction= function triggerFunction() {
+                    
+                }
+                this.triggerFunctionOneTime = function triggerFunctionOneTime() {
                     console.log("páček :D");
                 }
                 break;
@@ -66,7 +69,6 @@ class enemy {
             this.attackHandler.hitCheck(-1, player, this.entity);
         }else{
             this.normalAttack();
-            
         }
         
         //kolize s hráčem
@@ -86,14 +88,19 @@ class enemy {
             case "shooter":
                 this.shooterAttackLoop();
                 break;
+            case "trigger":
+                this.triggerLoop();
+                break;
         }
     }
     triggerLoop(){
+        if (!this.triggered && this.entity.hp == 19) {
+            this.triggerFunctionOneTime();
+        }
         if (this.entity.hp<= 19) {
             this.triggered = true;
             this.entity.hp = 19;
-        }
-        if (this.triggered) {
+        }if (this.triggered) {
             this.triggerFunction();
         }
     }
