@@ -10,6 +10,9 @@ var gameOver = false;
 
 var offset = 0;
 var Yoffset = 0;
+var cameraShakeCounter = 0;
+var cameraShakeX = 0;
+var cameraShakeY = 0;
 var cameraLock = false;
 
 var pause = false;
@@ -50,7 +53,18 @@ function Click(event) {
 }
 
 function Camera() {
+    if (cameraShakeCounter>0) {
+        offset -=cameraShakeX;
+        Yoffset -=cameraShakeY;
+        cameraShakeX = (Math.round(Math.random()*cameraShakeCounter*4) - Math.round(Math.random()*cameraShakeCounter*2));
+        cameraShakeY = (Math.round(Math.random()*cameraShakeCounter*4)-Math.round(Math.random()*cameraShakeCounter*2));
+        offset +=cameraShakeX;
+        Yoffset +=cameraShakeY;
+        console.log(cameraShakeX + " " + cameraShakeY);
+        cameraShakeCounter--;
+    }
     if (cameraLock) {return;}
+    
     //X kamera
     if(player.X - offset > window.innerWidth/2) {
         offset += 6;

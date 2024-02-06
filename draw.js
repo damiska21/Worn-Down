@@ -15,14 +15,14 @@ tilemapUpImg.src = "img/block_02_variants.png";
 //10
 
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
+
+    //všechno co se vykresluje potřebuje -offset !!!
     
     c.fillStyle = "gray";
     c.fillRect(0, 0, canvas.width, canvas.height);
 
     //c.fillStyle = "blue";
     //c.fillRect(player.X-offset, player.Y-Yoffset, player.width, player.height); //starej kód na čtverec
-    
-
 
     if(playerAttack.hitboxOn){
         c.fillStyle = "red";

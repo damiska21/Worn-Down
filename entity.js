@@ -118,6 +118,7 @@ class entity {
             }
             return;
         }
+        cameraShakeCounter = 10;
         if(this.knockback){
             if (direction == "left") {
                 this.friction = -15;
