@@ -29,15 +29,21 @@ class tilemapConstructor {
         this.B = this.B.concat(a);
     }
 
-    drawTilemap(tilemapIndex, offset, Y) {
-        var tileUpCounter = 0;
+    drawTilemap(tilemapIndex, offset) {
+        for (let i = 0; i < sirka; i++) {
+            for (let j = 0; j < vyska; j++) {
+                if (tileDrawn==-1) { continue; }
+                c.drawImage(tilemapUpImg, m*150, 0,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
+            }
+        }
+
+        /*var tileUpCounter = 0;
         //console.log("vykreslování tilemapy " + tilemapIndex + " na souřadnicích X: " + TM.A[tilemapIndex].Xpos + " Y: " + TM.A[tilemapIndex].Ypos);
         c.fillStyle = "green";
         for (let i = 0; i < sirka; i++) {
             for (let j = 0; j < vyska; j++) {
                 var tileDrawn = TM.getTile(i+(tilemapIndex*20), j);
                 if (tileDrawn%10000==0) { continue; }
-                //if (tilemapIndex > 0) {
                 var tm = TM.A[tilemapIndex];
                 var drawingIndex = 4;
                 for (let i = 0; i < tilemapGuide.length; i++) {
@@ -51,12 +57,12 @@ class tilemapConstructor {
                     if (tileUpCounter >= 5) {
                         tileUpCounter = 0;
                     }
-                    c.drawImage(tilemapUpImg, m*150, 0,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30)/*X*/, (j*this.tile-Yoffset)-40, 150, 170);
+                    c.drawImage(tilemapUpImg, m*150, 0,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
                 }else{
-                    c.drawImage(tilemapImg,  0 ,drawingIndex*170, 150, 170, ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30)/*X*/, (j*this.tile-Yoffset)-40, 150, 170);
+                    c.drawImage(tilemapImg,  0 ,drawingIndex*170, 150, 170, ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
                 }
             }
-        }
+        }*/
         
     }
     getTile(X, Y) {
