@@ -5,6 +5,7 @@ class tilemap {
         this.width = width,
         this.height = height, 
         this.tilemapArray = tilemapArray,
+        this.textureArray = textureArray,
         this.Xpos = Xpos,
         this.Ypos = Ypos
     }
@@ -32,8 +33,9 @@ class tilemapConstructor {
     drawTilemap(tilemapIndex, offset) {
         for (let i = 0; i < sirka; i++) {
             for (let j = 0; j < vyska; j++) {
+                var tileDrawn = this.getTile(i+(tilemapIndex*20), j, 1);
                 if (tileDrawn==-1) { continue; }
-                c.drawImage(tilemapUpImg, m*150, 0,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
+                c.drawImage(tilemapFinalImg, *150, 0,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
             }
         }
 
@@ -71,6 +73,9 @@ class tilemapConstructor {
             return this.B[Math.floor(X/TM.B[0].width)].tilemapArray[Y-20][X%this.B[0].width];
         }
         return this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][X%20];
+    }
+    getTile(X, Y, ee) {
+        return this.A[Math.floor(X/TM.A[0].width)].textureArray[Y][X%20];
     }
     setTile(X, Y, value){
         if (Y>19) {
