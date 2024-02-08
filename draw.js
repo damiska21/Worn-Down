@@ -1,17 +1,17 @@
 var harambe = new Image();
-harambe.src = "img/harambe.png";
+harambe.src = "img/enemy/harambe.png";
 
 var playerImg = new Image();
-playerImg.src = "img/player_1.png";
+playerImg.src = "img/player/player_1.png";
 //40 zhora zdola - 50 zboku
 
 var tilemapImg = new Image();
-tilemapImg.src = "img/this_shit_ruin_My_life.png"
+tilemapImg.src = "img/tilemap/this_shit_ruin_My_life.png"
 var tilemapGuide = [10001, 10010, 11000, 10100, -1, 11010, 10110, 11001, 10101 ,11111];
 var tilemapUpImg = new Image();
-tilemapUpImg.src = "img/block_02_variants.png";
+tilemapUpImg.src = "img/tilemap/block_02_variants.png";
 var tilemapFinalImg = new Image();
-tilemapFinalImg.src = "img/tilemap1.png";
+tilemapFinalImg.src = "img/tilemap/tilemap1.png";
 
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
 //10

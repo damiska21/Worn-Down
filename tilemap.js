@@ -35,7 +35,8 @@ class tilemapConstructor {
             for (let j = 0; j < vyska; j++) {
                 var tileDrawn = this.getTile(i+(tilemapIndex*20), j, 1);
                 if (tileDrawn==-1) { continue; }
-                c.drawImage(tilemapFinalImg, *150, 0,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
+
+                c.drawImage(tilemapFinalImg, (tileDrawn%5)*150, (tileDrawn/5)*170,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
             }
         }
 

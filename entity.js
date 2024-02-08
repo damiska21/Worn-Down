@@ -337,7 +337,7 @@ function playerFunc() {
 
     if (player.Y<0) {
         player.Y=0;
-    }if (player.Y > TM.A[0].height*TM.tile+250) {
+    }if (player.Y > TM.A[0].height*TM.tile+250) {//respawn je 250 pixelů pod spodkem mapy
         player.Y = TM.respawnY;
         player.X = TM.respawnX;
     }if (player.X < 0) {
