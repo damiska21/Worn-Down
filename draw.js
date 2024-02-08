@@ -13,8 +13,19 @@ tilemapUpImg.src = "img/tilemap/block_02_variants.png";
 var tilemapFinalImg = new Image();
 tilemapFinalImg.src = "img/tilemap/tilemap1.png";
 
+//X 40 offset 80 body
+//Y 20 offset 160 body
+var walkingSpriteLeft = new Image();
+walkingSpriteLeft.src = "img/player/walking_animation(left)).png";
+var walkingSpriteRight = new Image();
+walkingSpriteRight.src = "img/player/walking_animation(right).png";
+var standingSpriteLeft = new Image();
+standingSpriteLeft.src = "img/player/standing_animation(left).png";
+var standingSpriteRight = new Image();
+standingSpriteRight.src = "img/player/standing_animation(right).png";
+
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
-//10
+//11
 
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
 
@@ -46,7 +57,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
     tilemapDraw(offset);
 
-    c.drawImage(playerImg, player.X-offset-60, player.Y-Yoffset-40);
+drawPlayer();
 
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         //EA.E[i].attackHandler.drawAttack();
@@ -67,4 +78,31 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         c.fillText("Prohral jsi!", 10, 50);
     }
     window.requestAnimationFrame(draw);
+}
+
+var playerAnimFrame = 0;
+var playerAnimTiming = 0;
+function drawPlayer() {
+    //c.drawImage(playerImg, player.X-offset-60, player.Y-Yoffset-40);
+
+    //tyhle hodnoty určují rychlost od které se přehrává walk animace
+    if (player.friction > 5) {
+        c.drawImage(walkingSpriteRight, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+    }else if(player.friction < -5){
+        c.drawImage(walkingSpriteLeft, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+    }else{
+        if (player.facing == "left") {
+            c.drawImage(standingSpriteLeft, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+        }else{
+            c.drawImage(standingSpriteRight, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+        }
+    }
+    playerAnimTiming++;
+    if (playerAnimTiming >= 10) {
+        playerAnimFrame++;
+        playerAnimTiming = 0;
+    }
+    if (playerAnimFrame == 8) {
+        playerAnimFrame =0;
+    }
 }
