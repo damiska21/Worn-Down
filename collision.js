@@ -78,7 +78,6 @@ function collision(entity) {
     function topCollision(row, index) {
         if (entity.Y - entity.oldY > 0) {
           if ((index % 10)>=1) {
-            
           var top = row * TM.tile;//object.oldBottom <= top
           if ((entity.Y + entity.height) > top && entity.oldY+entity.height <=top) {
             entity.gravity = 0;

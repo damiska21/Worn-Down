@@ -106,11 +106,60 @@ function Camera() {
     }
 }
 
+function Kniha() {
+    kniha.moveCheck();
+}
+class book{
+    constructor(){
+        this.X = 0,
+        this.Y = 0,
+        this.height = 20,
+        this.width = 20,
+        this.moveX = this.X,//místo, kam knížka míří
+        this.moveY = this.Y,
+        this.moveTrue = false,
+        this.Xfriction = 0,
+        this.Yfriction = 0,
+        this.entityBind = player //entita na kterou se knížka lepí
+    }
+    moveCheck(){
+        if (!this.moveTrue) {
+            if (this.entityBind.facing == "left") {
+                this.moveX = this.entityBind.X - 50;
+                this.moveY = this.entityBind.Y + 30;
+            }else if(this.entityBind.facing == "right") {
+                this.moveX = this.entityBind.X + this.entityBind.width + 30;
+                this.moveY = this.entityBind.Y + 30;
+                //console.log((this.entityBind.Y + (this.entityBind.height/2)) + " " + this.entityBind.Y);
+            }
+        }
+
+        //pohyb knížky na určitý místo
+        this.Xfriction*=0.9;
+        this.Yfriction*=0.9;
+        if (this.moveX-30 > this.X) {
+            this.Xfriction+=1;
+        }else if (this.moveX+30 < this.X) {
+            this.Xfriction-=1;
+        }
+
+        if (this.moveY > this.Y) {
+            this.Yfriction+=1;
+        }else if(this.moveY+30 < this.Y) {
+            this.Yfriction -=1;
+        }
+        this.X += this.Xfriction;
+        this.Y += this.Yfriction;
+    }
+}
+var kniha = new book();
+
 function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale chápeš)
     if (pause || gameOver) {return;}
     playerFunc();
     collision(player);
     Camera();
+    Kniha();
     Attack();
     Skill();
     enemyFunc();

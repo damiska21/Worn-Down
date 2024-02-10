@@ -157,6 +157,7 @@ class attackHandler {
         this.attackYsize2 = 150,
         this.activeFacing = "left", //aby hráč nemohl měnit směr útoku uprostřed normálního útoku což nefunguje směr ze strany nahoru a zpátky
         this.mainAttack = mainAttack, //jestli je útok ovlivňován tím kam entita míří
+        this.weaponBound = "no";
 
         this.invulnerableTiming = 20,//čas jak dlouho je enemy invulnerable na this.Y (aby netankoval dva hity při jednom útoku hráče)
         this.Xoffset = Xoffset, //offset x y spouštějící entity od bodu spuštění útoku
@@ -176,11 +177,11 @@ class attackHandler {
         if (this.mainAttack){
             switch (facing) {
                 case "left":
-                    this.X = entity.X-this.Xsize; this.Y = entity.Y+30;
+                    this.X = entity.X-this.Xsize; this.Y = entity.Y;
                     this.Xsize = this.attackXsize; this.Ysize = this.attackYsize; this.activeFacing = "left";
                     break;
                 case "right":
-                    this.X = entity.X+entity.width; this.Y = entity.Y+30;
+                    this.X = entity.X+entity.width; this.Y = entity.Y;
                     this.Xsize = this.attackXsize; this.Ysize = this.attackYsize; this.activeFacing = "right";
                     break;
                 case "up":
@@ -198,10 +199,10 @@ class attackHandler {
         if(playerAttack.attackTiming == 0) {return;}
         switch (this.activeFacing) {
             case "left":
-                this.X = entity.X-this.Xsize; this.Y = entity.Y+30;
+                this.X = entity.X-this.Xsize; this.Y = entity.Y;
                 break;
             case "right":
-                this.X = entity.X+entity.width; this.Y = entity.Y+30;
+                this.X = entity.X+entity.width; this.Y = entity.Y;
                 break;
             case "up":
                 this.X = entity.X + 10; this.Y = entity.Y - this.attackYsize2;
@@ -260,9 +261,9 @@ var playerSkill = new attackHandler(false, -150, -100, 350, 200, 6, 13, 5);
 
 var hitDamage = 1; //kolik dává damage (hp je přímo v enemy)
 function Attack() {
-    playerAttack.start(player.facing, player, attackDown); //checkuje jestli se začíná attack
+    playerAttack.start(player.facing, kniha, attackDown); //checkuje jestli se začíná attack
     attackDown = false;
-    playerAttack.moveCheck(player); //checkuje jestli je potřeba pohnout s existujícím attackem
+    playerAttack.moveCheck(kniha); //checkuje jestli je potřeba pohnout s existujícím attackem
     
     playerAttack.tick();
     if (EA.getEnemyNum() < 1 && EA.getEnemyNum() < 1) {return;}

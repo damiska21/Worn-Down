@@ -59,6 +59,9 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
 drawPlayer();
 
+    c.fillStyle = "red";
+    c.fillRect(kniha.X-offset, kniha.Y-Yoffset, kniha.width, kniha.height);
+
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         //EA.E[i].attackHandler.drawAttack();
         if (!EA.E[i].attackHandler.hitboxOn) {continue;}
