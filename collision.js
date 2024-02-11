@@ -109,8 +109,7 @@ function collision(entity) {
     function leftCollision(x) {
         if((entity.X - entity.oldX) > 0) {
             var left = x * TM.tile;
-            if(midRightTile%1000 >=100 || topRightTile%1000 >=100 || botRightTile%1000 >=100)
-            {
+            if(midRightTile%1000 >=100 || topRightTile%1000 >=100 || botRightTile%1000 >=100){
                 if ((entity.X + entity.width) > left && (entity.oldX + entity.width-2) <= left) {
                     entity.friction = 0;
                     entity.X = left-entity.width-0.001;

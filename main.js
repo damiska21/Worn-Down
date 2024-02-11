@@ -131,6 +131,9 @@ class book{
                 this.moveX = this.entityBind.X + this.entityBind.width + 30;
                 this.moveY = this.entityBind.Y + 30;
                 //console.log((this.entityBind.Y + (this.entityBind.height/2)) + " " + this.entityBind.Y);
+            }else if(this.entityBind.facing == "up") {
+                this.moveX = this.entityBind.X + (this.entityBind.width/2)+5;
+                this.moveY = this.entityBind.Y-50;
             }
         }
 
