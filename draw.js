@@ -37,13 +37,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     //c.fillStyle = "blue";
     //c.fillRect(player.X-offset, player.Y-Yoffset, player.width, player.height); //starej kód na čtverec
 
-    if(playerAttack.hitboxOn){
-        c.fillStyle = "red";
-        c.fillRect(playerAttack.X-offset, playerAttack.Y-Yoffset, playerAttack.Xsize, playerAttack.Ysize);
-    }if (playerSkill.hitboxOn) {
-        c.fillStyle = "black";
-        c.fillRect(playerSkill.X-offset, playerSkill.Y-Yoffset, playerSkill.Xsize, playerSkill.Ysize);
-    }
+    
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
         c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
@@ -61,6 +55,14 @@ drawPlayer();
 
     c.fillStyle = "red";
     c.fillRect(kniha.X-offset, kniha.Y-Yoffset, kniha.width, kniha.height);
+    
+    if(playerAttack.hitboxOn){
+        c.fillStyle = "red";
+        c.fillRect(playerAttack.X-offset, playerAttack.Y-Yoffset, playerAttack.Xsize, playerAttack.Ysize);
+    }if (playerSkill.hitboxOn) {
+        c.fillStyle = "black";
+        c.fillRect(playerSkill.X-offset, playerSkill.Y-Yoffset, playerSkill.Xsize, playerSkill.Ysize);
+    }
 
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         //EA.E[i].attackHandler.drawAttack();

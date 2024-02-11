@@ -22,13 +22,13 @@ function KeyDown(event) {
         case 32://mezernik
             mezernikDown = true; break;
         case 87://W
-            mezernikDown = true; player.facing="up"; break;
+            mezernikDown = true;  break;
         case 65://A
             leftDown = true;player.facing = "left"; break;
         case 68://D
             rightDown = true;player.facing = "right"; break;
         case 83: //S
-            player.facing = "down";break;//tady stačí vědět že míří dolů pro útok
+            /*player.facing = "down";*/break;//tady stačí vědět že míří dolů pro útok
         case 74: //J
             attackDown = true; break;
         case 75:/*K*/ 
@@ -131,9 +131,6 @@ class book{
                 this.moveX = this.entityBind.X + this.entityBind.width + 30;
                 this.moveY = this.entityBind.Y + 30;
                 //console.log((this.entityBind.Y + (this.entityBind.height/2)) + " " + this.entityBind.Y);
-            }else if(this.entityBind.facing == "up") {
-                this.moveX = this.entityBind.X + (this.entityBind.width/2)+5;
-                this.moveY = this.entityBind.Y-50;
             }
         }
 
