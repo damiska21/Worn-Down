@@ -46,8 +46,10 @@ var tilemapTextury = [
 TM.newTilemap(50,20,tilemape, tilemapTextury, 0,0);
 TM.endWrite();
 
-textArray.newText("Zakladni kamen hry byl polozen 5. cervna 2023", 300, 500, 20);
-textArray.newText("Od te doby na bylo na githubu publikovano pres 150 zmen.", 300, 500, 20);
+textArray.newText("Zakladni kamen hry byl polozen 5. cervna 2023", 300, 400, 20);
+textArray.newText("Od te doby na bylo na githubu publikovano pres 150 zmen.", 500, 500, 20);
+textArray.newText("Cely pokrok je videt na github.com/damiska21/Jumper-js", 700, 600, 20);
+
 function levelLoop() {
     
 }

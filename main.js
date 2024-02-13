@@ -178,6 +178,7 @@ function initiate(){
     //particlesInitiate();
     setInterval(mainLoop, 16);
     window.requestAnimationFrame(draw);
+    player.facing = "right";
 }
 
 window.addEventListener("keydown", KeyDown);
