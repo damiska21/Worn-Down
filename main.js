@@ -176,7 +176,6 @@ canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
 
 function initiate(){
     //particlesInitiate();
-    setInterval(slowLoop, 1000);
     setInterval(mainLoop, 16);
     window.requestAnimationFrame(draw);
 }
@@ -185,3 +184,4 @@ window.addEventListener("keydown", KeyDown);
 window.addEventListener("keyup", KeyUp);
 window.addEventListener("mousedown", Click);
 window.addEventListener("load", initiate);
+window.addEventListener("resize", slowLoop);

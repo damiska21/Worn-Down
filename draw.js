@@ -5,13 +5,8 @@ var playerImg = new Image();
 playerImg.src = "img/player/player_1.png";
 //40 zhora zdola - 50 zboku
 
-var tilemapImg = new Image();
-tilemapImg.src = "img/tilemap/this_shit_ruin_My_life.png"
-var tilemapGuide = [10001, 10010, 11000, 10100, -1, 11010, 10110, 11001, 10101 ,11111];
-var tilemapUpImg = new Image();
-tilemapUpImg.src = "img/tilemap/block_02_variants.png";
 var tilemapFinalImg = new Image();
-tilemapFinalImg.src = "img/tilemap/tilemap1.png";
+tilemapFinalImg.src = "img/tilemap/tilemapVykresleni.png";
 
 //X 40 offset 80 body
 //Y 20 offset 160 body
@@ -23,6 +18,17 @@ var standingSpriteLeft = new Image();
 standingSpriteLeft.src = "img/player/standing_animation(left).png";
 var standingSpriteRight = new Image();
 standingSpriteRight.src = "img/player/standing_animation(right).png";
+
+var jumpingSpriteRight = new Image();
+jumpingSpriteRight.src = "img/player/jJumpR(up).png";
+var jumpingSpriteLeft = new Image();
+jumpingSpriteLeft.src = "img/player/jJumpL(up).png";
+
+var fallingSpriteRight = new Image();
+fallingSpriteRight.src = "img/player/jJumpR(down).png";
+var fallingSpriteLeft = new Image();
+fallingSpriteLeft.src = "img/player/jJumpL(down).png";
+
 
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
 //11
@@ -88,10 +94,33 @@ drawPlayer();
 var playerAnimFrame = 0;
 var playerAnimTiming = 0;
 function drawPlayer() {
-    //c.drawImage(playerImg, player.X-offset-60, player.Y-Yoffset-40);
-
     //tyhle hodnoty určují rychlost od které se přehrává walk animace
-    if (player.friction > 5) {
+    //skok
+    if (player.gravity < -2.1) {
+        if (playerAnimFrame>2) {
+            playerAnimFrame = 0;
+        }
+        if (player.facing == "left") {
+            c.drawImage(fallingSpriteLeft, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+        }else{
+            c.drawImage(fallingSpriteRight, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+        }
+        if (playerAnimFrame == 2) {
+            playerAnimFrame =0;
+        }
+    }/*pád*/else if(player.gravity > 2.1){
+        if (playerAnimFrame>2) {
+            playerAnimFrame = 0;
+        }
+        if (player.facing == "left") {
+            c.drawImage(jumpingSpriteLeft, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+        }else{
+            c.drawImage(jumpingSpriteRight, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+        }
+        if (playerAnimFrame == 2) {
+            playerAnimFrame =0;
+        }
+    }else if (player.friction > 5) {
         c.drawImage(walkingSpriteRight, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
     }else if(player.friction < -5){
         c.drawImage(walkingSpriteLeft, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
@@ -102,6 +131,7 @@ function drawPlayer() {
             c.drawImage(standingSpriteRight, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
         }
     }
+    //console.log(playerAnimFrame);
     playerAnimTiming++;
     if (playerAnimTiming >= 10) {
         playerAnimFrame++;
