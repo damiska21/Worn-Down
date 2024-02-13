@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.2" name="programmer art" tilewidth="50" tileheight="50" tilecount="25" columns="5">
- <image source="C:/Users/Damiska/Desktop/programy/Aseprite.v1.2.40/Sprite-0001.png" width="250" height="250"/>
+<tileset version="1.5" tiledversion="2021.03.23" name="programmer art" tilewidth="50" tileheight="50" tilecount="25" columns="5">
+ <image source="Sprite-0001.png" width="250" height="250"/>
  <tile id="0">
   <properties>
    <property name="name" type="int" value="10000"/>

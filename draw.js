@@ -1,3 +1,33 @@
+class textArr{
+    constructor(){
+        this.array = [];
+    }
+    drawAllText(){
+        for (let i = 0; i < this.array.length; i++) {
+            this.array[i].drawText();
+        }
+    }
+    newText(texti, x, y, size){
+        let g = new text(texti, x, y, size);
+        this.array.push(g);
+    }
+}
+var textArray = new textArr();
+class text{
+    constructor(text, x, y, size){
+        this.text = text,
+        this.X = x,
+        this.Y = y,
+        this.font = "Silkscreen",
+        this.size = size
+    }
+    drawText(){
+        c.fillStyle = "black";
+        c.font = this.size.toString()+"px " + this.font.toString();
+        c.fillText(this.text, this.X-offset, this.Y-Yoffset);
+    }
+}
+
 var harambe = new Image();
 harambe.src = "img/enemy/harambe.png";
 
@@ -74,8 +104,8 @@ drawPlayer();
         //EA.E[i].attackHandler.drawAttack();
         if (!EA.E[i].attackHandler.hitboxOn) {continue;}
 
-        c.fillStyle = "red";
-        c.fillRect(EA.E[i].attackHandler.X-offset, EA.E[i].attackHandler.Y-Yoffset, EA.E[i].attackHandler.Xsize, EA.E[i].attackHandler.Ysize);
+        c.fillStyle = "red";//přepsat na img, offset je
+        c.fillRect(EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20, EA.E[i].attackHandler.Xsize+20, EA.E[i].attackHandler.Ysize+20);
     }
 
     /*if (playerWalkParticles.enabled) {
@@ -88,6 +118,8 @@ drawPlayer();
         c.font = "30px Arial";
         c.fillText("Prohral jsi!", 10, 50);
     }
+    textArray.drawAllText();
+
     window.requestAnimationFrame(draw);
 }
 

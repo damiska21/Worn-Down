@@ -39,44 +39,16 @@ class tilemapConstructor {
                 c.drawImage(tilemapFinalImg, (tileDrawn%5)*150, (Math.floor(tileDrawn/5))*170,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
             }
         }
-
-        /*var tileUpCounter = 0;
-        //console.log("vykreslování tilemapy " + tilemapIndex + " na souřadnicích X: " + TM.A[tilemapIndex].Xpos + " Y: " + TM.A[tilemapIndex].Ypos);
-        c.fillStyle = "green";
-        for (let i = 0; i < sirka; i++) {
-            for (let j = 0; j < vyska; j++) {
-                var tileDrawn = TM.getTile(i+(tilemapIndex*20), j);
-                if (tileDrawn%10000==0) { continue; }
-                var tm = TM.A[tilemapIndex];
-                var drawingIndex = 4;
-                for (let i = 0; i < tilemapGuide.length; i++) {
-                    if (tileDrawn == tilemapGuide[i]) {
-                        drawingIndex = i;
-                    }
-                }
-                if (tileDrawn === 10001) {
-                    var m = tileUpCounter;
-                    tileUpCounter++;
-                    if (tileUpCounter >= 5) {
-                        tileUpCounter = 0;
-                    }
-                    c.drawImage(tilemapUpImg, m*150, 0,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
-                }else{
-                    c.drawImage(tilemapImg,  0 ,drawingIndex*170, 150, 170, ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
-                }
-            }
-        }*/
-        
     }
     getTile(X, Y) {
         //console.log((this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][X%20]) + " X: " + X + " Y: " + Y);
         //console.log(X + " " + Y);
-        return this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][(X%20)];
+        return this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][(X%(this.A[0].width))];
     }
     getTileTexture(X, Y) {
         //console.log((this.A[Math.floor(X/TM.A[0].width)].tilemapArray[Y][X%20]) + " X: " + X + " Y: " + Y);
         //console.log(X + " " + Y);
-        return this.A[Math.floor(X/TM.A[0].width)].textureArray[Y][(X%20)];
+        return this.A[Math.floor(X/TM.A[0].width)].textureArray[Y][(X%this.A[0].width)];
     }
     setTile(X, Y, value){
         if (Y>19) {
