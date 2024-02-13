@@ -343,8 +343,8 @@ function playerFunc() {
         player.X = TM.respawnX;
     }if (player.X < 0) {
         player.X = 0;
-    }if (player.X > sirka * TM.tile) {
-        
+    }if (player.X > 90 * (TM.A.length-1)*TM.A[0].width-90) {
+        player.X = (90 * (TM.A.length-1)*TM.A[0].width)-90;
     }
 }
 //#endregion
