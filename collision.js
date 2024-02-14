@@ -117,7 +117,6 @@ function collision(entity) {
                     return true;
                 }
             }
-            
         }
         return false;
     }

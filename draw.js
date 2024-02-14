@@ -126,6 +126,7 @@ drawPlayer();
 
 var playerAnimFrame = 0;
 var playerAnimTiming = 0;
+var ee = false;
 function drawPlayer() {
     //tyhle hodnoty určují rychlost od které se přehrává walk animace
     //skok
@@ -145,6 +146,7 @@ function drawPlayer() {
         if (playerAnimFrame>2) {
             playerAnimFrame = 0;
         }
+        ee = true;
         if (player.facing == "left") {
             c.drawImage(jumpingSpriteLeft, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
         }else{
@@ -153,10 +155,14 @@ function drawPlayer() {
         if (playerAnimFrame == 2) {
             playerAnimFrame =0;
         }
-    }else if(!player.onground && player.gravity <2.1 && player.gravity > -2.1){
-//dopsat skok
-    }
-    else if (player.friction > 5) {
+    }else if(ee && !player.onground){
+        if (player.facing == "left") {
+            c.drawImage(jumpingSpriteLeft, 0, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+        }else{
+            c.drawImage(jumpingSpriteRight, 0, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+        }
+        ee = false;
+    }else if (player.friction > 5) {
         c.drawImage(walkingSpriteRight, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
     }else if(player.friction < -5){
         c.drawImage(walkingSpriteLeft, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);

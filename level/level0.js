@@ -45,3 +45,6 @@ EA.newEnemy(550, 300, 90, 90, 10, 3); //EA.E[0].entity.move("right");
 function levelLoop() {
     
 }
+function levelDraw() {
+    
+}
