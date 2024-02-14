@@ -14,6 +14,7 @@ var cameraShakeCounter = 0;
 var cameraShakeX = 0;
 var cameraShakeY = 0;
 var cameraLock = false;
+var movementLock = false;
 
 var pause = false;
 

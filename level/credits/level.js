@@ -50,6 +50,28 @@ textArray.newText("Zakladni kamen hry byl polozen 5. cervna 2023", 300, 400, 20)
 textArray.newText("Od te doby na bylo na githubu publikovano pres 150 zmen.", 500, 500, 20);
 textArray.newText("Cely pokrok je videt na github.com/damiska21/Jumper-js", 700, 600, 20);
 
+//my dva
+textArray.newText("Damian 'Damiska' Rohacek", 2350, 750, 18);
+textArray.newText("Programator, Game Designer", 2330, 780, 18);
+
+textArray.newText("Lukas 'YukY' Pozler", 2780, 750, 18);
+textArray.newText("Grafik, Level Designer", 2770, 780, 18);
+
+textArray.newText("TVURCI", 2630, 680, 35);
+
 function levelLoop() {
-    
+    if (player.X > 3500) {
+        
+    }
 }
+var damiskaAvatar = new Image();
+damiskaAvatar.src = "https://avatars.githubusercontent.com/u/48602473?v=4";
+var yukyAvatar = new Image();
+yukyAvatar.src = "https://avatars.githubusercontent.com/u/157409039?v=4";
+function levelDraw(c){
+    c.drawImage(damiskaAvatar, 2400-offset, 800-Yoffset, 200, 200);
+    c.drawImage(yukyAvatar, 2800-offset, 800-Yoffset, 200, 200);
+}
+
+player.X = 2400;
+player.Y = 800;
