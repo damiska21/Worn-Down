@@ -150,8 +150,9 @@ function drawPlayer() {
     //tyhle hodnoty určují rychlost od které se přehrává walk animace
     //skok
     if (player.gravity < -2.1) {
-        if (playerAnimFrame>6 || playerAnimFrame < 3) {
-            playerAnimFrame = 3;
+        
+        if (playerAnimFrame>2) {
+            playerAnimFrame = 0;
         }
         if (player.facing == "left") { //0 4-6
             c.drawImage(playerJumpSprite, playerAnimFrame*160, 200, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
@@ -163,8 +164,8 @@ function drawPlayer() {
         }
         ee = true;
     }/*pád*/else if(player.gravity > 2.1){
-        if (playerAnimFrame>2) {
-            playerAnimFrame = 0;
+        if (playerAnimFrame>6 || playerAnimFrame < 3) {
+            playerAnimFrame = 3;
         }
         if (player.facing == "left") {
             c.drawImage(playerJumpSprite, playerAnimFrame*160, 200, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
