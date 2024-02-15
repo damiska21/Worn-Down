@@ -142,11 +142,11 @@ function drawPlayer() {
         if (playerAnimFrame == 2) {
             playerAnimFrame =0;
         }
+        ee = true;
     }/*pád*/else if(player.gravity > 2.1){
         if (playerAnimFrame>2) {
             playerAnimFrame = 0;
         }
-        ee = true;
         if (player.facing == "left") {
             c.drawImage(jumpingSpriteLeft, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
         }else{
