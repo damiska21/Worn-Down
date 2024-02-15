@@ -59,6 +59,9 @@ fallingSpriteRight.src = "img/player/jJumpR(down).png";
 var fallingSpriteLeft = new Image();
 fallingSpriteLeft.src = "img/player/jJumpL(down).png";
 
+var playerJumpSprite = new Image();
+playerJumpSprite.src = "img/player/jump.png";
+
 
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
 //11
@@ -131,13 +134,13 @@ function drawPlayer() {
     //tyhle hodnoty určují rychlost od které se přehrává walk animace
     //skok
     if (player.gravity < -2.1) {
-        if (playerAnimFrame>2) {
-            playerAnimFrame = 0;
+        if (playerAnimFrame>6 || playerAnimFrame < 3) {
+            playerAnimFrame = 3;
         }
-        if (player.facing == "left") {
-            c.drawImage(fallingSpriteLeft, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+        if (player.facing == "left") { //0 4-6
+            c.drawImage(playerJumpSprite, playerAnimFrame*160, 200, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
         }else{
-            c.drawImage(fallingSpriteRight, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+            c.drawImage(playerJumpSprite, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
         }
         if (playerAnimFrame == 2) {
             playerAnimFrame =0;
@@ -148,18 +151,18 @@ function drawPlayer() {
             playerAnimFrame = 0;
         }
         if (player.facing == "left") {
-            c.drawImage(jumpingSpriteLeft, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+            c.drawImage(playerJumpSprite, playerAnimFrame*160, 200, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
         }else{
-            c.drawImage(jumpingSpriteRight, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+            c.drawImage(playerJumpSprite, playerAnimFrame*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
         }
         if (playerAnimFrame == 2) {
             playerAnimFrame =0;
         }
     }else if(ee && !player.onground){
         if (player.facing == "left") {
-            c.drawImage(jumpingSpriteLeft, 0, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+            c.drawImage(playerJumpSprite, 6*160, 200, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
         }else{
-            c.drawImage(jumpingSpriteRight, 0, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
+            c.drawImage(playerJumpSprite, 6*160, 0, 160,200,player.X-40-offset,player.Y-20-Yoffset, 160,200);
         }
         ee = false;
     }else if (player.friction > 5) {
