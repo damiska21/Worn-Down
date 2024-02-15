@@ -165,6 +165,7 @@ function mainLoop() { // loop co běží na 60 FPS (o něco víc actually ale ch
     Skill();
     enemyFunc();
     levelLoop();
+    playerAnimTimingF();
 }
 //na celý čísla od nuly do to
 function randomNum(to) {

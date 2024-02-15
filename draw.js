@@ -31,6 +31,11 @@ class text{
 var harambe = new Image();
 harambe.src = "img/enemy/harambe.png";
 
+var turretImg = new Image();
+turretImg.src = "img/enemy/enemy(turret).png";
+var bulletImg = new Image();
+bulletImg.src = "img/enemy/enemy(turret).png"
+
 var playerImg = new Image();
 playerImg.src = "img/player/player_1.png";
 //40 zhora zdola - 50 zboku
@@ -79,7 +84,15 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
-        c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
+        switch (EA.E[i].type) {
+            case "shooter":
+                c.drawImage(turretImg, EA.E[i].entity.X-offset-20, EA.E[i].entity.Y-Yoffset-20);
+                break;
+        
+            default:
+                c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
+                break;
+        }
     }
 
     for (let j = 0; j < triggers.getEnemyNum(); j++) {
@@ -103,12 +116,15 @@ drawPlayer();
         c.fillRect(playerSkill.X-offset, playerSkill.Y-Yoffset, playerSkill.Xsize, playerSkill.Ysize);
     }
 
+    //útok nepřítele
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         //EA.E[i].attackHandler.drawAttack();
         if (!EA.E[i].attackHandler.hitboxOn) {continue;}
 
-        c.fillStyle = "red";//přepsat na img, offset je
-        c.fillRect(EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20, EA.E[i].attackHandler.Xsize+20, EA.E[i].attackHandler.Ysize+20);
+        //c.fillStyle = "red";//přepsat na img, offset je
+        //c.fillRect(EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20, EA.E[i].attackHandler.Xsize+20, EA.E[i].attackHandler.Ysize+20);
+        
+        c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
     }
 
     /*if (playerWalkParticles.enabled) {
@@ -177,8 +193,10 @@ function drawPlayer() {
         }
     }
     //console.log(playerAnimFrame);
+}
+function playerAnimTimingF() {
     playerAnimTiming++;
-    if (playerAnimTiming >= 10) {
+    if (playerAnimTiming >= 8) {
         playerAnimFrame++;
         playerAnimTiming = 0;
     }
