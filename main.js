@@ -127,10 +127,10 @@ class book{
         if (!this.moveTrue) {
             if (this.entityBind.facing == "left") {
                 this.moveX = this.entityBind.X - 50;
-                this.moveY = this.entityBind.Y + 30;
+                this.moveY = this.entityBind.Y + 50;
             }else if(this.entityBind.facing == "right") {
                 this.moveX = this.entityBind.X + this.entityBind.width + 30;
-                this.moveY = this.entityBind.Y + 30;
+                this.moveY = this.entityBind.Y + 50;
                 //console.log((this.entityBind.Y + (this.entityBind.height/2)) + " " + this.entityBind.Y);
             }
         }
@@ -172,7 +172,7 @@ function randomNum(to) {
     var num = Math.floor(Math.random()*to);
     return num;
 }
-function slowLoop() { //loop co se spouští jednou za vteřinu
+function resize() { //loop co se spouští při změně velikosti okna
 canvas.width = window.innerWidth-20;canvas.height = window.innerHeight - 20;
 }
 
@@ -187,4 +187,4 @@ window.addEventListener("keydown", KeyDown);
 window.addEventListener("keyup", KeyUp);
 window.addEventListener("mousedown", Click);
 window.addEventListener("load", initiate);
-window.addEventListener("resize", slowLoop);
+window.addEventListener("resize", resize);

@@ -34,7 +34,7 @@ harambe.src = "img/enemy/harambe.png";
 var turretImg = new Image();
 turretImg.src = "img/enemy/enemy(turret).png";
 var bulletImg = new Image();
-bulletImg.src = "img/enemy/enemy(turret).png"
+bulletImg.src = "img/enemy/attack(turret).png"
 
 var playerImg = new Image();
 playerImg.src = "img/player/player_1.png";
@@ -124,7 +124,7 @@ drawPlayer();
         //c.fillStyle = "red";//přepsat na img, offset je
         //c.fillRect(EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20, EA.E[i].attackHandler.Xsize+20, EA.E[i].attackHandler.Ysize+20);
         
-        c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
+        c.drawImage(bulletImg, EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20);
     }
 
     /*if (playerWalkParticles.enabled) {

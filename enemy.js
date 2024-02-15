@@ -126,7 +126,8 @@ class enemies {
     }
     newEnemy(X, Y, height, width, hp, moveSpeed, type){
         let e = new entity(X, Y, height, width, hp, moveSpeed);
-        let i = new enemy(e, type, shootHandler);
+        let i = new enemy(e, type, new attackHandler(false, 0,0,0,0,0,0,0));
+        i.initiate();
         this.E.push(i);
     }
     getEnemyNum(){

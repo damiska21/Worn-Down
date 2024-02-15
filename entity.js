@@ -153,8 +153,6 @@ class attackHandler {
 
         this.attackXsize = 150,
         this.attackYsize = 25,
-        this.attackXsize2 = 25,//2 je jenom na hlavní útok
-        this.attackYsize2 = 150,
         this.activeFacing = "left", //aby hráč nemohl měnit směr útoku uprostřed normálního útoku což nefunguje směr ze strany nahoru a zpátky
         this.mainAttack = mainAttack, //jestli je útok ovlivňován tím kam entita míří
         this.weaponBound = "no";
@@ -183,14 +181,6 @@ class attackHandler {
                 case "right":
                     this.X = entity.X+entity.width; this.Y = entity.Y;
                     this.Xsize = this.attackXsize; this.Ysize = this.attackYsize; this.activeFacing = "right";
-                    break;
-                case "up":
-                    this.X = entity.X + 10; this.Y = entity.Y - this.attackYsize2;
-                    this.Xsize = this.attackXsize2; this.Ysize = this.attackYsize2; this.activeFacing = "up";
-                    break;
-                case "down":
-                    this.X = entity.X + 10; this.Y = entity.Y + entity.height;
-                    this.Xsize = this.attackXsize2; this.Ysize = this.attackYsize2; this.activeFacing = "down";
                     break;}return;}//skvělej řádek
             //#endregion
         this.X = entity.X+this.Xoffset;this.Y = entity.Y+this.Yoffset;
@@ -250,7 +240,7 @@ class attackHandler {
     }
     drawAttack(){
         if (!this.hitboxOn) {return;}
-        c.fillStyle = "red";
+        c.fillStyle = "red"; 
         c.fillRect(this.X, this.Y, this.Xsize, this.Ysize);
         
         console.log(this.X+" "+ this.Y+" "+this.Xsize + " " +this.Ysize);
