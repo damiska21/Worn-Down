@@ -19,6 +19,7 @@ class enemy {
         switch (this.type) {
             case "shooter":
                 this.attackHandler.attackTimeLimit = 170; //tohle ujede pět bloků
+                this.attackHandler.opacity = 1; //opacita kulky (na fadeout)
                 this.attackHandler.deleteOnHit = true;
                 break;
             case "trigger":
@@ -48,7 +49,7 @@ class enemy {
             this.entity.move();
         }
 
-        if (!this.entity.onground) {
+        if (!this.entity.onground && this.type != "trigger") {//trigger nemá gravitaci, taky nedává damage při dotyku na ř79
             this.entity.gravity += 1.2;
         }
         this.entity.Y += this.entity.gravity;
@@ -64,7 +65,10 @@ class enemy {
             this.entity.move("left");
         }
         this.attackHandler.tick();
-        if(this.attackHandler.hitboxOn){
+        if (this.attackHandler.attackTimeLimit-10 < this.attackHandler.attackTiming) {
+            this.attackHandler.opacity -= 0.1; //fadeout na posledních 10 framech kolize kulky
+        }
+        if(this.attackHandler.hitboxOn || this.type == "trigger"){
             this.attackLoop(); 
             this.attackHandler.hitCheck(-1, player, this.entity);
         }else{
@@ -72,8 +76,7 @@ class enemy {
         }
         
         //kolize s hráčem
-        if ((player.X < this.entity.X+this.entity.width && player.X+player.width > this.entity.X )&& (player.Y < this.entity.Y+this.entity.height && player.Y + player.height > this.entity.Y)) {
-            console.log("bot left p hit");
+        if ((player.X < this.entity.X+this.entity.width && player.X+player.width > this.entity.X )&& (player.Y < this.entity.Y+this.entity.height && player.Y + player.height > this.entity.Y) && this.type != "trigger") {
             if (player.X >= this.entity.X + (this.entity.width/2)) {
                 player.hit(1, -1, "right");
             }else{
@@ -96,10 +99,12 @@ class enemy {
     triggerLoop(){
         if (!this.triggered && this.entity.hp == 19) {
             this.triggerFunctionOneTime();
+            this.triggered = true;
+            console.log("quieres?");
         }
         if (this.entity.hp<= 19) {
             this.triggered = true;
-            this.entity.hp = 19;
+            this.entity.hp = -1;
         }if (this.triggered) {
             this.triggerFunction();
         }
@@ -114,7 +119,7 @@ class enemy {
     normalAttack(){
         switch (this.type) {
             case "shooter":
-                this.attackHandler.start(this.entity.facing, this.entity, true);
+                this.attackHandler.start(this.entity.facing, this.entity, true);this.attackHandler.opacity = 1; 
                 break;
         }
     }
@@ -129,6 +134,7 @@ class enemies {
         let i = new enemy(e, type, new attackHandler(false, 0,0,0,0,0,0,0));
         i.initiate();
         this.E.push(i);
+        return this.E.length-1;
     }
     getEnemyNum(){
         return this.E.length;

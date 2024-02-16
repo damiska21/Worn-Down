@@ -67,17 +67,17 @@ function Camera() {
     if (cameraLock) {return;}
     
     //X kamera
-    if(player.X - offset > window.innerWidth/2) {
-        offset += 6;
-    }else if(player.X - offset < 200) {
-        offset -=6;
+    if(player.X - offset > window.innerWidth/2 + 150) {
+        offset += 10;
+    }else if(player.X - offset < window.innerWidth/2-150) {
+        offset -= 10;
     }
     //vyšší zrychlení pokud je hráč na okraji obrazovky
     if(player.X - offset > (window.innerWidth-100)) {
-        offset +=6;
+        offset +=10;
     }
-    if (player.X - offset < 100) {
-        offset -=6;
+    if (player.X - offset < 200) {
+        offset -= 10;
     }
 
     //rychlý návrat na spawn (převážně)

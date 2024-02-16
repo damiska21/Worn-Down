@@ -123,8 +123,13 @@ drawPlayer();
 
         //c.fillStyle = "red";//přepsat na img, offset je
         //c.fillRect(EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20, EA.E[i].attackHandler.Xsize+20, EA.E[i].attackHandler.Ysize+20);
-        
-        c.drawImage(bulletImg, EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20);
+        if (EA.E[i].attackHandler.opacity != 0) {
+            c.save();
+            c.globalAlpha = EA.E[i].attackHandler.opacity; //pokud není opacita jedna, vykreslí se obrázek se sníženou opacitou
+            c.drawImage(bulletImg, EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20);
+            c.restore();
+        }else{
+            c.drawImage(bulletImg, EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20);}
     }
 
     /*if (playerWalkParticles.enabled) {
