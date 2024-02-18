@@ -120,6 +120,7 @@ triggers.E[2].triggerFunctionOneTime = function triggerFunctionOneTime() {
     textArray.newText("Co to bylo za zvuk?", 0,0,20, 60);textArray.array[textArray.array.length-1].abovePlayer = true;
 }
 triggers.newEnemy(3200, 650, 90, 90, 1, 0, "trigger");//za turretama
+triggers.newEnemy(0, 0, 1, 1, 1, 0, "trigger");
 
 function levelLoop() {
     
@@ -165,7 +166,7 @@ function levelDraw() {
 player.X = 0;
 player.Y = 1549;
 Yoffset = 1180;
-/*
-player.X = 2800;
+
+/*player.X = 2800;
 player.Y = 0;
 offset = 2500;*/

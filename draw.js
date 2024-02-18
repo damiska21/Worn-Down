@@ -83,6 +83,8 @@ fallingSpriteLeft.src = "img/player/jJumpL(down).png";
 var playerJumpSprite = new Image();
 playerJumpSprite.src = "img/player/jump.png";
 
+var knihaSprite = new Image();
+knihaSprite.src = "img/GAME_animations/Book/book(animation).png";
 
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
 //11
@@ -123,10 +125,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     tilemapDraw(offset);
 
 drawPlayer();
-
-    c.fillStyle = "red";
-    c.fillRect(kniha.X-offset, kniha.Y-Yoffset, kniha.width, kniha.height);
-    
+bookAnimation(c);
     if(playerAttack.hitboxOn){
         c.fillStyle = "red";
         c.fillRect(playerAttack.X-offset, playerAttack.Y-Yoffset, playerAttack.Xsize, playerAttack.Ysize);
@@ -227,4 +226,18 @@ function playerAnimTimingF() {
     if (playerAnimFrame == 8) {
         playerAnimFrame =0;
     }
+
+    bookAnimTiming++;
+    if (bookAnimTiming >= 16) {
+        bookAnimFrame++;
+        bookAnimTiming = 0;
+    }
+    if (bookAnimFrame == 4) {
+        bookAnimFrame =0;
+    }
+}
+var bookAnimFrame = 0;
+var bookAnimTiming = 0;
+function bookAnimation(c) {
+    c.drawImage(knihaSprite, bookAnimFrame*80,0,80,80,kniha.X-offset-20, kniha.Y-Yoffset-20, 80,80);
 }
