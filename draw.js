@@ -5,26 +5,42 @@ class textArr{
     drawAllText(){
         for (let i = 0; i < this.array.length; i++) {
             this.array[i].drawText();
+            if (this.array[i].textUpdate() == 1) {
+                this.array.splice(i, 1);
+            }
         }
     }
-    newText(texti, x, y, size){
-        let g = new text(texti, x, y, size);
+    newText(texti, x, y, size, timeSpan){
+        let g = new text(texti, x, y, size, timeSpan);
         this.array.push(g);
     }
 }
 var textArray = new textArr();
 class text{
-    constructor(text, x, y, size){
+    constructor(text, x, y, size, timeSpan){
         this.text = text,
         this.X = x,
         this.Y = y,
         this.font = "Silkscreen",
-        this.size = size
+        this.size = size,
+        this.abovePlayer = false,
+        this.timeActive = 0,
+        this.timeSpan = timeSpan
     }
     drawText(){
+        if (this.abovePlayer) {
+            this.X = player.X-100;
+            this.Y = player.Y-100;
+        }
         c.fillStyle = "black";
         c.font = this.size.toString()+"px " + this.font.toString();
         c.fillText(this.text, this.X-offset, this.Y-Yoffset);
+    }
+    textUpdate(){
+        this.timeActive++;
+        if (this.timeSpan <= this.timeActive) {
+            return 1;
+        }
     }
 }
 
@@ -77,6 +93,9 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     
     c.fillStyle = "gray";
     c.fillRect(0, 0, canvas.width, canvas.height);
+
+    
+    levelDraw(c);
 
     //c.fillStyle = "blue";
     //c.fillRect(player.X-offset, player.Y-Yoffset, player.width, player.height); //starej kód na čtverec
@@ -142,7 +161,6 @@ drawPlayer();
         c.font = "30px Arial";
         c.fillText("Prohral jsi!", 10, 50);
     }
-    levelDraw(c);
     textArray.drawAllText();
 
     window.requestAnimationFrame(draw);

@@ -97,16 +97,13 @@ class enemy {
         }
     }
     triggerLoop(){
+        if (this.triggered) {
+            this.triggerFunction();return;
+        }
         if (!this.triggered && this.entity.hp == 19) {
             this.triggerFunctionOneTime();
             this.triggered = true;
             console.log("quieres?");
-        }
-        if (this.entity.hp<= 19) {
-            this.triggered = true;
-            this.entity.hp = -1;
-        }if (this.triggered) {
-            this.triggerFunction();
         }
     }
     shooterAttackLoop(){

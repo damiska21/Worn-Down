@@ -117,6 +117,7 @@ triggers.E[2].triggerFunctionOneTime = function triggerFunctionOneTime() {
     EA.newEnemy(6969, 3070, 90, 90, 2, 4); EA.E[EA.getEnemyNum()-1].entity.move("right");
     EA.newEnemy(6999, 3070, 90, 90, 1, 5); EA.E[EA.getEnemyNum()-1].entity.move("right");
     EA.newEnemy(6939, 3070, 90, 90, 3, 3); EA.E[EA.getEnemyNum()-1].entity.move("right");
+    textArray.newText("Co to bylo za zvuk?", 0,0,20, 60);textArray.array[textArray.array.length-1].abovePlayer = true;
 }
 triggers.newEnemy(3200, 650, 90, 90, 1, 0, "trigger");//za turretama
 
@@ -124,12 +125,47 @@ function levelLoop() {
     
 }
 function levelDraw() {
-    
+    c.fillStyle = "black";
+    if (triggers.E[0].triggered && triggers.E[1].triggered && triggers.E[2].triggered && triggers.E[3].triggered) {
+     c.fillStyle = "red";   
+    }
+    c.fillRect(5200-offset, 2200-Yoffset, 200, 200);
+
+    //jednotlivý ledky nad dveřma
+    if (triggers.E[0].triggered) {
+        c.fillStyle = "green";
+        c.fillRect(5200-offset, 2100-Yoffset, 50,50);
+    }else{
+        c.fillStyle = "red";
+        c.fillRect(5200-offset, 2100-Yoffset, 50,50);
+    }
+    if (triggers.E[1].triggered) {
+        c.fillStyle = "green";
+        c.fillRect(5250-offset, 2100-Yoffset, 50,50);
+    }else{
+        c.fillStyle = "red";
+        c.fillRect(5250-offset, 2100-Yoffset, 50,50);
+    }
+    if (triggers.E[2].triggered) {
+        c.fillStyle = "green";
+        c.fillRect(5300-offset, 2100-Yoffset, 50,50);
+    }else{
+        c.fillStyle = "red";
+        c.fillRect(5300-offset, 2100-Yoffset, 50,50);
+    }
+    if (triggers.E[3].triggered) {
+        c.fillStyle = "green";
+        c.fillRect(5350-offset, 2100-Yoffset, 50,50);
+    }else{
+        c.fillStyle = "red";
+        c.fillRect(5350-offset, 2100-Yoffset, 50,50);
+    }
 }
  //SPAWN PRO HRÁČE
 player.X = 0;
 player.Y = 1549;
-Yoffset = 1180;/*
+Yoffset = 1180;
+/*
 player.X = 2800;
 player.Y = 0;
 offset = 2500;*/
