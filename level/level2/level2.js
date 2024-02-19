@@ -105,15 +105,14 @@ var tmTexture = [
 TM.newTilemap(100,50, tmCollision, tmTexture, 0,0);TM.endWrite();
 TM.endWrite();
 
-EA.newEnemy(2880, 650, 90, 90, 1, 0, "shooter");EA.E[0].entity.facing = "right";
-EA.newEnemy(4690, 830, 90, 90, 1, 0, "shooter");EA.E[1].entity.facing = "right";
-EA.newEnemy(5840, 739, 90, 90, 1, 0, "shooter");EA.E[2].entity.facing = "left";
+EA.newEnemy(2880, 710, 90, 90, 1, 0, "shooter");EA.E[0].entity.facing = "right";
+EA.newEnemy(4690, 900, 90, 90, 1, 0, "shooter");EA.E[1].entity.facing = "right";
+EA.newEnemy(5840, 810, 90, 90, 1, 0, "shooter");EA.E[2].entity.facing = "left";
 
 triggers.newEnemy(380, 3350, 90, 90, 1, 0, "trigger");//vlevo dole za liánama
 triggers.newEnemy(4690, 2260, 90, 90, 1, 0, "trigger");//u dveří
 triggers.newEnemy(3200, 650, 90, 90, 1, 0, "trigger");//za turretama
 triggers.newEnemy(8550, 3190, 90, 90, 1, 0, "trigger");//trap pod zemí
-triggers.newEnemy(0, 0, 1, 1, 1, 0, "trigger");
 
 triggers.E[3].triggerFunctionOneTime = function triggerFunctionOneTime() {
     console.log("trap enemy spawned");
@@ -121,6 +120,7 @@ triggers.E[3].triggerFunctionOneTime = function triggerFunctionOneTime() {
     EA.newEnemy(6999, 3070, 90, 90, 1, 5); EA.E[EA.getEnemyNum()-1].entity.move("right");
     EA.newEnemy(6939, 3070, 90, 90, 3, 3); EA.E[EA.getEnemyNum()-1].entity.move("right");
     textArray.newText("Co to bylo za zvuk?", 0,0,20, 60);textArray.array[textArray.array.length-1].abovePlayer = true;
+    cameraShakeCounter = 15;
 }
 
 function levelLoop() {
@@ -164,10 +164,19 @@ player.X = 0;
 player.Y = 1549;
 Yoffset = 1180;
 kniha.Y = 1600;
-
-/*player.X = 2800;
+/*
+player.X = 2800;
 player.Y = 0;
 offset = 2500;*/
 function levelSwitch(){
+    var enemyKill = Number(sessionStorage.getItem("enemyKill"));
+    var playerHP = Number(sessionStorage.getItem("playerHP"));
+    sessionStorage.clear();
+    sessionStorage.setItem("enemyKill", ((6-EA.getEnemyNum())+enemyKill));
+    sessionStorage.setItem("playerHP", playerHP + player.hp);
+    if (player.hp >5) {
+        sessionStorage.setItem("hacker", true);
+    }
+
     window.location.href = "credits.html";
 }
