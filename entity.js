@@ -151,7 +151,7 @@ class attackHandler {
         this.KBfriction = KBfriction,//knockback horizontální
         this.KBgravity = KBgravity,//vertikální
 
-        this.attackXsize = 150,
+        this.attackXsize = 100,
         this.attackYsize = 25,
         this.activeFacing = "left", //aby hráč nemohl měnit směr útoku uprostřed normálního útoku což nefunguje směr ze strany nahoru a zpátky
         this.mainAttack = mainAttack, //jestli je útok ovlivňován tím kam entita míří
@@ -173,6 +173,7 @@ class attackHandler {
         this.cooldownTime = this.cooldown; //spouští cooldown schopnosti
         //#region Main Attack
         if (this.mainAttack){
+            bookAnimFrame = 0;
             switch (facing) {
                 case "left":
                     this.X = entity.X-this.Xsize; this.Y = entity.Y;
@@ -248,6 +249,7 @@ class attackHandler {
 }
 var playerAttack = new attackHandler(true, 0, 0, 0, 0, 3, 8, 0.5);
 var playerSkill = new attackHandler(false, -150, -100, 350, 200, 6, 13, 5);
+playerAttack.attackTimeLimit = 50;
 
 var hitDamage = 1; //kolik dává damage (hp je přímo v enemy)
 function Attack() {

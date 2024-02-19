@@ -85,6 +85,8 @@ playerJumpSprite.src = "img/player/jump.png";
 
 var knihaSprite = new Image();
 knihaSprite.src = "img/GAME_animations/Book/book(animation).png";
+var knihaAttackSprite = new Image();
+knihaAttackSprite.src = "img/GAME_animations/Book/bookAttack.png";
 
 //enemyGolem (Y/170, X/60, YOffset/10,  XOffset/10)
 var golemSprite = new Image();
@@ -146,13 +148,10 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
 drawPlayer();
 bookAnimation(c);
-    if(playerAttack.hitboxOn){
-        c.fillStyle = "red";
-        c.fillRect(playerAttack.X-offset, playerAttack.Y-Yoffset, playerAttack.Xsize, playerAttack.Ysize);
-    }if (playerSkill.hitboxOn) {
+    /*if (playerSkill.hitboxOn) {
         c.fillStyle = "black";
         c.fillRect(playerSkill.X-offset, playerSkill.Y-Yoffset, playerSkill.Xsize, playerSkill.Ysize);
-    }
+    }*/
 
     //útok nepřítele
     for (let i = 0; i < EA.getEnemyNum(); i++) {
@@ -248,25 +247,33 @@ function playerAnimTimingF() {
     }
 
     bookAnimTiming++;
+    if (playerAttack.hitboxOn) {
+        bookAnimTiming+=2;
+    }
     if (bookAnimTiming >= 16) {
         bookAnimFrame++;
         bookAnimTiming = 0;
     }
-    if (bookAnimFrame == 4) {
+    if ((bookAnimFrame >= 4 && !playerAttack.hitboxOn) || (playerAttack.hitboxOn && bookAnimFrame >= 8)) {
         bookAnimFrame =0;
     }
 
     buttonAnimTiming++;
-        if (buttonAnimTiming>= 10) {
-            buttonAnimFrame++;-10
-            buttonAnimTiming=0;
-        }
-        if (buttonAnimFrame >= 8) {
-            buttonAnimFrame=0;
-        }
+    if (buttonAnimTiming>= 10) {
+        buttonAnimFrame++;-10
+        buttonAnimTiming=0;
+    }
+    if (buttonAnimFrame >= 8) {
+        buttonAnimFrame=0;
+    }
 }
 var bookAnimFrame = 0;
 var bookAnimTiming = 0;
+//X 128 Y 48
 function bookAnimation(c) {
+if (playerAttack.hitboxOn) {
+    c.drawImage(knihaAttackSprite, bookAnimFrame*128,0,128,48,kniha.X-offset, kniha.Y-Yoffset-10, 128,48);
+}else{
     c.drawImage(knihaSprite, bookAnimFrame*80,0,80,80,kniha.X-offset-20, kniha.Y-Yoffset-20, 80,80);
+}
 }

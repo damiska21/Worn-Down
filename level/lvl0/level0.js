@@ -62,11 +62,23 @@ function levelLoop() {
     }
 }
 
+var AkeySprite = new Image();
+AkeySprite.src = "img/button_prompts/A_Key_Dark.png";
+var DkeySprite = new Image();
+DkeySprite.src = "img/button_prompts/D_Key_Dark.png";
+var SpacekeySprite = new Image();
+SpacekeySprite.src = "img/button_prompts/Space_Key_Dark.png";
+var WkeySprite = new Image();
+WkeySprite.src = "img/button_prompts/W_Key_Dark.png";
+var ArrowLeftkeySprite = new Image();
+ArrowLeftkeySprite.src = "img/button_prompts/Arrow_Left_Key_Dark.png";
 function levelDraw() {
-    
+    c.drawImage(AkeySprite, 100-offset, 1150-Yoffset, 50, 50);
+    c.drawImage(DkeySprite, 310-offset, 1150-Yoffset, 50, 50);
 }
-player.X = 0;
-offset = 5330;
+player.X = 200;
+player.Y = 1099.99;
+Yoffset = 728;
 
 function levelSwitch(){
     window.location.href = "level1.html";

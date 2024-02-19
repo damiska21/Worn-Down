@@ -125,59 +125,49 @@ triggers.E[3].triggerFunctionOneTime = function triggerFunctionOneTime() {
 
 function levelLoop() {
     if ((triggers.E[0].triggered && triggers.E[1].triggered && triggers.E[2].triggered && triggers.E[3].triggered) &&(player.X + player.width >=5200 && player.X <=5400) && (player.Y + player.height >= 2200 && player.Y <= 2500)) {
-        levelSwitch();console.log("b");
+        levelSwitch();console.log("pohyb výtahu");
     }
 }
 
 var gateSprite = new Image();
-gateSprite.src = "img/GAME_animations/Gate/gate.png"
-//X 457 Y 380
+gateSprite.src = "img/GAME_animations/Gate/gate.png";
+var gateDiodaSprite = new Image();
+gateDiodaSprite.src = "img/GAME_animations/Gate/gate(dioda).png";
+//X 456 Y 380
 function levelDraw() {
-    c.fillStyle = "black";
+    /*c.fillStyle = "black";
     if (triggers.E[0].triggered && triggers.E[1].triggered && triggers.E[2].triggered && triggers.E[3].triggered) {
      c.fillStyle = "red";   
     }
-    c.fillRect(5200-offset, 2200-Yoffset, 200, 300);
+    c.fillRect(5200-offset, 2200-Yoffset, 200, 300); tohle vykreslí kolizi brány až jí hráč bude moct projít*/
     c.drawImage(gateSprite, 5075-offset, 2050-Yoffset);
 
     //jednotlivý ledky nad dveřma
     if (triggers.E[0].triggered) {
-        c.fillStyle = "green";
-        c.fillRect(5200-offset, 2100-Yoffset, 50,50);
-    }else{
-        c.fillStyle = "red";
-        c.fillRect(5200-offset, 2100-Yoffset, 50,50);
+        c.drawImage(gateDiodaSprite, 0,0,456,380,5075-offset, 2050-Yoffset,456,380);
     }
     if (triggers.E[1].triggered) {
-        c.fillStyle = "green";
-        c.fillRect(5250-offset, 2100-Yoffset, 50,50);
-    }else{
-        c.fillStyle = "red";
-        c.fillRect(5250-offset, 2100-Yoffset, 50,50);
+        c.drawImage(gateDiodaSprite, 456,0,456,380,5075-offset, 2050-Yoffset,456,380);
     }
     if (triggers.E[2].triggered) {
-        c.fillStyle = "green";
-        c.fillRect(5300-offset, 2100-Yoffset, 50,50);
-    }else{
-        c.fillStyle = "red";
-        c.fillRect(5300-offset, 2100-Yoffset, 50,50);
+        c.drawImage(gateDiodaSprite, 912,0,456,380,5075-offset, 2050-Yoffset,456,380);
     }
     if (triggers.E[3].triggered) {
-        c.fillStyle = "green";
-        c.fillRect(5350-offset, 2100-Yoffset, 50,50);
-    }else{
-        c.fillStyle = "red";
-        c.fillRect(5350-offset, 2100-Yoffset, 50,50);
+        c.drawImage(gateDiodaSprite, 1368,0,456,380,5075-offset, 2050-Yoffset,456,380);
+    }
+    if (triggers.E[0].triggered && triggers.E[1].triggered && triggers.E[2].triggered && triggers.E[3].triggered) {
+        c.drawImage(gateDiodaSprite, 1368+456,0,456,380,5075-offset, 2050-Yoffset,456,380);
     }
 }
  //SPAWN PRO HRÁČE
 player.X = 0;
 player.Y = 1549;
 Yoffset = 1180;
+kniha.Y = 1600;
 
 /*player.X = 2800;
 player.Y = 0;
 offset = 2500;*/
 function levelSwitch(){
     window.location.href = "credits.html";
-  }
+}

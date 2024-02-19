@@ -247,9 +247,9 @@ var tm1textury = [
 TM.newTilemap(86, 20, tm1kolize,tm1textury, 0, 0);
 TM.endWrite();
 
-EA.newEnemy(1300, 1180, 90, 90, 1, 0, "shooter");//EA.E[0].entity.facing = "down";
-EA.newEnemy(1500, 1180, 90, 90, 1, 0, "shooter");//EA.E[1].entity.facing = "down";
-EA.newEnemy(1670, 1180, 90, 90, 1, 0, "shooter");//EA.E[2].entity.facing = "down";
+EA.newEnemy(1300, 1180, 90, 90, 1, 0, "shooter");EA.E[0].entity.facing = "down";
+EA.newEnemy(1500, 1180, 90, 90, 1, 0, "shooter");EA.E[1].entity.facing = "down";
+EA.newEnemy(1670, 1180, 90, 90, 1, 0, "shooter");EA.E[2].entity.facing = "down";
 //14 38
 EA.newEnemy(4900, 1489.99, 220 ,80, 10, 1, "golem");EA.E[3].entity.move("left");
 
@@ -295,6 +295,9 @@ function levelDraw() {
 
 }
 player.X = 0;
+player.Y = 1549.99;
+Yoffset = 1180;
+kniha.Y = 1600;
 //kam navést hráče pro dokončení levelu
 function levelSwitch(){
     window.location.href = "level2.html";
