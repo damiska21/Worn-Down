@@ -2,6 +2,8 @@ class textArr{
     constructor(){
         this.array = [];
     }
+//enemyGolem (Y/170, X/60, YOffset/10,  XOffset/10)
+
     drawAllText(){
         for (let i = 0; i < this.array.length; i++) {
             this.array[i].drawText();
