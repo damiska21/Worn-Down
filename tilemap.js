@@ -21,8 +21,8 @@ class tilemapConstructor {
         this.respawnY = 0,
         this.tile = 90
     }
-    newTilemap(width, height, tilemapArray, Xpos, Ypos) {
-        let a = new tilemap(width, height, tilemapArray, Xpos, Ypos);
+    newTilemap(width, height, tilemapArray,textureArray, Xpos, Ypos) {
+        let a = new tilemap(width, height, tilemapArray, textureArray, Xpos, Ypos);
         if (Ypos==0) {
             this.A = this.A.concat(a);
             return;

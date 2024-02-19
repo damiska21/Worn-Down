@@ -91,9 +91,9 @@ var golemSprite = new Image();
 golemSprite.src = "img/GAME_animations/enemy/enemyGolem.png";
 
 var buttonSprite = new Image();
-buttonSprite.src = "img/GAME_animations/buttonSOff.png";
+buttonSprite.src = "img/GAME_animations/Button/buttonSOff.png";
 var buttonDownSprite = new Image();
-buttonDownSprite.src = "img/GAME_animations/buttonSOn.png";
+buttonDownSprite.src = "img/GAME_animations/Button/buttonSOn.png";
 var buttonAnimFrame = 0;
 var buttonAnimTiming = 0;
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
@@ -120,7 +120,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
                 c.drawImage(turretImg, EA.E[i].entity.X-offset-20, EA.E[i].entity.Y-Yoffset-20);
                 break;
             case "golem":
-                EA.E[i].drawEnemy();//console.log("enemy drawn");
+                EA.E[i].drawEnemy();
                 break;
             default:
                 c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
@@ -132,18 +132,11 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         /*c.fillStyle = "red";
         c.fillRect(triggers.E[j].entity.X-offset, triggers.E[j].entity.Y-Yoffset, triggers.E[j].entity.width, triggers.E[j].entity.height);*/
         //button (Y/90, X/90, YOffset/10, XOffset/10)
-        buttonAnimTiming++;
-        c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
         if (triggers.E[j].triggered) {
             //button (Y/90, X/90, YOffset/10, XOffset/10)
-            c.drawImage(buttonDownSprite, );
-        }
-        if (buttonAnimTiming>= 10) {
-            buttonAnimFrame++;
-            buttonAnimTiming=0;
-        }
-        if (buttonAnimFrame >= 8) {
-            buttonAnimFrame=0;
+            c.drawImage(buttonDownSprite, buttonAnimFrame*110, 0, 110,110,triggers.E[j].entity.X-offset-10, triggers.E[j].entity.Y-Yoffset-10, 110 ,110);
+        }else {
+            c.drawImage(buttonSprite, buttonAnimFrame*110, 0, 110,110,triggers.E[j].entity.X-offset-10, triggers.E[j].entity.Y-Yoffset-10, 110, 110);
         }
     }
 
@@ -260,6 +253,15 @@ function playerAnimTimingF() {
     if (bookAnimFrame == 4) {
         bookAnimFrame =0;
     }
+
+    buttonAnimTiming++;
+        if (buttonAnimTiming>= 10) {
+            buttonAnimFrame++;-10
+            buttonAnimTiming=0;
+        }
+        if (buttonAnimFrame >= 8) {
+            buttonAnimFrame=0;
+        }
 }
 var bookAnimFrame = 0;
 var bookAnimTiming = 0;

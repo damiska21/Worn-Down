@@ -256,7 +256,7 @@ function Attack() {
     playerAttack.moveCheck(kniha); //checkuje jestli je potřeba pohnout s existujícím attackem
     
     playerAttack.tick();
-    if (EA.getEnemyNum() < 1 && EA.getEnemyNum() < 1) {return;}
+    if (EA.getEnemyNum() < 1 && triggers.getEnemyNum() < 1) {return;}
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         if(playerAttack.hitboxOn){
             playerAttack.hitCheck(i, EA.E[i].entity, player);
