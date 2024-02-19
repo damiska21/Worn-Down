@@ -100,7 +100,8 @@ class enemy {
         if (this.triggered) {
             this.triggerFunction();return;
         }
-        if (!this.triggered && this.entity.hp == 19) {
+        console.log(this.triggered + " " + this.entity.hp)
+        if (!this.triggered && this.entity.hp <= 19) {
             this.triggerFunctionOneTime();
             this.triggered = true;
             console.log("quieres?");

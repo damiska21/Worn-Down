@@ -112,6 +112,10 @@ EA.newEnemy(5840, 739, 90, 90, 1, 0, "shooter");EA.E[2].entity.facing = "left";
 triggers.newEnemy(380, 3350, 90, 90, 1, 0, "trigger");//vlevo dole za liánama
 triggers.newEnemy(4690, 2260, 90, 90, 1, 0, "trigger");//u dveří
 triggers.newEnemy(8550, 3190, 90, 90, 1, 0, "trigger");//trap pod zemí
+triggers.newEnemy(3200, 650, 90, 90, 1, 0, "trigger");//za turretama
+triggers.E[3].triggerFunctionOneTime = function triggerFunctionOneTime() {
+    console.log("kill me");
+}
 triggers.E[2].triggerFunctionOneTime = function triggerFunctionOneTime() {
     console.log("trap enemy spawned");
     EA.newEnemy(6969, 3070, 90, 90, 2, 4); EA.E[EA.getEnemyNum()-1].entity.move("right");
@@ -119,7 +123,6 @@ triggers.E[2].triggerFunctionOneTime = function triggerFunctionOneTime() {
     EA.newEnemy(6939, 3070, 90, 90, 3, 3); EA.E[EA.getEnemyNum()-1].entity.move("right");
     textArray.newText("Co to bylo za zvuk?", 0,0,20, 60);textArray.array[textArray.array.length-1].abovePlayer = true;
 }
-triggers.newEnemy(3200, 650, 90, 90, 1, 0, "trigger");//za turretama
 triggers.newEnemy(0, 0, 1, 1, 1, 0, "trigger");
 
 function levelLoop() {
