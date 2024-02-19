@@ -118,6 +118,10 @@ function tilemapDraw(offset){
         }
     }*/
     TM.drawTilemap(0, offset, 0);
+    /*if (TM.A.length>1) {
+        TM.drawTilemap(1, offset, 0);
+        TM.drawTilemap(2, offset, 0);
+    }*/
     /*for (let i = 0; i < TM.B.length; i++) {
         if ((i*sirka)*this.tile > offset -1600 && (i*sirka) < offset + 3000) {
           TM.drawTilemap(i, offset, 1);

@@ -2,9 +2,6 @@ class textArr{
     constructor(){
         this.array = [];
     }
-//enemyGolem (Y/170, X/60, YOffset/10,  XOffset/10)
-//button (Y/90, X/90, YOffset/10, XOffset/10)
-
     drawAllText(){
         for (let i = 0; i < this.array.length; i++) {
             this.array[i].drawText();
@@ -89,6 +86,16 @@ playerJumpSprite.src = "img/player/jump.png";
 var knihaSprite = new Image();
 knihaSprite.src = "img/GAME_animations/Book/book(animation).png";
 
+//enemyGolem (Y/170, X/60, YOffset/10,  XOffset/10)
+var golemSprite = new Image();
+golemSprite.src = "img/GAME_animations/enemy/enemyGolem.png";
+
+var buttonSprite = new Image();
+buttonSprite.src = "img/GAME_animations/buttonSOff.png";
+var buttonDownSprite = new Image();
+buttonDownSprite.src = "img/GAME_animations/buttonSOn.png";
+var buttonAnimFrame = 0;
+var buttonAnimTiming = 0;
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
 //11
 
@@ -112,7 +119,9 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
             case "shooter":
                 c.drawImage(turretImg, EA.E[i].entity.X-offset-20, EA.E[i].entity.Y-Yoffset-20);
                 break;
-        
+            case "golem":
+                EA.E[i].drawEnemy();//console.log("enemy drawn");
+                break;
             default:
                 c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
                 break;
@@ -120,9 +129,22 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     }
 
     for (let j = 0; j < triggers.getEnemyNum(); j++) {
-        c.fillStyle = "red";
-        c.fillRect(triggers.E[j].entity.X-offset, triggers.E[j].entity.Y-Yoffset, triggers.E[j].entity.width, triggers.E[j].entity.height);
-        //c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
+        /*c.fillStyle = "red";
+        c.fillRect(triggers.E[j].entity.X-offset, triggers.E[j].entity.Y-Yoffset, triggers.E[j].entity.width, triggers.E[j].entity.height);*/
+        //button (Y/90, X/90, YOffset/10, XOffset/10)
+        buttonAnimTiming++;
+        c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
+        if (triggers.E[j].triggered) {
+            //button (Y/90, X/90, YOffset/10, XOffset/10)
+            c.drawImage(buttonDownSprite, );
+        }
+        if (buttonAnimTiming>= 10) {
+            buttonAnimFrame++;
+            buttonAnimTiming=0;
+        }
+        if (buttonAnimFrame >= 8) {
+            buttonAnimFrame=0;
+        }
     }
 
     tilemapDraw(offset);

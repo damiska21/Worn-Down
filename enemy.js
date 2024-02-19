@@ -33,6 +33,22 @@ class enemy {
                     console.log("páček :D");
                 }
                 break;
+            case "golem"://tohle je jenom na animace
+                this.animFrame = 0;
+                this.animTiming = 0;
+                this.drawEnemy = function drawEnemy() {
+                    //enemyGolem (Y/170, X/60, YOffset/10,  XOffset/10)
+                    c.drawImage(golemSprite, this.animFrame*80, 0, 80, 190, this.entity.X-10-offset, this.entity.Y-10-Yoffset, 80, 190);
+                    this.animTiming++;
+                    if (this.animTiming >= 10) {
+                        this.animFrame++;
+                        this.animTiming = 0;                     
+                    }
+                    if (this.animFrame >= 10) {
+                        this.animFrame = 0;
+                    }
+                }
+                break;
             default:
                 break;
         }
@@ -49,7 +65,7 @@ class enemy {
             this.entity.move();
         }
 
-        if (!this.entity.onground && this.type != "trigger") {//trigger nemá gravitaci, taky nedává damage při dotyku na ř79
+        if (!this.entity.onground && this.type != "trigger" && this.type != "shooter") {//trigger nemá gravitaci, taky nedává damage při dotyku na ř79
             this.entity.gravity += 1.2;
         }
         this.entity.Y += this.entity.gravity;
@@ -100,7 +116,7 @@ class enemy {
         if (this.triggered) {
             this.triggerFunction();return;
         }
-        console.log(this.triggered + " " + this.entity.hp)
+        //console.log(this.triggered + " " + this.entity.hp)
         if (!this.triggered && this.entity.hp <= 19) {
             this.triggerFunctionOneTime();
             this.triggered = true;
@@ -110,8 +126,10 @@ class enemy {
     shooterAttackLoop(){
         if (this.entity.facing == "right") {
             this.attackHandler.X += 5;
-        }else {
+        }else if (this.entity.facing == "left") {
             this.attackHandler.X -= 5;
+        }else if (this.entity.facing == "down") {
+            this.attackHandler.Y +=5;
         }
     }
     normalAttack(){
