@@ -57,10 +57,17 @@ function levelLoop() {
         kniha.X = 8000;
         kniha.Y = 800;
     }
+    if (player.X >= 8680) {
+        levelSwitch();
+    }
 }
 
 function levelDraw() {
     
 }
-player.X = 5910;
+player.X = 0;
 offset = 5330;
+
+function levelSwitch(){
+    window.location.href = "level1.html";
+  }

@@ -66,10 +66,11 @@ var damiskaAvatar = new Image();
 damiskaAvatar.src = "https://avatars.githubusercontent.com/u/48602473?v=4";
 var yukyAvatar = new Image();
 yukyAvatar.src = "https://avatars.githubusercontent.com/u/157409039?v=4";
+
 function levelDraw(c){
     c.drawImage(damiskaAvatar, 2400-offset, 950-Yoffset, 200, 200);
     c.drawImage(yukyAvatar, 2800-offset, 950-Yoffset, 200, 200);
 }
 
-player.X = 2400;
-player.Y = 800;
+player.X = 0;
+player.Y = 649.99;

@@ -38,7 +38,7 @@ class text{
     }
     textUpdate(){
         this.timeActive++;
-        if (this.timeSpan <= this.timeActive) {
+        if (this.timeSpan <= this.timeActive && this.timeSpan != -1) {
             return 1;
         }
     }
@@ -96,8 +96,10 @@ var buttonDownSprite = new Image();
 buttonDownSprite.src = "img/GAME_animations/Button/buttonSOn.png";
 var buttonAnimFrame = 0;
 var buttonAnimTiming = 0;
+
+
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
-//11
+//12
 
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
 
