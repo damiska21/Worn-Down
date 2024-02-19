@@ -49,6 +49,23 @@ textArray.newText("Zakladni kamen hry byl polozen 5. cervna 2023", 300, 400, 20,
 textArray.newText("Od te doby na bylo na githubu publikovano pres 150 zmen.", 500, 500, 20, -1);
 textArray.newText("Cely pokrok je videt na github.com/damiska21/Jumper-js", 700, 600, 20, -1);
 
+//Achievmenty
+textArray.newText("Achievmenty / Trofeje", 1400, 800, 30, -1);
+if (Number(sessionStorage.getItem("enemyKill")) == -1) {
+    textArray.newText("Pacifista - nezabil jsi ani mouchu", 1400, 850, 20, -1);
+}else if(Number(sessionStorage.getItem("enemyKill")) == 9){
+    textArray.newText("Vrah - zabil jsi vsechny monstra ve hre", 1400, 870, 20, -1);
+}
+if (Number(sessionStorage.getItem("playerHP")) == 10) {
+    textArray.newText("Nedotcitelny - za celou hru te zadny nepritel neposkodil", 1400, 890, 20, -1);
+}else if (Number(sessionStorage.getItem("playerHP")) == 2) {
+    textArray.newText("Tanec se smrti - ve vsech urovnich jsi skoncil na jednom zivote", 1400, 910, 20, -1);
+}
+textArray.newText("Speedrunner", 1400, 930, 20, -1);
+if (Number(sessionStorage.getItem("hacker"), true)) {
+    textArray.newText("Hacker - takhle se to nehraje!", 1400, 950, 20, -1);
+}
+
 //my dva
 textArray.newText("Damian 'Damiska' Rohacek", 2350, 900, 18, -1);
 textArray.newText("Programator, Game Designer", 2330, 930, 18, -1);
@@ -71,6 +88,5 @@ function levelDraw(c){
     c.drawImage(damiskaAvatar, 2400-offset, 950-Yoffset, 200, 200);
     c.drawImage(yukyAvatar, 2800-offset, 950-Yoffset, 200, 200);
 }
-
 player.X = 0;
 player.Y = 649.99;

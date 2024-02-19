@@ -277,22 +277,30 @@ triggers.E[0].triggerFunction = function triggerFunction() {
                 TM.A[0].tilemapArray[y][i] = -1;
             }
             y++;
-
         }
     }catch{ triggers.E[0].triggerFunction = function f() {}}
 }
 triggers.E[0].triggerFunctionOneTime = function b() {
     TM.A[0].textureArray[13][37] = 1;
     TM.A[0].textureArray[13][44] = 15;
+    cameraShakeCounter = 10;
 }
+var onetime = false;
 function levelLoop() {
     if (player.X >= 7250) {
         levelSwitch();
     }
+    if (player.X >= 3333 && !onetime) {
+        textArray.newText("Tlacitko, mam ho stisknout?", 0,0,15,80);textArray.array[0].abovePlayer = true;
+        onetime = true;
+    }
 }
-
+//345 1000
+var mouseleftKeySprite = new Image();
+mouseleftKeySprite.src = "img/button_prompts/Mouse_Left_Key_Dark.png";
 function levelDraw() {
-
+c.drawImage(mouseleftKeySprite, 130-offset, 1400-Yoffset, 50,50);
+c.drawImage(knihaAttackSprite, 128*6, 0, 126, 48, 200-offset, 1400-Yoffset, 126,48);
 }
 player.X = 0;
 player.Y = 1549.99;
@@ -300,5 +308,11 @@ Yoffset = 1180;
 kniha.Y = 1600;
 //kam navést hráče pro dokončení levelu
 function levelSwitch(){
+    //tady je tři místo 4 pro kontorlu aby nula killů bylo -1
+    sessionStorage.setItem("enemyKill", 3-EA.getEnemyNum());
+    sessionStorage.setItem("playerHP", player.hp);
+    if (player.hp >5 || !triggers.E[0].triggered) {
+        sessionStorage.setItem("hacker", true);
+    }
     window.location.href = "level2.html";
-  }
+}

@@ -61,6 +61,7 @@ function levelLoop() {
         levelSwitch();
     }
 }
+textArray.newText("ovladani", 140-offset, 970-Yoffset, 30, -1);
 
 var AkeySprite = new Image();
 AkeySprite.src = "img/button_prompts/A_Key_Dark.png";
@@ -72,9 +73,18 @@ var WkeySprite = new Image();
 WkeySprite.src = "img/button_prompts/W_Key_Dark.png";
 var ArrowLeftkeySprite = new Image();
 ArrowLeftkeySprite.src = "img/button_prompts/Arrow_Left_Key_Dark.png";
+var ArrowRightkeySprite = new Image();
+ArrowRightkeySprite.src = "img/button_prompts/Arrow_Right_Key_Dark.png";
+var ArrowUpkeySprite = new Image();
+ArrowUpkeySprite.src = "img/button_prompts/Arrow_Up_Key_Dark.png";
 function levelDraw() {
     c.drawImage(AkeySprite, 100-offset, 1150-Yoffset, 50, 50);
     c.drawImage(DkeySprite, 310-offset, 1150-Yoffset, 50, 50);
+    c.drawImage(SpacekeySprite, 205-offset, 1035-Yoffset, 50, 50);
+    c.drawImage(WkeySprite, 235-offset, 1000-Yoffset, 40, 40);
+    c.drawImage(ArrowUpkeySprite, 185-offset, 1000-Yoffset, 40, 40);
+    c.drawImage(ArrowLeftkeySprite, 105-offset, 1200-Yoffset, 40, 40)
+    c.drawImage(ArrowRightkeySprite, 315-offset, 1200-Yoffset, 40, 40);
 }
 player.X = 200;
 player.Y = 1099.99;

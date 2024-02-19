@@ -87,6 +87,8 @@ var knihaSprite = new Image();
 knihaSprite.src = "img/GAME_animations/Book/book(animation).png";
 var knihaAttackSprite = new Image();
 knihaAttackSprite.src = "img/GAME_animations/Book/bookAttack.png";
+var knihaAttackLSprite = new Image();
+knihaAttackLSprite.src = "img/GAME_animations/Book/bookAttackL.png";
 
 //enemyGolem (Y/170, X/60, YOffset/10,  XOffset/10)
 var golemSprite = new Image();
@@ -96,9 +98,11 @@ var buttonSprite = new Image();
 buttonSprite.src = "img/GAME_animations/Button/buttonSOff.png";
 var buttonDownSprite = new Image();
 buttonDownSprite.src = "img/GAME_animations/Button/buttonSOn.png";
-var buttonAnimFrame = 0;
-var buttonAnimTiming = 0;
+var buttonAnimFrame = 0; var buttonAnimTiming = 0;
 
+var silverfishSprite = new Image();
+silverfishSprite.src = "img/GAME_animations/enemy/enemy2.png";
+var silverfishAnimFrame = 0; var silverfishAnimTiming = 0;
 
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
 //12
@@ -110,13 +114,8 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     c.fillStyle = "gray";
     c.fillRect(0, 0, canvas.width, canvas.height);
 
-    
     levelDraw(c);
 
-    //c.fillStyle = "blue";
-    //c.fillRect(player.X-offset, player.Y-Yoffset, player.width, player.height); //starej kód na čtverec
-
-    
     for (let i = 0; i < EA.getEnemyNum(); i++) {
         //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
         switch (EA.E[i].type) {
@@ -127,14 +126,20 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
                 EA.E[i].drawEnemy();
                 break;
             default:
-                c.drawImage(harambe, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset);
+                //X 130  Y 97
+                c.drawImage(silverfishSprite, silverfishAnimFrame*130, 0, 130, 97, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset, 130,97);
+                silverfishAnimTiming++;
+                if (silverfishAnimTiming >= 10) {
+                    silverfishAnimFrame++;
+                    silverfishAnimTiming = 0;
+                }if (silverfishAnimFrame >= 12) {
+                    silverfishAnimFrame = 0;
+                }
                 break;
         }
     }
 
     for (let j = 0; j < triggers.getEnemyNum(); j++) {
-        /*c.fillStyle = "red";
-        c.fillRect(triggers.E[j].entity.X-offset, triggers.E[j].entity.Y-Yoffset, triggers.E[j].entity.width, triggers.E[j].entity.height);*/
         //button (Y/90, X/90, YOffset/10, XOffset/10)
         if (triggers.E[j].triggered) {
             //button (Y/90, X/90, YOffset/10, XOffset/10)
@@ -148,10 +153,6 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
 drawPlayer();
 bookAnimation(c);
-    /*if (playerSkill.hitboxOn) {
-        c.fillStyle = "black";
-        c.fillRect(playerSkill.X-offset, playerSkill.Y-Yoffset, playerSkill.Xsize, playerSkill.Ysize);
-    }*/
 
     //útok nepřítele
     for (let i = 0; i < EA.getEnemyNum(); i++) {
@@ -272,7 +273,13 @@ var bookAnimTiming = 0;
 //X 128 Y 48
 function bookAnimation(c) {
 if (playerAttack.hitboxOn) {
-    c.drawImage(knihaAttackSprite, bookAnimFrame*128,0,128,48,kniha.X-offset, kniha.Y-Yoffset-10, 128,48);
+    // X 
+    if (player.facing == "right") {
+        c.drawImage(knihaAttackSprite, bookAnimFrame*128,0,126,48,kniha.X-offset, kniha.Y-Yoffset-10, 128,48);
+    }
+   else{
+    c.drawImage(knihaAttackLSprite, bookAnimFrame*128+2,0,128,48,kniha.X-offset-128, kniha.Y-Yoffset-10, 128,48);
+   }
 }else{
     c.drawImage(knihaSprite, bookAnimFrame*80,0,80,80,kniha.X-offset-20, kniha.Y-Yoffset-20, 80,80);
 }

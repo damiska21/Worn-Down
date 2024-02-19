@@ -34,6 +34,12 @@ function KeyDown(event) {
             attackDown = true; break;
         case 75:/*K*/ 
             skillDown = true; break;
+        case 38://up arrow
+            mezernikDown = true;break;
+        case 37://left arrow
+            leftDown = true;player.facing = "left";break;
+        case 39://right arrow
+            rightDown = true;player.facing = "right";break;
     }
 }
 function KeyUp(event) {
@@ -45,6 +51,9 @@ function KeyUp(event) {
         case 74:/*J*/ attackDown = false;break;
         case 27:/*Esc*/ pause = !pause;  break;
         case 75:/*K*/ skillDown = false; break;
+        case 38: mezernikDown = false;break;
+        case 37: leftDown = false;break;
+        case 39: rightDown = false;break;
     }
 }
 function Click(event) {
