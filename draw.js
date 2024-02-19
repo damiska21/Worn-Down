@@ -3,6 +3,7 @@ class textArr{
         this.array = [];
     }
 //enemyGolem (Y/170, X/60, YOffset/10,  XOffset/10)
+//button (Y/90, X/90, YOffset/10, XOffset/10)
 
     drawAllText(){
         for (let i = 0; i < this.array.length; i++) {
