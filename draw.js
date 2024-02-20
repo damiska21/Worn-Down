@@ -49,7 +49,7 @@ harambe.src = "img/enemy/harambe.png";
 
 //offsety X 10 Y 0 velikost 68 X 100 Y
 var turretImg = new Image();
-turretImg.src = "img/enemy/enemy(turret).png";
+turretImg.src = "img/GAME_animations/enemy/turret.png";
 var bulletImg = new Image();
 bulletImg.src = "img/enemy/attack(turret).png"
 
@@ -107,7 +107,8 @@ var silverfishAnimFrame = 0; var silverfishAnimTiming = 0;
 
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
 //12
-
+var turretAnimTiming = 0;
+var turretAnimFrame = 0;
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
 
     //všechno co se vykresluje potřebuje -offset !!!
@@ -121,14 +122,50 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
         //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
         switch (EA.E[i].type) {
             case "shooter":
-                c.drawImage(turretImg, EA.E[i].entity.X-offset-20, EA.E[i].entity.Y-Yoffset-20);
+                //offset 10 na X 68 100
+                switch (EA.E[i].entity.facing) {
+                    case "down":
+                        c.save();
+                        c.translate((EA.E[i].entity.X + EA.E[i].entity.width/2)-offset, (EA.E[i].entity.Y + EA.E[i].entity.height/2)-Yoffset);
+                        //c.rotate(180* Math.PI / 180);
+                        c.scale(1,-1);
+                        c.translate(-((EA.E[i].entity.X + EA.E[i].entity.width/2)-offset), -((EA.E[i].entity.Y + EA.E[i].entity.height/2)-Yoffset));
+                        //c.scale(1,-1);
+                        break;
+                    case "right":
+                        c.save();
+                        c.translate((EA.E[i].entity.X + EA.E[i].entity.width/2)-offset, (EA.E[i].entity.Y + EA.E[i].entity.height/2)-Yoffset);
+                        //c.rotate(180* Math.PI / 180);
+                        c.scale(-1,1);
+                        c.translate(-((EA.E[i].entity.X + EA.E[i].entity.width/2)-offset), -((EA.E[i].entity.Y + EA.E[i].entity.height/2)-Yoffset));
+                    default:
+                        break;
+                }
+                //console.log(turretAnimFrame*88);
+                c.drawImage(turretImg, turretAnimFrame*88, 0, 88, 100, EA.E[i].entity.X-offset-10, EA.E[i].entity.Y-Yoffset, 88,100);
+                c.restore();
+                turretAnimTiming++;
+                if (turretAnimTiming >= 15) {
+                    turretAnimFrame++;
+                    turretAnimTiming = 0;
+                }if (turretAnimFrame >= 8) {
+                    turretAnimFrame = 0;
+                }
                 break;
             case "golem":
                 EA.E[i].drawEnemy();
                 break;
             default:
                 //X 130  Y 97
+                if (EA.E[i].entity.facing == "left") {
+                    c.save();
+                    c.translate((EA.E[i].entity.X + EA.E[i].entity.width/2)-offset, (EA.E[i].entity.Y + EA.E[i].entity.height/2)-Yoffset);
+                    //c.rotate(180* Math.PI / 180);
+                    c.scale(1,-1);
+                    c.translate(-((EA.E[i].entity.X + EA.E[i].entity.width/2)-offset), -((EA.E[i].entity.Y + EA.E[i].entity.height/2)-Yoffset));
+                }
                 c.drawImage(silverfishSprite, silverfishAnimFrame*130, 0, 130, 97, EA.E[i].entity.X-offset, EA.E[i].entity.Y-Yoffset, 130,97);
+                c.restore();
                 silverfishAnimTiming++;
                 if (silverfishAnimTiming >= 10) {
                     silverfishAnimFrame++;

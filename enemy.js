@@ -38,7 +38,14 @@ class enemy {
                 this.animTiming = 0;
                 this.drawEnemy = function drawEnemy() {
                     //enemyGolem (Y/170, X/60, YOffset/10,  XOffset/10)
+                    if (this.entity.facing == "left") {
+                        c.save();
+                        c.translate((this.entity.X + this.entity.width/2)-offset, (this.entity.Y + this.entity.height/2)-Yoffset);
+                        c.scale(-1,1);
+                        c.translate(-((this.entity.X + this.entity.width/2)-offset), -((this.entity.Y + this.entity.height/2)-Yoffset));
+                    }
                     c.drawImage(golemSprite, this.animFrame*80, 0, 80, 190, this.entity.X-10-offset, this.entity.Y-10-Yoffset, 80, 190);
+                    c.restore();
                     this.animTiming++;
                     if (this.animTiming >= 10) {
                         this.animFrame++;

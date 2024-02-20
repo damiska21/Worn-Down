@@ -170,10 +170,16 @@ player.Y = 0;
 offset = 2500;*/
 var enemyKill = Number(sessionStorage.getItem("enemyKill"));
 var playerHP = Number(sessionStorage.getItem("playerHP"));
+var seconds = Number(sessionStorage.getItem("time"));
+setInterval(timer, 1000);
+function timer() {
+    seconds++;
+}
 function levelSwitch(){
     sessionStorage.clear();
     sessionStorage.setItem("enemyKill", ((6-EA.getEnemyNum())+enemyKill));
     sessionStorage.setItem("playerHP", (playerHP + player.hp));
+    sessionStorage.setItem("time", seconds);
     if (player.hp >5) {
         sessionStorage.setItem("hacker", true);
     }

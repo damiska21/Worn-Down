@@ -89,7 +89,12 @@ function levelDraw() {
 player.X = 200;
 player.Y = 1099.99;
 Yoffset = 728;
-
+var seconds = 0;
+setInterval(timer, 1000);
+function timer() {
+    seconds++;
+}
 function levelSwitch(){
+    sessionStorage.setItem("time", seconds);
     window.location.href = "level1.html";
   }

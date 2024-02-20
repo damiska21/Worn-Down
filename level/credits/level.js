@@ -61,7 +61,10 @@ if (Number(sessionStorage.getItem("playerHP")) == 10) {
 }else if (Number(sessionStorage.getItem("playerHP")) == 2) {
     textArray.newText("Tanec se smrti - ve vsech urovnich jsi skoncil na jednom zivote", 1400, 910, 20, -1);
 }
-textArray.newText("Speedrunner", 1400, 930, 20, -1);
+console.log(Number(sessionStorage.getItem("time")));
+if (Number(sessionStorage.getItem("time")) <= 150) {
+    textArray.newText("Speedrunner", 1400, 930, 20, -1);
+}
 if (sessionStorage.getItem("hacker")) {
     textArray.newText("Hacker - takhle se to nehraje!", 1400, 950, 20, -1);
 }
