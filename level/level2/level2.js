@@ -168,12 +168,12 @@ kniha.Y = 1600;
 player.X = 2800;
 player.Y = 0;
 offset = 2500;*/
+var enemyKill = Number(sessionStorage.getItem("enemyKill"));
+var playerHP = Number(sessionStorage.getItem("playerHP"));
 function levelSwitch(){
-    var enemyKill = Number(sessionStorage.getItem("enemyKill"));
-    var playerHP = Number(sessionStorage.getItem("playerHP"));
     sessionStorage.clear();
     sessionStorage.setItem("enemyKill", ((6-EA.getEnemyNum())+enemyKill));
-    sessionStorage.setItem("playerHP", playerHP + player.hp);
+    sessionStorage.setItem("playerHP", (playerHP + player.hp));
     if (player.hp >5) {
         sessionStorage.setItem("hacker", true);
     }

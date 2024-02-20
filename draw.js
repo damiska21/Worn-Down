@@ -47,6 +47,7 @@ class text{
 var harambe = new Image();
 harambe.src = "img/enemy/harambe.png";
 
+//offsety X 10 Y 0 velikost 68 X 100 Y
 var turretImg = new Image();
 turretImg.src = "img/enemy/enemy(turret).png";
 var bulletImg = new Image();
@@ -84,7 +85,7 @@ var playerJumpSprite = new Image();
 playerJumpSprite.src = "img/player/jump.png";
 
 var knihaSprite = new Image();
-knihaSprite.src = "img/GAME_animations/Book/book(animation).png";
+knihaSprite.src = "img/GAME_animations/Book/book(animation)t.png";
 var knihaAttackSprite = new Image();
 knihaAttackSprite.src = "img/GAME_animations/Book/bookAttack.png";
 var knihaAttackLSprite = new Image();
@@ -270,17 +271,18 @@ function playerAnimTimingF() {
 }
 var bookAnimFrame = 0;
 var bookAnimTiming = 0;
-//X 128 Y 48
+//X 160 Y 60
 function bookAnimation(c) {
 if (playerAttack.hitboxOn) {
     // X 
     if (player.facing == "right") {
-        c.drawImage(knihaAttackSprite, bookAnimFrame*128,0,126,48,kniha.X-offset, kniha.Y-Yoffset-10, 128,48);
+        c.drawImage(knihaAttackSprite, bookAnimFrame*160,0,158,60,kniha.X-offset, kniha.Y-Yoffset-10, 160,60);
     }
    else{
-    c.drawImage(knihaAttackLSprite, bookAnimFrame*128+2,0,128,48,kniha.X-offset-128, kniha.Y-Yoffset-10, 128,48);
+    c.drawImage(knihaAttackLSprite, bookAnimFrame*160+2,0,160,60,kniha.X-offset-160, kniha.Y-Yoffset-10, 160,60);
    }
 }else{
-    c.drawImage(knihaSprite, bookAnimFrame*80,0,80,80,kniha.X-offset-20, kniha.Y-Yoffset-20, 80,80);
+    //X50 Y48
+    c.drawImage(knihaSprite, bookAnimFrame*100,0,100,96,kniha.X-offset-25, kniha.Y-Yoffset-25, 100,96);
 }
 }
