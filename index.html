@@ -3,8 +3,50 @@
     <head>
 
     </head>
+    <style>
+        .celek{
+            width: 90%;
+            margin: auto;
+        }
+        body{
+            background: rgb(62,22,99);
+background: linear-gradient(90deg, rgba(62,22,99,1) 0%, rgba(82,16,82,1) 42%, rgba(117,117,150,1) 99%);
+        }
+        .logo{
+            margin: auto;
+            width: 920px; /*920 462*/
+            padding: 10px;
+            margin-top: 10px;
+  animation-name: bb;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+        }
+        .button{
+            margin: auto;
+            width: 416px; /*920 462*/
+            padding: 10px;
+            margin-top: 10px;
+  animation-name: bb;
+  animation-duration: 7s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+        }
+        @keyframes bb {
+            0%   {
+            margin-top: 10px;}
+            50%  {
+            margin-top: 50px;}
+            100% {
+            margin-top: 10px;}
+        }
+    </style>
 <body>
+<div class="celek">
+<div class="logo"><img src="img/menu/GameNamet.png"></div>
+<a href="level0.html"><div class="button"><img src="img/menu/playButton.png"></div></a>
 
+</div>
 
 </body>
 </html>
