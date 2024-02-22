@@ -51,7 +51,7 @@ harambe.src = "img/enemy/harambe.png";
 var turretImg = new Image();
 turretImg.src = "img/GAME_animations/enemy/turret.png";
 var bulletImg = new Image();
-bulletImg.src = "img/enemy/attack(turret).png"
+bulletImg.src = "img/GAME_animations/turretShot.png"
 
 var playerImg = new Image();
 playerImg.src = "img/player/player_1.png";
