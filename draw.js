@@ -58,46 +58,36 @@ tilemapFinalImg.src = "img/tilemaps/png/tilemapVykresleni.png";
 //X 40 offset 80 body
 //Y 20 offset 160 body
 var walkingSpriteLeft = new Image();
-walkingSpriteLeft.src = "img/player/walking_animation(left)).png";
+walkingSpriteLeft.src = "img/animations/player/png_walk/walking_animation(left)).png";
 var walkingSpriteRight = new Image();
-walkingSpriteRight.src = "img/player/walking_animation(right).png";
+walkingSpriteRight.src = "img/animations/player/png_walk/walking_animation(right).png";
 var standingSpriteLeft = new Image();
-standingSpriteLeft.src = "img/player/standing_animation(left).png";
+standingSpriteLeft.src = "img/animations/player/png_standing/standing_animation(left).png";
 var standingSpriteRight = new Image();
-standingSpriteRight.src = "img/player/standing_animation(right).png";
-
-var jumpingSpriteRight = new Image();
-jumpingSpriteRight.src = "img/player/jJumpR(up).png";
-var jumpingSpriteLeft = new Image();
-jumpingSpriteLeft.src = "img/player/jJumpL(up).png";
-
-var fallingSpriteRight = new Image();
-fallingSpriteRight.src = "img/player/jJumpR(down).png";
-var fallingSpriteLeft = new Image();
-fallingSpriteLeft.src = "img/player/jJumpL(down).png";
+standingSpriteRight.src = "img/animations/player/png_standing/standing_animation(right).png";
 
 var playerJumpSprite = new Image();
-playerJumpSprite.src = "img/player/jump.png";
+playerJumpSprite.src = "img/animations/player/png_jump/jump.png";
 
 var knihaSprite = new Image();
-knihaSprite.src = "img/GAME_animations/Book/book(animation)t.png";
+knihaSprite.src = "img/animations/Book/book(animation)t.png";
 var knihaAttackSprite = new Image();
-knihaAttackSprite.src = "img/GAME_animations/Book/bookAttack.png";
+knihaAttackSprite.src = "img/animations/Book/bookAttack.png";
 var knihaAttackLSprite = new Image();
-knihaAttackLSprite.src = "img/GAME_animations/Book/bookAttackL.png";
+knihaAttackLSprite.src = "img/animations/Book/bookAttackL.png";
 
 //enemyGolem (Y/170, X/60, YOffset/10,  XOffset/10)
 var golemSprite = new Image();
-golemSprite.src = "img/GAME_animations/enemy/enemyGolem.png";
+golemSprite.src = "img/animations/enemy/png/enemyGolem.png";
 
 var buttonSprite = new Image();
-buttonSprite.src = "img/GAME_animations/Button/buttonSOff.png";
+buttonSprite.src = "img/animations/Button/buttonSOff.png";
 var buttonDownSprite = new Image();
-buttonDownSprite.src = "img/GAME_animations/Button/buttonSOn.png";
+buttonDownSprite.src = "img/animations/Button/buttonSOn.png";
 var buttonAnimFrame = 0; var buttonAnimTiming = 0;
 
 var silverfishSprite = new Image();
-silverfishSprite.src = "img/GAME_animations/enemy/enemy2.png";
+silverfishSprite.src = "img/animations/enemy/png/silverfish.png";
 var silverfishAnimFrame = 0; var silverfishAnimTiming = 0;
 
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely

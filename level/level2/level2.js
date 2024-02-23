@@ -130,9 +130,9 @@ function levelLoop() {
 }
 
 var gateSprite = new Image();
-gateSprite.src = "img/GAME_animations/Gate/gate.png";
+gateSprite.src = "img/others/Gate/png/gate.png";
 var gateDiodaSprite = new Image();
-gateDiodaSprite.src = "img/GAME_animations/Gate/gate(dioda).png";
+gateDiodaSprite.src = "img/others/Gate/png/gate(dioda).png";
 //X 456 Y 380
 function levelDraw() {
     /*c.fillStyle = "black";
