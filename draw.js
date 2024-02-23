@@ -44,21 +44,16 @@ class text{
     }
 }
 
-var harambe = new Image();
-harambe.src = "img/enemy/harambe.png";
-
 //offsety X 10 Y 0 velikost 68 X 100 Y
 var turretImg = new Image();
-turretImg.src = "img/GAME_animations/enemy/turret.png";
+turretImg.src = "img/animations/enemy/png/turret.png";
 var bulletImg = new Image();
-bulletImg.src = "img/GAME_animations/turretShot.png"
+bulletImg.src = "img/others/projectiles/turretShot.png";
 
-var playerImg = new Image();
-playerImg.src = "img/player/player_1.png";
 //40 zhora zdola - 50 zboku
 
 var tilemapFinalImg = new Image();
-tilemapFinalImg.src = "img/tilemap/tilemapVykresleni.png";
+tilemapFinalImg.src = "img/tilemaps/png/tilemapVykresleni.png";
 
 //X 40 offset 80 body
 //Y 20 offset 160 body
