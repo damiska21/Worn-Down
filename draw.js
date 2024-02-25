@@ -53,7 +53,7 @@ bulletImg.src = "img/others/projectiles/turretShot.png";
 //40 zhora zdola - 50 zboku
 
 var tilemapFinalImg = new Image();
-tilemapFinalImg.src = "img/tilemaps/png/tilemapVykresleni.png";
+tilemapFinalImg.src = "img/tilemaps/png/tilemap_Offsets.png";
 
 //X 40 offset 80 body
 //Y 20 offset 160 body
@@ -91,7 +91,7 @@ silverfishSprite.src = "img/animations/enemy/png/silverfish.png";
 var silverfishAnimFrame = 0; var silverfishAnimTiming = 0;
 
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
-//12
+//13
 var turretAnimTiming = 0;
 var turretAnimFrame = 0;
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
