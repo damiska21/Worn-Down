@@ -82,7 +82,7 @@ triggers.E[0].triggerFunction = function triggerFunction() {
 }
 triggers.E[0].triggerFunctionOneTime = function b() {
     TM.A[0].textureArray[13][37] = 1;
-    TM.A[0].textureArray[13][44] = 15;
+    TM.A[0].textureArray[13][44] = 76;
     cameraShakeCounter = 10;
 }
 var onetime = false;
