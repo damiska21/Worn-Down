@@ -8,7 +8,6 @@ function enemyFunc() {
 }
 
 var shootHandler = new attackHandler(false, -20, 10, 20, 20, 3, 8, 5);
-var triggerHandler =new attackHandler(false, 0,0,0,0,0,0,0); //trigger handler je pro to že tohle může loopovat pořád což se hodí u páček
 class enemy {
     constructor(entity, type, attackHandler){
         this.entity = entity,
