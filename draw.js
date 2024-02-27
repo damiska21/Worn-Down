@@ -92,6 +92,7 @@ var silverfishAnimFrame = 0; var silverfishAnimTiming = 0;
 
 //COUNTER kolikrát Lukáš nebyl schopný správně spočítat pixely
 //13
+
 var turretAnimTiming = 0;
 var turretAnimFrame = 0;
 function draw() { //loop co běží na kolik hertzů je monitor (60/144 převážně)
@@ -104,7 +105,6 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     levelDraw(c);
 
     for (let i = 0; i < EA.getEnemyNum(); i++) {
-        //c.fillRect(EA.E[i].X, EA.E[i].Y, EA.E[i].width, EA.E[i].height);
         switch (EA.E[i].type) {
             case "shooter":
                 //offset 10 na X 68 100
@@ -187,10 +187,16 @@ bookAnimation(c);
         if (EA.E[i].attackHandler.opacity != 0) {
             c.save();
             c.globalAlpha = EA.E[i].attackHandler.opacity; //pokud není opacita jedna, vykreslí se obrázek se sníženou opacitou
+            if (EA.E[i].entity.facing == "up" || EA.E[i].entity.facing == "down") {
+                c.translate((EA.E[i].attackHandler.X + EA.E[i].attackHandler.attackXsize/2)-offset, (EA.E[i].attackHandler.Y + EA.E[i].attackHandler.attackYsize/2)-Yoffset);
+                c.rotate(90 * Math.PI / 180);
+                c.translate(-((EA.E[i].attackHandler.X + EA.E[i].attackHandler.attackXsize/2)-offset), -((EA.E[i].attackHandler.Y + EA.E[i].attackHandler.attackYsize/2)-Yoffset));
+            }
             c.drawImage(bulletImg, EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20);
             c.restore();
         }else{
-            c.drawImage(bulletImg, EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20);}
+            c.drawImage(bulletImg, EA.E[i].attackHandler.X-offset-20, EA.E[i].attackHandler.Y-Yoffset-20);
+        }
     }
 
     /*if (playerWalkParticles.enabled) {

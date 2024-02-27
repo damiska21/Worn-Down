@@ -47,9 +47,9 @@ var tm1textury = [
 TM.newTilemap(86, 20, tm1kolize,tm1textury, 0, 0);
 TM.endWrite();
 
-EA.newEnemy(1300, 1180, 90, 90, 1, 0, "shooter");EA.E[0].entity.facing = "down";
-EA.newEnemy(1500, 1180, 90, 90, 1, 0, "shooter");EA.E[1].entity.facing = "down";
-EA.newEnemy(1670, 1180, 90, 90, 1, 0, "shooter");EA.E[2].entity.facing = "down";
+EA.newEnemy(1300, 1180, 90, 90, 1, 0, "shooter");EA.E[0].setFacing("down"); EA.E[0].attackHandler.attackTimeLimit = 50; EA.E[0].attackHandler.cooldown = 180;
+EA.newEnemy(1500, 1180, 90, 90, 1, 0, "shooter");EA.E[1].setFacing("down");EA.E[1].attackHandler.attackTimeLimit = 50; EA.E[1].attackHandler.cooldown = 180;
+EA.newEnemy(1670, 1180, 90, 90, 1, 0, "shooter");EA.E[2].setFacing("down");EA.E[2].attackHandler.attackTimeLimit = 50; EA.E[2].attackHandler.cooldown = 180;
 //14 38
 EA.newEnemy(4900, 1489.99, 220 ,80, 10, 1, "golem");EA.E[3].entity.move("left");EA.E[3].entity.facing = "left";
 

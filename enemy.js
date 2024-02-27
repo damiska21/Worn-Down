@@ -14,12 +14,33 @@ class enemy {
         this.type = type,
         this.attackHandler = attackHandler
     }
+    setFacing(facing){
+        this.entity.facing = facing;
+        switch (this.type) {
+            case "shooter":
+                switch (this.entity.facing) {
+                    case "down":
+                        this.attackHandler.Xoffset = -40;
+                        this.attackHandler.Yoffset = 100;console.log("b");
+                        break;
+                
+                    default:
+                        break;
+                }
+                break;
+        
+            default:
+                break;
+        }
+    }
     initiate(){ //při spuštění se mění pár interních vlastností
         switch (this.type) {
             case "shooter":
                 this.attackHandler.attackTimeLimit = 170; //tohle ujede pět bloků
                 this.attackHandler.opacity = 1; //opacita kulky (na fadeout)
                 this.attackHandler.deleteOnHit = true;
+                
+                
                 break;
             case "trigger":
                 this.entity.hp = 20;
@@ -136,6 +157,8 @@ class enemy {
             this.attackHandler.X -= 5;
         }else if (this.entity.facing == "down") {
             this.attackHandler.Y +=5;
+        }else if (this.entity.facing == "up") {
+            this.attackHandler.Y -=5;
         }
     }
     normalAttack(){
