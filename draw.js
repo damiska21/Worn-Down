@@ -70,7 +70,7 @@ var playerJumpSprite = new Image();
 playerJumpSprite.src = "img/animations/player/png_jump/jump.png";
 
 var knihaSprite = new Image();
-knihaSprite.src = "img/animations/Book/book(animation)t.png";
+knihaSprite.src = "img/animations/Book/book(animation).png";
 var knihaAttackSprite = new Image();
 knihaAttackSprite.src = "img/animations/Book/bookAttack.png";
 var knihaAttackLSprite = new Image();

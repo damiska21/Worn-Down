@@ -36,7 +36,7 @@ class tilemapConstructor {
                 var tileDrawn = this.getTileTexture(i+(tilemapIndex*20), j);
                 if (tileDrawn==-1) { continue; }
                 var tm = TM.A[tilemapIndex];
-                c.drawImage(tilemapFinalImg, (tileDrawn%25)*150, (Math.floor(tileDrawn/25))*170,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
+                c.drawImage(tilemapFinalImg, (tileDrawn%16)*150, (Math.floor(tileDrawn/16))*170,    150, 170,       ((i*this.tile -offset) + (tm.Xpos *(tm.width*this.tile))-30), (j*this.tile-Yoffset)-40, 150, 170);
             }
         }
     }
