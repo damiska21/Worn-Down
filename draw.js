@@ -55,8 +55,18 @@ bulletImg.src = "img/others/projectiles/turretShot.png";
 var tilemapFinalImg = new Image();
 tilemapFinalImg.src = "img/tilemaps/png/tilemap_Offsets.png";
 
-//X 40 offset 80 body
-//Y 20 offset 160 body
+/*OFFSETY
+Y: 15 nahoře i dole
+Y výška: 102
+X: 20 na obě strany
+X šířka: 35 
+*///NEW
+var playerDest = "img/animations/player_(new)/player_format/";
+var playerSpriteIdle = new Image();
+playerSpriteIdle.src = playerDest + "player_idle(format).png";
+var playerSpriteRun = new Image();
+playerSpriteRun.src = playerDest + "player_run(format).png";
+//OLD
 var walkingSpriteLeft = new Image();
 walkingSpriteLeft.src = "img/animations/player/png_walk/walking_animation(left)).png";
 var walkingSpriteRight = new Image();
@@ -218,6 +228,26 @@ var playerAnimFrame = 0;
 var playerAnimTiming = 0;
 var ee = false;
 function drawPlayer() {
+    if (player.friction > -2.1 && player.friction < 2.1) {
+        if (player.facing == "left") {
+            c.save();
+            c.translate((player.X + player.width/2)-offset, (player.Y + player.height/2)-Yoffset);
+            c.scale(-1,1);
+            c.translate(-((player.X + player.width/2)-offset), -((player.Y + player.height/2)-Yoffset));
+        }
+        c.drawImage(playerSpriteIdle, playerAnimFrame*75, 0, 75,132,player.X-20-offset,player.Y-20-Yoffset, 114,200);
+        c.restore();
+    }else if (player.friction < -2.1 || player.friction > 2.1) {
+        if (player.facing == "left") {
+            c.save();
+            c.translate((player.X + player.width/2)-offset, (player.Y + player.height/2)-Yoffset);
+            c.scale(-1,1);
+            c.translate(-((player.X + player.width/2)-offset), -((player.Y + player.height/2)-Yoffset));
+        }
+        c.drawImage(playerSpriteRun, playerAnimFrame*75, 0, 75,132,player.X-20-offset,player.Y-20-Yoffset, 114,200);
+        c.restore();
+    }
+    /*
     //tyhle hodnoty určují rychlost od které se přehrává walk animace
     //skok
     if (player.gravity < -2.1) {
@@ -234,7 +264,7 @@ function drawPlayer() {
             playerAnimFrame =0;
         }
         ee = true;
-    }/*pád*/else if(player.gravity > 2.1){
+    }else if(player.gravity > 2.1){
         if (playerAnimFrame>6 || playerAnimFrame < 3) {
             playerAnimFrame = 3;
         }
@@ -265,6 +295,7 @@ function drawPlayer() {
         }
     }
     //console.log(playerAnimFrame);
+    */
 }
 function playerAnimTimingF() {
     playerAnimTiming++;

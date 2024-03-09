@@ -115,5 +115,6 @@ TM.newTilemap(50, 50, tm2,tm1, 0, 0);
 TM.endWrite();
 
 
-player.Y = 800;
-player.X = 200;
+player.Y = 1640;
+player.X = 530;
+Yoffset = 1053;
