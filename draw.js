@@ -112,6 +112,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
     c.fillStyle = "gray";
     c.fillRect(0, 0, canvas.width, canvas.height);
 
+drawPlayer();
     levelDraw(c);
 
     for (let i = 0; i < EA.getEnemyNum(); i++) {
@@ -184,8 +185,7 @@ function draw() { //loop co běží na kolik hertzů je monitor (60/144 převá�
 
     tilemapDraw(offset);
 
-drawPlayer();
-bookAnimation(c);
+//bookAnimation(c);
 
     //útok nepřítele
     for (let i = 0; i < EA.getEnemyNum(); i++) {
@@ -235,7 +235,7 @@ function drawPlayer() {
             c.scale(-1,1);
             c.translate(-((player.X + player.width/2)-offset), -((player.Y + player.height/2)-Yoffset));
         }
-        c.drawImage(playerSpriteIdle, playerAnimFrame*75, 0, 75,132,player.X-20-offset,player.Y-20-Yoffset, 114,200);
+        c.drawImage(playerSpriteIdle, playerAnimFrame*75, 0, 75,132,player.X-20-offset,player.Y-20-Yoffset, 75,132);
         c.restore();
     }else if (player.friction < -2.1 || player.friction > 2.1) {
         if (player.facing == "left") {
@@ -244,7 +244,7 @@ function drawPlayer() {
             c.scale(-1,1);
             c.translate(-((player.X + player.width/2)-offset), -((player.Y + player.height/2)-Yoffset));
         }
-        c.drawImage(playerSpriteRun, playerAnimFrame*75, 0, 75,132,player.X-20-offset,player.Y-20-Yoffset, 114,200);
+        c.drawImage(playerSpriteRun, playerAnimFrame*75, 0, 75,132,player.X-20-offset,player.Y-20-Yoffset, 75,132);
         c.restore();
     }
     /*
